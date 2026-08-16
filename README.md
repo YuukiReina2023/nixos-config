@@ -264,7 +264,28 @@ sudo dd if=nixos-gnome-25.05.iso of=/dev/sdX bs=4M status=progress
 6. **安裝**：點選安裝並等待完成
 7. 安裝完成後重新啟動，移除 USB
 
-### 步驟 5：安裝後套用此配置
+### 步驟 5：連線網路並檢查（復原前必做）
+
+最小化安裝沒有桌面環境，需用命令列連線 WiFi。**復原配置前必須先連上網路**，否則無法 clone 與建構：
+
+```bash
+# 使用 NetworkManager CLI 連線 WiFi
+nmcli device wifi list                          # 列出可用 WiFi
+nmcli device wifi connect <SSID> password <密碼>  # 連線 WiFi
+
+# 或使用 iwd（若系統使用 iwd 而非 NetworkManager）
+iwctl station wlan0 scan                        # 掃描 WiFi
+iwctl station wlan0 connect <SSID>              # 連線 WiFi（會提示輸入密碼）
+
+# 確認網路連線（能 ping 通即代表網路正常）
+ping -c 3 nixos.org
+```
+
+> **有線網路**：直接插上網路線即可，NetworkManager 會自動取得 IP，無需額外設定。
+>
+> **注意**：若 `nmcli` 不存在，表示系統未啟用 NetworkManager，可先執行 `sudo systemctl start NetworkManager` 再重試。
+
+### 步驟 6：安裝後套用此配置
 
 ```bash
 # 進入系統後，先安裝 git（最小化安裝預設沒有 git）
