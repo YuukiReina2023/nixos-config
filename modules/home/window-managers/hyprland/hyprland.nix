@@ -281,7 +281,7 @@
 
         # ── Session ──────────────────────────────────────────────────
         "$mod SHIFT, M,        exit"
-        "$mod CTRL, L,         exec, hyprlock"
+        "$mod SHIFT, L,        exec, hyprlock"
       ];
 
       bindm = [

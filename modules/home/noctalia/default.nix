@@ -7,9 +7,13 @@
 #  ╚═╝  ╚═══╝ ╚═════╝  ╚═════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═╝
 #            noctalia v5 · glass rice · wallpaper-driven colors
 #            https://docs.noctalia.dev/v5
+let
+  wallpaperDir = "${config.xdg.configHome}/noctalia/wallpapers";
+in
 {
   programs.noctalia = {
     enable = true;
+    validateConfig = false;
 
     settings = {
 
@@ -17,13 +21,15 @@
       # ║  ✦ SHELL — glass, shadows, silky animations              ║
       # ╚══════════════════════════════════════════════════════════╝
       shell = {
-        font_family = "JetBrainsMono Nerd Font";
+        lang = "zh-CN";
+        font_family = "Noto Sans CJK SC";
         ui_scale = 1.0;
         corner_radius_scale = 1.2;
         avatar_path = "~/.face";
         telemetry_enabled = false;
         clipboard_enabled = true;
         clipboard_auto_paste = "off";
+        app_icon_colorize = false;
         time_format = "{:%I:%M %p}";
         date_format = "%A, %d %B";
 
@@ -75,6 +81,10 @@
         };
       };
 
+      accessibility = {
+        ui_scale = 1.1;
+      };
+
       # ╔══════════════════════════════════════════════════════════╗
       # ║  ✦ THEME — colors ripped live from the wallpaper         ║
       # ╚══════════════════════════════════════════════════════════╝
@@ -102,7 +112,7 @@
       # ╚══════════════════════════════════════════════════════════╝
       wallpaper = {
         enabled = true;
-        directory = config.xdg.configHome + "/noctalia/wallpapers";
+        directory = wallpaperDir;
         fill_mode = "crop";
         transition = [
           "fade"
@@ -117,6 +127,11 @@
         transition_on_startup = true;
       };
 
+      wallpaper.automation = {
+        enabled = false;
+        order = "random";
+      };
+
       weather = {
         enabled = true;
         unit = "celsius";
@@ -125,7 +140,7 @@
 
       location = {
         auto_locate = false;
-        address = "Kathmandu, Nepal";
+        address = "Huizhou, Guangdong, China";
       };
 
       nightlight = {

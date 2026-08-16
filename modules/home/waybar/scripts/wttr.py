@@ -6,7 +6,7 @@ import urllib.error
 import urllib.request
 
 # ── Config ────────────────────────────────────────────────────────────
-LOCATION = "Kathmandu"
+LOCATION = "Huizhou,Guangdong"
 TIMEOUT = 15
 RETRIES = 3
 RETRY_DELAY = 2  # seconds between retries

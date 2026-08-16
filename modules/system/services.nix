@@ -46,8 +46,8 @@
     package = pkgs.postgresql_17;
 
     settings = {
-      timezone = "Asia/Kathmandu";
-      log_timezone = "Asia/Kathmandu";
+      timezone = "Asia/Shanghai";
+      log_timezone = "Asia/Shanghai";
     };
 
     authentication = pkgs.lib.mkOverride 10 ''
