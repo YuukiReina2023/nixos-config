@@ -49,6 +49,7 @@ Everything is managed declaratively via Nix flakes and Home Manager. Rebuilding 
 | Font | JetBrainsMono Nerd Font |
 | Audio | PipeWire + WirePlumber |
 | GPU | NVIDIA (PRIME offload, Intel iGPU primary) |
+| Input Method | fcitx5 (pinyin, CapsLock toggle) |
 
 ---
 
@@ -152,6 +153,7 @@ Full Neovim config managed in Nix:
 | `Mod + ,` / `Mod + .` | Previous / next track |
 | `XF86Audio*` | Volume controls (works on lock screen) |
 | `XF86Brightness*` | Brightness (works on lock screen) |
+| `Caps_Lock` | Toggle input method (fcitx5 pinyin) |
 
 ---
 
@@ -177,6 +179,7 @@ nixos-config/
     │   ├── tmux/                 # Tmux config
     │   ├── yazi/                 # File manager
     │   ├── gtk/                  # GTK theme, icons, cursor
+    │   ├── fcitx5/               # Input method framework (pinyin)
     │   ├── fastfetch/            # Fetch config
     │   ├── obsidian/             # Obsidian notes
     │   ├── discord/              # Discord (Vencord)

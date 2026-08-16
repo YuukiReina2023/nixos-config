@@ -3,6 +3,7 @@
   imports = [
     ./rofi/default.nix
     ./firefox/default.nix
+    ./fcitx5/default.nix  # fcitx5 輸入法框架
     ./window-managers/default.nix # window managers
     ./waybar/default.nix
     ./gtk/default.nix
