@@ -102,7 +102,7 @@
       # ╚══════════════════════════════════════════════════════════╝
       wallpaper = {
         enabled = true;
-        directory = "~/Pictures/Wallpapers";
+        directory = config.xdg.configHome + "/noctalia/wallpapers";
         fill_mode = "crop";
         transition = [
           "fade"
@@ -489,5 +489,11 @@
         };
       };
     };
+  };
+
+  xdg.configFile."noctalia/wallpapers" = {
+    source = ../wallpapers;
+    recursive = true;
+    force = true;
   };
 }

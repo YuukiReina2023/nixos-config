@@ -7,6 +7,7 @@
     ./window-managers/default.nix # window managers
     ./waybar/default.nix
     ./gtk/default.nix
+    ./wallpapers
     ./foot/default.nix
     ./bash/default.nix
     ./nixvim/default.nix
