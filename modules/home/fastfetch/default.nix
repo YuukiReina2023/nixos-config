@@ -80,7 +80,7 @@
         },
         {
           "type": "custom",
-          "format": "\u001b[38;2;47;51;77m│\u001b[0m  \u001b[38;2;255;199;119m󰍲  GPU       \u001b[38;2;47;51;77m│\u001b[0m NVIDIA GeForce RTX 4060 Max-Q / Mobile"
+          "format": "\u001b[38;2;47;51;77m│\u001b[0m  \u001b[38;2;255;199;119m󰍲  GPU       \u001b[38;2;47;51;77m│\u001b[0m AMD Radeon PRO W6800"
         },
         {
           "type": "memory",

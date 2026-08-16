@@ -1,23 +1,6 @@
-{ config, ... }:
+# DEPRECATED — 本機硬體為 AMD Radeon PRO W6800，NVIDIA 設定已移除。
+# 請改用 ./amdgpu.nix（已在 modules/system/default.nix 中匯入）。
+# 若日後更換為 NVIDIA 顯示卡，再重新啟用此模組。
+{ ... }:
 {
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    open = false;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-    prime = {
-      offload = {
-        enable = true;
-        enableOffloadCmd = true;
-      };
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
-    };
-  };
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
 }

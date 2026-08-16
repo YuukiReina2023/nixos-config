@@ -3,8 +3,7 @@
   programs.btop = {
     enable = true;
     package = pkgs.btop.override {
-      rocmSupport = true;
-      cudaSupport = true;
+      rocmSupport = true; # AMD Radeon PRO W6800
     };
     settings = {
       vim_keys = true;

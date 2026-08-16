@@ -23,11 +23,6 @@
     spotify
     zathura
 
-    #waybar
-    swaynotificationcenter
-    playerctl
-    networkmanagerapplet
-
     #postgresql
     postgresql_17
     prisma-engines

@@ -46,9 +46,9 @@ Everything is managed declaratively via Nix flakes and Home Manager. Rebuilding 
 | GTK Theme | Graphite-Dark |
 | Icons | Papirus-Dark |
 | Cursor | volantes\_cursors |
-| Font | JetBrainsMono Nerd Font, Fira Code Nerd Font, Hack Nerd Font, Noto Sans CJK, LXGW WenKai |
+| Font | JetBrainsMono Nerd Font, Fira Code Nerd Font, Hack Nerd Font, jf open 粉圓 (default CJK), Noto Sans CJK, LXGW WenKai |
 | Audio | PipeWire + WirePlumber |
-| GPU | NVIDIA (PRIME offload, Intel iGPU primary) |
+| GPU | AMD Radeon PRO W6800 (RDNA2, amdgpu) |
 | Input Method | fcitx5 (pinyin, CapsLock toggle) |
 | Virtualisation | Docker, virt-manager/QEMU/KVM |
 | Database | PostgreSQL 17 |
@@ -200,10 +200,10 @@ nixos-config/
     │   ├── xdg-portal.nix        # XDG Portal settings
     │   └── features/             # Feature modules (screenshot)
     ├── system/                   # NixOS system modules
-    │   ├── nvidia.nix            # NVIDIA PRIME offload
+    │   ├── amdgpu.nix            # AMD Radeon PRO W6800 (amdgpu)
     │   ├── audio.nix             # PipeWire + WirePlumber
     │   ├── boot.nix              # systemd-boot, kernel params, BBR
-    │   ├── fonts.nix             # System fonts (CJK, Nerd Fonts)
+    │   ├── fonts.nix             # System fonts (CJK incl. jf open 粉圓, Nerd Fonts)
     │   ├── network.nix           # NetworkManager
     │   ├── virtualisation.nix    # Docker + virt-manager / KVM
     │   ├── ai.nix                # Ollama (disabled by default)
@@ -234,7 +234,7 @@ nixos-generate-config --show-hardware-config > hardware-configuration.nix
 sudo nixos-rebuild switch --flake .#nixos
 ```
 
-> **Note**: Review `modules/system/nvidia.nix` and update the PCI bus IDs (`intelBusId`, `nvidiaBusId`) to match your hardware before rebuilding.
+> **Note**: This config targets an **AMD Radeon PRO W6800** (see `modules/system/amdgpu.nix`). The old `modules/system/nvidia.nix` is deprecated and no longer imported — if you switch to an NVIDIA GPU, re-enable it and remove the `amdgpu.nix` import in `modules/system/default.nix`.
 
 ---
 

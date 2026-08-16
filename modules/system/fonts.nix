@@ -16,6 +16,7 @@
       wqy_microhei
       dejavu_fonts
       corefonts
+      jf-open-huninn-font # 粉圓字體 (jf open 粉圓)
 
       nerd-fonts.jetbrains-mono
       nerd-fonts.fira-code
@@ -25,8 +26,8 @@
       enable = true;
       defaultFonts = {
         monospace = [ "JetBrainsMono Nerd Font" ];
-        serif = [ "Noto Serif CJK SC" ];
-        sansSerif = [ "WenQuanYi Micro Hei" ];
+        serif = [ "jf open huninn" "Noto Serif CJK SC" ];
+        sansSerif = [ "jf open huninn" "Noto Sans CJK SC" ];
         emoji = [ "Noto Color Emoji" ];
       };
       localConf = ''

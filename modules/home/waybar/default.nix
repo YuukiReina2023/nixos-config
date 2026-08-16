@@ -68,7 +68,7 @@ in
       ];
 
       backlight = {
-        device = "nvidia_wmi_ec_backlight";
+        device = "amdgpu_bl0";
         format = "{icon} {percent}%";
         format-icons = [
           ""

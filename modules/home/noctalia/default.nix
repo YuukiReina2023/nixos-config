@@ -22,7 +22,7 @@ in
       # ╚══════════════════════════════════════════════════════════╝
       shell = {
         lang = "zh-CN";
-        font_family = "Noto Sans CJK SC";
+        font_family = "jf open huninn";
         ui_scale = 1.0;
         corner_radius_scale = 1.2;
         avatar_path = "~/.face";
