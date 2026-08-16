@@ -26,7 +26,7 @@
 
 ## Overview
 
-A clean, reproducible NixOS configuration built around **[niri](https://github.com/YaLTeR/niri)** — a scrollable, tiling Wayland compositor — paired with **[noctalia-shell](https://github.com/noctalia-dev/noctalia-shell)**, a modern GTK4 desktop shell that brings a full-featured bar, launcher, lock screen, wallpaper picker, control center, and notification system, all driven by dynamic wallpaper-extracted color schemes.
+A clean, reproducible NixOS configuration built around **[niri](https://github.com/YaLTeR/niri)** — a scrollable, tiling Wayland compositor — paired with **[noctalia-shell](https://github.com/noctalia-dev/noctalia)**, a modern GTK4 desktop shell that brings a full-featured bar, launcher, lock screen, wallpaper picker, control center, and notification system, all driven by dynamic wallpaper-extracted color schemes.
 
 Everything is managed declaratively via Nix flakes and Home Manager. Rebuilding on any compatible machine produces an identical environment.
 
@@ -38,18 +38,20 @@ Everything is managed declaratively via Nix flakes and Home Manager. Rebuilding 
 |---|---|
 | OS | NixOS (unstable) |
 | Compositor | [niri](https://github.com/YaLTeR/niri) |
-| Desktop Shell | [noctalia-shell](https://github.com/noctalia-dev/noctalia) |
+| Desktop Shell | [noctalia-shell](https://github.com/noctalia-dev/noctalia) (zh-CN) |
 | Editor | [nixvim](https://github.com/nix-community/nixvim) (Neovim — Tokyo Night Moon) |
-| Terminal | [foot](https://codeberg.org/dnkl/foot) |
+| Terminal | [foot](https://codeberg.org/dnkl/foot) / kitty |
 | Shell | bash + [fish](https://fishshell.com) |
 | Prompt | [Starship](https://starship.rs) (Tokyo Night Moon palette) |
 | GTK Theme | Graphite-Dark |
 | Icons | Papirus-Dark |
 | Cursor | volantes\_cursors |
-| Font | JetBrainsMono Nerd Font |
+| Font | JetBrainsMono Nerd Font, Fira Code Nerd Font, Hack Nerd Font, Noto Sans CJK, LXGW WenKai |
 | Audio | PipeWire + WirePlumber |
 | GPU | NVIDIA (PRIME offload, Intel iGPU primary) |
 | Input Method | fcitx5 (pinyin, CapsLock toggle) |
+| Virtualisation | Docker, virt-manager/QEMU/KVM |
+| Database | PostgreSQL 17 |
 
 ---
 
@@ -72,7 +74,7 @@ Everything is managed declaratively via Nix flakes and Home Manager. Rebuilding 
 - **Right widgets**: system tray, CPU/RAM/network monitor, volume, mic, night light, brightness, battery, notification bell, session menu
 - **Launcher** — app search + clipboard history + window switcher + settings search
 - **Control center** — profile card, quick-toggles (Wi-Fi, Bluetooth, keep-awake, power profile, notifications, night light, wallpaper), audio card, brightness, weather, media + system monitor
-- **Wallpaper picker** — random rotation, multiple animated transitions (fade, disc, stripes, wipe, pixelate, honeycomb), Wallhaven integration
+- **Wallpaper picker** — random rotation, multiple animated transitions (fade, disc, stripes, wipe, zoom, honeycomb), Wallhaven integration
 - **Lock screen** — blur + tint, countdown, media controls optional, auto-lock after 5 min idle
 - **Dynamic color schemes** — wallpaper-generated Material You colors synced to GTK, niri focus ring, and terminal via templates
 - **Night light** — manual or auto-scheduled color temperature (4300 K night / 3800 K day)
@@ -96,10 +98,12 @@ Full Neovim config managed in Nix:
 | [atuin](https://github.com/atuinsh/atuin) | Shell history sync |
 | [eza](https://github.com/eza-community/eza) | Modern `ls` replacement |
 | [fastfetch](https://github.com/fastfetch-cli/fastfetch) | System info |
-| [btop](https://github.com/aristocratos/btop) | Resource monitor |
+| [btop](https://github.com/aristocratos/btop) / htop | Resource monitor |
 | [tmux](https://github.com/tmux/tmux) | Terminal multiplexer |
 | [starship](https://starship.rs) | Cross-shell prompt |
 | [wireshark](https://www.wireshark.org) | Network analysis |
+| bat | Syntax-highlighted cat replacement |
+| cava | Audio visualizer |
 
 
 ---
@@ -185,15 +189,28 @@ nixos-config/
     │   ├── discord/              # Discord (Vencord)
     │   ├── firefox/ brave/       # Browser configs
     │   ├── obs-studio/           # OBS Studio
-    │   └── packages.nix          # User packages
+    │   ├── cli/                  # CLI tools config (bat, btop, cava, htop)
+    │   ├── devshell/             # Dev shell environments (base, Go, Node, Python)
+    │   ├── packages.nix          # User packages
+    │   ├── tools.nix             # Tools (zoxide, atuin, eza, wireshark)
+    │   ├── cc/                   # Claude Code config
+    │   ├── flake-pkgs.nix        # Flake-derived packages
+    │   ├── deploy-files.nix      # Deploy files
+    │   ├── xdg-portal.nix        # XDG Portal settings
+    │   └── features/             # Feature modules (screenshot)
     ├── system/                   # NixOS system modules
     │   ├── nvidia.nix            # NVIDIA PRIME offload
-    │   ├── audio.nix             # PipeWire
+    │   ├── audio.nix             # PipeWire + WirePlumber
     │   ├── boot.nix              # systemd-boot, kernel params, BBR
-    │   ├── fonts.nix             # System fonts
+    │   ├── fonts.nix             # System fonts (CJK, Nerd Fonts)
     │   ├── network.nix           # NetworkManager
-    │   ├── virtualisation.nix    # virt-manager / KVM
-    │   ├── ai.nix                # Ollama (optional)
+    │   ├── virtualisation.nix    # Docker + virt-manager / KVM
+    │   ├── ai.nix                # Ollama (disabled by default)
+    │   ├── services.nix          # Services (PostgreSQL, Bluetooth, niri)
+    │   ├── systemd.nix           # Systemd settings
+    │   ├── filesystems.nix       # Filesystem config
+    │   ├── locale.nix            # Locale & timezone
+    │   ├── users.nix             # User accounts
     │   └── packages.nix          # System packages
     └── scripts/                  # Screenshot helpers
 ```
