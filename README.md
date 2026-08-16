@@ -234,7 +234,7 @@ nixos-config/
 
 ### 步驟 1：下載 ISO 映像檔
 
-前往 [NixOS 官方下載頁面](https://nixos.org/download/)，下載 **GNOME** 或 **KDE** 圖形化 ISO（例如 `nixos-gnome-25.11.xxxx.x86_64-linux.iso`）。
+前往 [NixOS 官方下載頁面](https://nixos.org/download/)，下載 **GNOME** 或 **KDE** 圖形化 ISO（例如 `nixos-gnome-25.05.xxxx.x86_64-linux.iso`，或最新穩定版）。
 
 ### 步驟 2：製作開機隨身碟
 
@@ -242,7 +242,7 @@ nixos-config/
 
 ```bash
 # Linux/macOS 範例（請確認裝置名稱，勿覆蓋錯誤磁碟！）
-sudo dd if=nixos-gnome-25.11.iso of=/dev/sdX bs=4M status=progress
+sudo dd if=nixos-gnome-25.05.iso of=/dev/sdX bs=4M status=progress
 ```
 
 ### 步驟 3：從 USB 開機
@@ -304,16 +304,202 @@ nixos-generate-config --show-hardware-config > hardware-configuration.nix
 sudo nixos-rebuild switch --flake .#nixos
 ```
 
-### 復原檢查清單
+<details>
+<summary><b>📋 復原檢查清單（點擊展開）</b></summary>
 
-在另一台機器上復原此配置時，請先確認以下事項，避免重建後無法登入或掛載失敗：
+> 在另一台機器上復原此配置時，依序檢查以下事項。每項皆附**檢查命令**與**解決方案**，避免重建後無法登入或掛載失敗。
 
-1. **使用者名稱**：本配置的使用者名稱為 `YuukiReina2023`（見 `modules/system/users.nix`、`modules/home/default.nix`、`flake.nix`）。若你的使用者名稱不同，請同步修改這三處，以及 `modules/system/services.nix` 的 `services.getty.autologinUser` 與 PostgreSQL `ensureUsers`。
-2. **資料碟掛載**：`modules/system/filesystems.nix` 掛載 `/run/media/YuukiReina2023/lw`（磁碟標籤 `lw`）。若磁碟標籤不同，請修改 `device` 與掛載路徑（bash/fish 的 `cdlw` 別名也引用此路徑）。
-3. **顯示器輸出名**：niri 與 Noctalia 桌面小工具使用 `DP-1` 作為輸出名（AMD 桌面顯示卡）。若實際輸出名不同，請執行 `niri msg outputs` 或 `wlr-randr` 查看，並更新 `modules/home/window-managers/niri/default.nix` 與 `modules/home/noctalia/default.nix`。
-4. **顯示卡**：本配置面向 AMD Radeon PRO W6800（`modules/system/amdgpu.nix`）。NVIDIA 配置已棄用（`modules/system/nvidia.nix`），請勿重新匯入。
-5. **Ollama**：`modules/system/ai.nix` 已啟用 Ollama（ROCm 版，`ollama-rocm`），首次重建會拉取 `llama3.1:8b` 模型，建構時間較長。
-6. **非自由軟體**：`flake.nix` 與 `modules/system/packages.nix` 已設定 `nixpkgs.config.allowUnfree = true`，Chrome、Spotify、Postman、VSCode 等可正常建構。
+### 1. 使用者名稱
+
+**檢查**：確認你的使用者名稱是否為 `YuukiReina2023`：
+
+```bash
+grep -rn "YuukiReina2023" --include="*.nix" . | cut -d: -f1 | sort -u
+```
+
+**解決**：若使用者名稱不同，先全域替換，再手動修正特殊路徑：
+
+```bash
+# 全域替換（flake.nix、users.nix、home/default.nix、services.nix、virtualisation.nix 等）
+grep -rl "YuukiReina2023" --include="*.nix" . | xargs sed -i 's/YuukiReina2023/你的使用者名稱/g'
+
+# 手動修正（sed 無法處理的動態路徑）：
+# - modules/system/filesystems.nix：掛載路徑 /run/media/<使用者>/lw
+# - modules/home/bash/default.nix 與 fish/default.nix：cdlw 別名路徑
+# - modules/system/services.nix：services.getty.autologinUser 與 PostgreSQL ensureUsers
+```
+
+### 2. 資料碟掛載
+
+**檢查**：確認資料碟標籤是否為 `lw`：
+
+```bash
+lsblk -f          # 查看所有磁碟的 LABEL
+lsblk -f /dev/sdX # 查看特定磁碟
+```
+
+**解決**：若標籤不同，修改 [`modules/system/filesystems.nix`](modules/system/filesystems.nix:4)：
+
+```nix
+# 將 device 改為你的磁碟標籤
+fileSystems."/run/media/<使用者>/<標籤>" = {
+  device = "/dev/disk/by-label/<標籤>";
+  # ...
+};
+```
+
+同時更新 bash/fish 的 `cdlw` 別名路徑。
+
+### 3. 顯示器輸出名
+
+**檢查**：確認實際輸出名是否為 `DP-1`：
+
+```bash
+niri msg outputs   # niri 環境下
+wlr-randr          # 或使用 wlr-randr
+```
+
+**解決**：若輸出名不同，將 `DP-1` 改為實際名稱：
+
+```bash
+# 搜尋所有引用 DP-1 的檔案
+grep -rn "DP-1" --include="*.nix" modules/
+```
+
+需更新：`modules/home/window-managers/niri/default.nix`（輸出規則）與 `modules/home/noctalia/default.nix`（桌面小工具）。
+
+### 4. 顯示卡
+
+**檢查**：確認顯示卡型號：
+
+```bash
+lspci -k | grep -A 3 -E "VGA|3D"
+```
+
+**解決**：
+- **AMD**（本配置預設）：使用 [`modules/system/amdgpu.nix`](modules/system/amdgpu.nix:1)，無需變更
+- **NVIDIA**：在 [`modules/system/default.nix`](modules/system/default.nix:1) 移除 `./amdgpu.nix` 匯入，改為 `./nvidia.nix`（已棄用但保留），並確認 `hardware.nvidia` 設定
+
+### 5. Ollama
+
+**檢查**：確認 Ollama 服務與模型：
+
+```bash
+systemctl status ollama
+ollama list
+```
+
+**解決**：
+- 首次重建會自動拉取 `llama3.1:8b`；若需手動拉取：`ollama pull llama3.1:8b`
+- **無 AMD GPU**：在 [`modules/system/ai.nix`](modules/system/ai.nix:1) 將 `ollama-rocm` 改為 `ollama`（CPU 版），並移除 ROCm 相關設定
+
+### 6. 非自由軟體
+
+**檢查**：確認 `allowUnfree` 已啟用：
+
+```bash
+grep -n "allowUnfree" flake.nix modules/system/packages.nix
+```
+
+**解決**：若未設定，在 [`flake.nix`](flake.nix:1) 加入：
+
+```nix
+nixpkgs.config.allowUnfree = true;
+```
+
+否則 Chrome、Spotify、Postman、VSCode 等非自由套件會建構失敗。
+
+</details>
+
+<details>
+<summary><b>🔍 系統檢查與命令速查（點擊展開）</b></summary>
+
+> 復原後驗證系統運作 + 日常維護命令速查。參考 [ArchWiki](https://wiki.archlinux.org) 與 [Nix Reference Manual](https://nix.dev/manual/nix/stable/command-ref/new-cli/nix3-flake) 整理。
+
+### 系統檢查
+
+```bash
+# Flake 與系統狀態
+nix flake check                          # 檢查 flake 是否能正確求值並執行測試
+nix flake show                           # 查看 flake 提供的輸出
+sudo nixos-rebuild list-generations      # 列出所有系統世代
+journalctl -b -p 3                       # 查看本次開機的錯誤日誌（優先級 3 = error）
+
+# 合成器與顯示
+niri msg version                         # 確認 niri 版本
+rocm-smi                                 # AMD GPU 狀態（溫度、時脈、VRAM）
+
+# 字型與中文顯示
+fc-list | grep -i "jf open"              # 確認粉圓字型已安裝
+fc-cache -fv                             # 重建字型快取（中文顯示為方塊時執行）
+
+# 音訊與輸入法
+wpctl status                             # 查看 PipeWire 音訊裝置與預設輸出
+pactl info                               # 查看 PulseAudio 伺服器資訊
+fcitx5-diagnose                          # 輸入法診斷（fcitx5）
+
+# 休眠與 swap（btrfs 配置）
+cat /sys/power/mem_sleep                 # 確認硬體支援的睡眠狀態（[s2idle] shallow deep）
+swapon --show                            # 確認 swap 已啟用
+cat /proc/cmdline | tr ' ' '\n' | grep resume   # 確認 resume 核心參數指向正確的 swap UUID
+systemctl hibernate                      # 測試休眠（需先確認 swap ≥ RAM 且 resume= 已設定）
+
+# btrfs 檔案系統
+btrfs filesystem usage /                 # 磁碟使用量與可用空間
+btrfs subvolume list /                   # 列出所有子卷
+sudo btrfs scrub start /                 # 開始檢查檔案系統完整性（背景執行）
+sudo btrfs scrub status /                # 查看 scrub 進度
+
+# 服務
+systemctl status postgresql              # 查看 PostgreSQL 服務狀態
+systemctl --user status                  # 查看使用者服務狀態
+ollama run llama3.1:8b                   # 測試 Ollama 推理
+```
+
+### 命令更改速查
+
+```bash
+# 重建與套用
+sudo nixos-rebuild switch --flake .#nixos    # 套用配置（切換到新世代）
+sudo nixos-rebuild test --flake .#nixos      # 測試配置（不永久切換，重開機還原）
+sudo nixos-rebuild boot --flake .#nixos      # 下次開機才套用
+sudo nixos-rebuild dry-run --flake .#nixos   # 乾跑：只顯示會變更的內容，不實際套用
+sudo nixos-rebuild build-vm --flake .#nixos  # 建構為 VM 測試
+
+# Flake 管理
+nix flake update                             # 更新所有輸入（nixpkgs、home-manager、noctalia 等）
+nix flake update nixpkgs                     # 只更新特定輸入
+nix flake lock                               # 重新產生鎖定檔（不更新版本）
+
+# 世代管理與回收
+sudo nixos-rebuild rollback                  # 回滾到上一世代
+sudo nix-collect-garbage -d                  # 刪除所有舊世代並垃圾回收（釋放磁碟空間）
+nix store du --human-readable                # 查看 store 使用量
+
+# Home Manager（整合為 NixOS 模組，見 flake.nix，無獨立 homeConfigurations 輸出）
+sudo nixos-rebuild switch --flake .#nixos    # 套用 home 配置（與系統配置一起）
+home-manager generations                     # 列出 home 世代
+
+# 開發與套件
+nix develop                                  # 進入開發環境（devshell）
+nix search nixpkgs <套件名稱>                 # 搜尋套件
+nix run nixpkgs#<套件名稱>                    # 直接執行套件（不安裝）
+nix shell nixpkgs#<套件名稱>                  # 進入含套件的臨時 shell
+
+# btrfs 快照與備份
+sudo btrfs subvolume snapshot -r / /snapshots/root-$(date +%Y%m%d)   # 建立唯讀快照（復原前先備份）
+sudo btrfs send /snapshots/root-20260101 | sudo btrfs receive /mnt/backup   # 備份快照到外部磁碟
+sudo btrfs balance start /                   # 重新平衡（btrfs 空間不足時）
+
+# 休眠設定（btrfs + swap）
+findmnt -no UUID -T /swap/swapfile           # 取得 swap 所在裝置的 UUID
+sudo btrfs inspect-internal map-swapfile -r /swap/swapfile   # 取得 btrfs swap 檔案的 resume_offset
+# 在 modules/system/boot.nix 的 boot.kernelParams 加入：
+#   "resume=UUID=<swap 的 UUID>"
+#   "resume_offset=<btrfs map-swapfile 的輸出>"
+```
+
+</details>
 
 ### 疑難排解
 
@@ -324,6 +510,10 @@ sudo nixos-rebuild switch --flake .#nixos
 | 桌布小工具未顯示 | 執行 `niri msg outputs` 確認輸出名，更新 `DP-1` 為實際名稱 |
 | 中文顯示為方塊 | 執行 `fc-cache -fv` 重建字型快取，確認粉圓字型已安裝 |
 | Ollama 無法使用 GPU | 確認 `ollama-rocm` 已建構，執行 `ollama run llama3.1:8b` 測試 |
+| 休眠失敗：`Not enough free memory` | swap 需 ≥ RAM 大小，且 `resume=` 參數指向正確的 swap UUID（參考 [ArchWiki](https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate)） |
+| 休眠後立即喚醒 | 檢查 `journalctl -b | grep -i hibernate`，確認 swap 空間足夠且未分散於多個 swap |
+| btrfs 空間不足但 `df` 顯示有空間 | 執行 `sudo btrfs balance start /` 重新平衡資料與中繼資料區塊 |
+| btrfs 無法建立快照 | 含啟用中 swap 檔案的子卷無法快照，swap 檔案需放在獨立子卷（如 `/swap`） |
 
 </details>
 
