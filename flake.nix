@@ -87,7 +87,7 @@
 
               };
 
-              users.nishansys = import ./modules/home/default.nix;
+              users.YuukiReina2023 = import ./modules/home/default.nix;
               backupFileExtension = "backup";
 
               sharedModules = [

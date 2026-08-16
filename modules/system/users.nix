@@ -4,9 +4,9 @@
 
   programs.fish.enable = true;
 
-  users.users.nishansys = {
+  users.users.YuukiReina2023 = {
     isNormalUser = true;
-    description = "nishansys";
+    description = "YuukiReina2023";
     extraGroups = [
       "networkmanager"
       "wheel"

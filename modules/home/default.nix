@@ -58,8 +58,8 @@
     continue = on
   '';
 
-  home.username = "nishansys";
-  home.homeDirectory = "/home/nishansys";
+  home.username = "YuukiReina2023";
+  home.homeDirectory = "/home/YuukiReina2023";
   home.stateVersion = "25.11";
 
 }

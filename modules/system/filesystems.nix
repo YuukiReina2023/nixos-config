@@ -1,7 +1,7 @@
 { ... }:
 {
   # Auto mount
-  fileSystems."/run/media/nishansys/lw" = {
+  fileSystems."/run/media/YuukiReina2023/lw" = {
     device = "/dev/disk/by-label/lw";
     fsType = "ext4";
     options = [

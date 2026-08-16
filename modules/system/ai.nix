@@ -3,7 +3,7 @@
 {
   # Ollama (model runner)
   services.ollama = {
-    enable = false;
+    enable = true;
     package = pkgs.ollama-rocm; # AMD Radeon PRO W6800
 
     loadModels = [ "llama3.1:8b" ]; # auto-pulls on rebuild

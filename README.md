@@ -2,7 +2,7 @@
 
 # ❄ nixos-config
 
-**A declarative NixOS setup — Niri compositor + Noctalia shell, fully reproducible.**
+**宣告式 NixOS 配置 — Niri 合成器 + Noctalia 桌面外殼，完全可重現。**
 
 [![NixOS](https://img.shields.io/badge/NixOS-unstable-5277C3?style=flat-square&logo=nixos&logoColor=white)](https://nixos.org)
 [![Niri](https://img.shields.io/badge/WM-niri-8AADF4?style=flat-square)](https://github.com/YaLTeR/niri)
@@ -24,223 +24,313 @@
 
 ---
 
-## Overview
+## 總覽
 
-A clean, reproducible NixOS configuration built around **[niri](https://github.com/YaLTeR/niri)** — a scrollable, tiling Wayland compositor — paired with **[noctalia-shell](https://github.com/noctalia-dev/noctalia)**, a modern GTK4 desktop shell that brings a full-featured bar, launcher, lock screen, wallpaper picker, control center, and notification system, all driven by dynamic wallpaper-extracted color schemes.
+一套乾淨、可重現的 NixOS 配置，以 **[niri](https://github.com/YaLTeR/niri)**（可橫向捲動的平鋪式 Wayland 合成器）為核心，搭配 **[noctalia-shell](https://github.com/noctalia-dev/noctalia)**（現代 GTK4 桌面外殼），提供完整的工具列、啟動器、鎖定畫面、桌布挑選器、控制中心與通知系統，全部由桌布動態擷取的色彩方案驅動。
 
-Everything is managed declaratively via Nix flakes and Home Manager. Rebuilding on any compatible machine produces an identical environment.
+所有內容皆透過 Nix flakes 與 Home Manager 宣告式管理。在任何相容機器上重建，皆可產生完全相同的環境。
 
 ---
 
-## Stack
+## 技術棧
 
-| Layer | Tool |
+| 層級 | 工具 |
 |---|---|
-| OS | NixOS (unstable) |
-| Compositor | [niri](https://github.com/YaLTeR/niri) |
-| Desktop Shell | [noctalia-shell](https://github.com/noctalia-dev/noctalia) (zh-CN) |
-| Editor | [nixvim](https://github.com/nix-community/nixvim) (Neovim — Tokyo Night Moon) |
-| Terminal | [foot](https://codeberg.org/dnkl/foot) / kitty |
+| 作業系統 | NixOS (unstable) |
+| 合成器 | [niri](https://github.com/YaLTeR/niri) |
+| 桌面外殼 | [noctalia-shell](https://github.com/noctalia-dev/noctalia) (zh-CN) |
+| 編輯器 | [nixvim](https://github.com/nix-community/nixvim) (Neovim — Tokyo Night Moon) |
+| 終端機 | [foot](https://codeberg.org/dnkl/foot) / kitty |
 | Shell | bash + [fish](https://fishshell.com) |
-| Prompt | [Starship](https://starship.rs) (Tokyo Night Moon palette) |
-| GTK Theme | Graphite-Dark |
-| Icons | Papirus-Dark |
-| Cursor | volantes\_cursors |
-| Font | JetBrainsMono Nerd Font, Fira Code Nerd Font, Hack Nerd Font, jf open 粉圓 (default CJK), Noto Sans CJK, LXGW WenKai |
-| Audio | PipeWire + WirePlumber |
+| 提示字元 | [Starship](https://starship.rs) (Tokyo Night Moon 色盤) |
+| GTK 主題 | Graphite-Dark |
+| 圖示 | Papirus-Dark |
+| 游標 | volantes\_cursors |
+| 字型 | JetBrainsMono Nerd Font、Fira Code Nerd Font、Hack Nerd Font、jf open 粉圓（預設中文字型）、Noto Sans CJK、LXGW WenKai |
+| 音訊 | PipeWire + WirePlumber |
 | GPU | AMD Radeon PRO W6800 (RDNA2, amdgpu) |
-| Input Method | fcitx5 (pinyin, CapsLock toggle) |
-| Virtualisation | Docker, virt-manager/QEMU/KVM |
-| Database | PostgreSQL 17 |
+| 輸入法 | fcitx5 (拼音, CapsLock 切換) |
+| 虛擬化 | Docker、virt-manager/QEMU/KVM |
+| 資料庫 | PostgreSQL 17 |
+| AI | Ollama (ROCm, llama3.1:8b) |
 
 ---
 
-## Features
+## 功能特色
 
-### Niri — Scrollable Tiling Compositor
+### Niri — 可捲動平鋪合成器
 
-- **Infinite horizontal scroll** — workspaces extend left/right, windows stack vertically within columns
-- Spring-based window open/move animations, expo-curve workspace switches
-- Rounded corners (10–12 px) and drop shadows on all windows
-- Per-app opacity rules — terminal at 92 %, VS Code at 94 %, Obsidian at 93 %
-- Transparent layout background with focus-ring gradient (blue → dark navy, 210°)
-- Natural touchpad gestures, focus-follows-mouse, adaptive accel
-- XWayland via `xwayland-satellite` for legacy app compatibility
+- **無限橫向捲動** — 工作區向左右延伸，視窗在欄位內垂直堆疊
+- 彈簧式視窗開啟/移動動畫、expo 曲線工作區切換
+- 所有視窗圓角（10–12 px）與陰影
+- 各應用透明度規則 — 終端機 92%、VS Code 94%、Obsidian 93%
+- 透明版面背景，聚焦環漸層（藍 → 深藍，210°）
+- 自然觸控板手勢、focus-follows-mouse、自適應加速
+- 透過 `xwayland-satellite` 提供 XWayland 相容舊版應用程式
 
-### Noctalia Shell
+### Noctalia 桌面外殼
 
-- **Floating bar** — transparent background, outer-corner frame, workspace pill indicator in center
-- **Left widgets**: distro logo → control center, clock (with seconds), network, Bluetooth, media mini-player with waveform visualizer
-- **Right widgets**: system tray, CPU/RAM/network monitor, volume, mic, night light, brightness, battery, notification bell, session menu
-- **Launcher** — app search + clipboard history + window switcher + settings search
-- **Control center** — profile card, quick-toggles (Wi-Fi, Bluetooth, keep-awake, power profile, notifications, night light, wallpaper), audio card, brightness, weather, media + system monitor
-- **Wallpaper picker** — random rotation, multiple animated transitions (fade, disc, stripes, wipe, zoom, honeycomb), Wallhaven integration
-- **Lock screen** — blur + tint, countdown, media controls optional, auto-lock after 5 min idle
-- **Dynamic color schemes** — wallpaper-generated Material You colors synced to GTK, niri focus ring, and terminal via templates
-- **Night light** — manual or auto-scheduled color temperature (4300 K night / 3800 K day)
-- **OSD** — volume, brightness, mic overlays top-right
+- **浮動工具列** — 透明背景、外框圓角、中央工作區藥丸指示器
+- **左側小工具**：發行版標誌 → 控制中心、時鐘（含秒）、網路、藍牙、媒體迷你播放器（含波形視覺化）
+- **右側小工具**：系統托盤、CPU/RAM/網路監控、音量、麥克風、夜燈、亮度、電池、通知鈴、工作階段選單
+- **啟動器** — 應用程式搜尋 + 剪貼簿歷史 + 視窗切換器 + 設定搜尋
+- **控制中心** — 個人資料卡、快速開關（Wi-Fi、藍牙、保持喚醒、電源模式、通知、夜燈、桌布）、音訊卡、亮度、天氣、媒體 + 系統監控
+- **桌布挑選器** — 隨機輪播、多種動畫轉場（fade、disc、stripes、wipe、zoom、honeycomb）、Wallhaven 整合
+- **鎖定畫面** — 模糊 + 色調、倒數計時、可選媒體控制、閒置 5 分鐘自動鎖定
+- **動態色彩方案** — 桌布產生的 Material You 色彩，同步至 GTK、niri 聚焦環與終端機（透過範本）
+- **夜燈** — 手動或自動排程色溫（夜間 4300 K / 日間 3800 K）
+- **OSD** — 音量、亮度、麥克風覆蓋層顯示於右上角
 
-### Editor — Nixvim
+### 編輯器 — Nixvim
 
-Full Neovim config managed in Nix:
+以 Nix 管理的完整 Neovim 配置：
 
-- **Colorscheme**: Tokyo Night Moon (transparent-aware)
-- **LSP**, completion, Treesitter, Telescope, Git integration (lazygit, gitsigns)
-- vim-tmux-navigator for seamless pane navigation
-- Leader key: `<Space>`
+- **色彩主題**：Tokyo Night Moon（支援透明）
+- **LSP**、補全、Treesitter、Telescope、Git 整合（lazygit、gitsigns）
+- vim-tmux-navigator 無縫窗格導覽
+- 前導鍵：`<Space>`
 
-### CLI Environment
+### CLI 環境
 
-| Tool | Purpose |
+| 工具 | 用途 |
 |---|---|
-| [yazi](https://github.com/sxyazi/yazi) / lf | Terminal file manager |
-| [zoxide](https://github.com/ajeetdsouza/zoxide) | Smart directory jumping |
-| [atuin](https://github.com/atuinsh/atuin) | Shell history sync |
-| [eza](https://github.com/eza-community/eza) | Modern `ls` replacement |
-| [fastfetch](https://github.com/fastfetch-cli/fastfetch) | System info |
-| [btop](https://github.com/aristocratos/btop) / htop | Resource monitor |
-| [tmux](https://github.com/tmux/tmux) | Terminal multiplexer |
-| [starship](https://starship.rs) | Cross-shell prompt |
-| [wireshark](https://www.wireshark.org) | Network analysis |
-| bat | Syntax-highlighted cat replacement |
-| cava | Audio visualizer |
-
+| [yazi](https://github.com/sxyazi/yazi) / lf | 終端機檔案管理員 |
+| [zoxide](https://github.com/ajeetdsouza/zoxide) | 智慧目錄跳轉 |
+| [atuin](https://github.com/atuinsh/atuin) | Shell 歷史同步 |
+| [eza](https://github.com/eza-community/eza) | 現代 `ls` 替代品 |
+| [fastfetch](https://github.com/fastfetch-cli/fastfetch) | 系統資訊 |
+| [btop](https://github.com/aristocratos/btop) / htop | 資源監控 |
+| [tmux](https://github.com/tmux/tmux) | 終端機多工器 |
+| [starship](https://starship.rs) | 跨 Shell 提示字元 |
+| [wireshark](https://www.wireshark.org) | 網路分析 |
+| bat | 語法高亮的 cat 替代品 |
+| cava | 音訊視覺化 |
 
 ---
 
-## Keybindings
+## 快捷鍵
 
 > `Mod` = Super
 
-### Applications
+### 應用程式
 
-| Keybind | Action |
+| 快捷鍵 | 動作 |
 |---|---|
-| `Mod + Return` / `Mod + E` | Open terminal (foot) |
-| `Mod + B` | Brave browser |
-| `Mod + Q` | File manager (Thunar) |
-| `Mod + Space` | App launcher (noctalia) |
-| `Mod + Shift + Space` | Control center |
-| `Mod + W` | Wallpaper picker |
-| `Mod + V` | Clipboard history (rofi) |
-| `Mod + S` | Area screenshot |
-| `Mod + Shift + S` | Fullscreen screenshot |
-| `Mod + Escape` | Session menu |
+| `Mod + Return` / `Mod + E` | 開啟終端機 (foot) |
+| `Mod + B` | Brave 瀏覽器 |
+| `Mod + Q` | 檔案管理員 (Thunar) |
+| `Mod + Space` | 應用程式啟動器 (noctalia) |
+| `Mod + Shift + Space` | 控制中心 |
+| `Mod + W` | 桌布挑選器 |
+| `Mod + V` | 剪貼簿歷史 (rofi) |
+| `Mod + S` | 區域截圖 |
+| `Mod + Shift + S` | 全螢幕截圖 |
+| `Mod + Escape` | 工作階段選單 |
 
-### Window Management
+### 視窗管理
 
-| Keybind | Action |
+| 快捷鍵 | 動作 |
 |---|---|
-| `Mod + C` | Close window |
-| `Mod + F` | Maximize column |
-| `Mod + Shift + F` | Fullscreen |
-| `Mod + T` | Toggle floating |
-| `Mod + O` | Toggle overview |
-| `Mod + R` | Cycle column width (50 / 75 / 100 %) |
-| `Mod + H/L` | Focus column left/right |
-| `Mod + J/K` | Focus window up/down |
-| `Mod + Ctrl + H/L/J/K` | Move column/window |
-| `Mod + Shift + ←/→` | Resize column width |
-| `Mod + Shift + ↑/↓` | Resize window height |
-| `Mod + 1–9` | Switch workspace |
-| `Mod + Shift + 1–9` | Move window to workspace |
+| `Mod + C` | 關閉視窗 |
+| `Mod + F` | 最大化欄位 |
+| `Mod + Shift + F` | 全螢幕 |
+| `Mod + T` | 切換浮動 |
+| `Mod + O` | 切換總覽 |
+| `Mod + R` | 循環欄位寬度 (50 / 75 / 100 %) |
+| `Mod + H/L` | 聚焦左/右欄位 |
+| `Mod + J/K` | 聚焦上/下視窗 |
+| `Mod + Ctrl + H/L/J/K` | 移動欄位/視窗 |
+| `Mod + Shift + ←/→` | 調整欄位寬度 |
+| `Mod + Shift + ↑/↓` | 調整視窗高度 |
+| `Mod + 1–9` | 切換工作區 |
+| `Mod + Shift + 1–9` | 移動視窗至工作區 |
 
-### System
+### 系統
 
-| Keybind | Action |
+| 快捷鍵 | 動作 |
 |---|---|
-| `Mod + Alt + L` / `Mod + Shift + L` | Lock screen |
-| `Mod + Shift + M` | Quit niri |
-| `Mod + Shift + B` | Toggle bar |
-| `Mod + Shift + N` | Toggle night light |
-| `Mod + P` | Play/pause media |
-| `Mod + ,` / `Mod + .` | Previous / next track |
-| `XF86Audio*` | Volume controls (works on lock screen) |
-| `XF86Brightness*` | Brightness (works on lock screen) |
-| `Caps_Lock` | Toggle input method (fcitx5 pinyin) |
+| `Mod + Alt + L` / `Mod + Shift + L` | 鎖定畫面 |
+| `Mod + Shift + M` | 結束 niri |
+| `Mod + Shift + B` | 切換工具列 |
+| `Mod + Shift + N` | 切換夜燈 |
+| `Mod + P` | 播放/暫停媒體 |
+| `Mod + ,` / `Mod + .` | 上一首 / 下一首 |
+| `XF86Audio*` | 音量控制（鎖定畫面亦可用） |
+| `XF86Brightness*` | 亮度（鎖定畫面亦可用） |
+| `Caps_Lock` | 切換輸入法 (fcitx5 拼音) |
 
 ---
 
-## Structure
+## 目錄結構
 
 ```
 nixos-config/
-├── flake.nix                     # Flake inputs & system definition
-├── hardware-configuration.nix    # Hardware scan output
+├── flake.nix                     # Flake 輸入與系統定義
+├── hardware-configuration.nix    # 硬體掃描輸出
 └── modules/
-    ├── home/                     # Home Manager modules
+    ├── home/                     # Home Manager 模組
     │   ├── window-managers/
-    │   │   ├── niri/             # Niri config, keybinds, window rules
-    │   │   └── hyprland/         # Hyprland (idle, lock)
-    │   ├── noctalia/             # Noctalia shell settings
-    │   ├── nixvim/               # Neovim (LSP, plugins, colorscheme)
-    │   ├── waybar/               # Waybar (legacy, not active)
-    │   ├── rofi/                 # Rofi launcher
-    │   ├── foot/                 # Terminal emulator
-    │   ├── fish/                 # Fish shell config
-    │   ├── bash/                 # Bash config
-    │   ├── starship/             # Prompt theme
-    │   ├── tmux/                 # Tmux config
-    │   ├── yazi/                 # File manager
-    │   ├── gtk/                  # GTK theme, icons, cursor
-    │   ├── fcitx5/               # Input method framework (pinyin)
-    │   ├── fastfetch/            # Fetch config
-    │   ├── obsidian/             # Obsidian notes
+    │   │   ├── niri/             # Niri 配置、快捷鍵、視窗規則
+    │   │   └── hyprland/         # Hyprland (hyprland, hypridle, hyprlock)
+    │   ├── noctalia/             # Noctalia 桌面外殼設定
+    │   ├── nixvim/               # Neovim (LSP、外掛、色彩主題)
+    │   │   └── plugins/          # nixvim 外掛配置
+    │   ├── waybar/               # Waybar (舊版，未啟用)
+    │   │   └── scripts/          # Waybar 輔助腳本
+    │   ├── rofi/                 # Rofi 啟動器
+    │   ├── foot/                 # 終端機模擬器
+    │   ├── fish/                 # Fish shell 配置
+    │   ├── bash/                 # Bash 配置
+    │   ├── starship/             # 提示字元主題
+    │   ├── tmux/                 # Tmux 配置
+    │   ├── yazi/                 # 檔案管理員
+    │   ├── gtk/                  # GTK 主題、圖示、游標
+    │   ├── fcitx5/               # 輸入法框架 (拼音)
+    │   ├── fastfetch/            # Fetch 配置
+    │   ├── mpv/                  # MPV 媒體播放器
+    │   ├── obsidian/             # Obsidian 筆記
     │   ├── discord/              # Discord (Vencord)
-    │   ├── chrome/ brave/        # Browser configs
+    │   ├── chrome/ brave/        # 瀏覽器配置
     │   ├── telegram/             # Telegram Desktop
     │   ├── obs-studio/           # OBS Studio
-    │   ├── cli/                  # CLI tools config (bat, btop, cava, htop)
-    │   ├── devshell/             # Dev shell environments (base, Go, Node, Python)
-    │   ├── packages.nix          # User packages
-    │   ├── tools.nix             # Tools (zoxide, atuin, eza, wireshark)
-    │   ├── cc/                   # Claude Code config
-    │   ├── flake-pkgs.nix        # Flake-derived packages
-    │   ├── deploy-files.nix      # Deploy files
-    │   ├── xdg-portal.nix        # XDG Portal settings
-    │   └── features/             # Feature modules (screenshot)
-    ├── system/                   # NixOS system modules
+    │   ├── swappy/               # 截圖註解
+    │   ├── virt-manager/         # virt-manager dconf
+    │   ├── wallpapers/           # 桌布收藏
+    │   ├── cli/                  # CLI 工具配置 (bat, btop, cava, htop)
+    │   ├── devshell/             # 開發環境 (base, Go, Node, Python)
+    │   │   └── shells/           # 開發環境定義
+    │   ├── packages.nix          # 使用者套件
+    │   ├── tools.nix             # 工具 (zoxide, atuin, eza, wireshark)
+    │   ├── cc/                   # Claude Code 配置
+    │   ├── flake-pkgs.nix        # Flake 衍生套件
+    │   ├── deploy-files.nix      # 部署檔案
+    │   ├── xdg-portal.nix        # XDG Portal 設定
+    │   └── features/             # 功能模組 (截圖)
+    ├── system/                   # NixOS 系統模組
     │   ├── amdgpu.nix            # AMD Radeon PRO W6800 (amdgpu)
     │   ├── audio.nix             # PipeWire + WirePlumber
-    │   ├── boot.nix              # systemd-boot, kernel params, BBR
-    │   ├── fonts.nix             # System fonts (CJK incl. jf open 粉圓, Nerd Fonts)
+    │   ├── boot.nix              # systemd-boot、核心參數、BBR
+    │   ├── fonts.nix             # 系統字型 (CJK 含 jf open 粉圓、Nerd Fonts)
     │   ├── network.nix           # NetworkManager
     │   ├── virtualisation.nix    # Docker + virt-manager / KVM
-    │   ├── ai.nix                # Ollama (disabled by default)
-    │   ├── services.nix          # Services (PostgreSQL, Bluetooth, niri)
-    │   ├── systemd.nix           # Systemd settings
-    │   ├── filesystems.nix       # Filesystem config
-    │   ├── locale.nix            # Locale & timezone
-    │   ├── users.nix             # User accounts
-    │   └── packages.nix          # System packages
-    └── scripts/                  # Screenshot helpers
+    │   ├── ai.nix                # Ollama (ROCm, 已啟用)
+    │   ├── services.nix          # 服務 (PostgreSQL、藍牙、niri)
+    │   ├── systemd.nix           # Systemd 設定
+    │   ├── filesystems.nix       # 檔案系統配置
+    │   ├── locale.nix            # 語言環境與時區
+    │   ├── users.nix             # 使用者帳號
+    │   └── packages.nix          # 系統套件
+    └── scripts/                  # 截圖輔助腳本
 ```
 
 ---
 
-## Installation
+## 安裝與復原
 
-> Requires [Nix with flakes enabled](https://nixos.wiki/wiki/Flakes).
+<details>
+<summary><b>🖥️ 圖形化安裝指導（點擊展開）</b></summary>
+
+> 以下為使用 NixOS 官方圖形化安裝程式（Calamares）從零安裝的完整流程。
+
+### 步驟 1：下載 ISO 映像檔
+
+前往 [NixOS 官方下載頁面](https://nixos.org/download/)，下載 **GNOME** 或 **KDE** 圖形化 ISO（例如 `nixos-gnome-25.11.xxxx.x86_64-linux.iso`）。
+
+### 步驟 2：製作開機隨身碟
+
+使用 [Rufus](https://rufus.ie/)（Windows）、`dd`（Linux/macOS）或 [balenaEtcher](https://etcher.balena.io/) 將 ISO 寫入 USB 隨身碟：
 
 ```bash
-# Clone the config
+# Linux/macOS 範例（請確認裝置名稱，勿覆蓋錯誤磁碟！）
+sudo dd if=nixos-gnome-25.11.iso of=/dev/sdX bs=4M status=progress
+```
+
+### 步驟 3：從 USB 開機
+
+1. 重新啟動電腦，進入 BIOS/UEFI 開機選單（通常按 `F12` / `F2` / `Del`）
+2. 選擇 USB 隨身碟開機
+3. 在開機選單選擇 **NixOS 圖形化安裝**（Graphical installer）
+
+### 步驟 4：使用圖形化安裝程式
+
+1. 開機後會進入 GNOME/KDE 桌面，點選 **「Install NixOS」** 圖示啟動 Calamares
+2. **語言**：選擇繁體中文或 English
+3. **安裝類型**：選擇 **「Minimal」**（無桌面最小化安裝）。本配置自帶 niri 合成器與 Noctalia 桌面外殼，不需要額外的桌面環境，最小化安裝可避免套件衝突並加快建構
+4. **分割區**（建議手動分割，使用 **btrfs** 格式以支援快照與休眠）：
+   - `/boot`：EFI 分割區，512MB–1GB，**FAT32**，掛載點 `/boot`
+   - `/`：**btrfs**，使用剩餘空間，掛載點 `/`
+   - `swap`：**建議與 RAM 相同大小或更大**（本機 32GB RAM → 建議 32–64GB），用於**休眠**（suspend-to-disk）。安裝後需記錄 swap 的 UUID，並在 `modules/system/boot.nix` 的 `boot.kernelParams` 加入 `resume=UUID=<swap 的 UUID>` 才能正常休眠
+5. **使用者**：建立使用者帳號（此配置的使用者名稱為 `YuukiReina2023`，可於安裝後修改配置）
+6. **安裝**：點選安裝並等待完成
+7. 安裝完成後重新啟動，移除 USB
+
+### 步驟 5：安裝後套用此配置
+
+```bash
+# 進入系統後，先安裝 git（最小化安裝預設沒有 git）
+sudo nix-env -iA nixos.git
+
+# 複製此配置
 git clone https://github.com/YuukiReina2023/nixos-config ~/nixos-config
 cd ~/nixos-config
 
-# Generate hardware configuration and replace the existing one
-nixos-generate-config --show-hardware-config > hardware-configuration.nix
+# 產生硬體配置並取代現有檔案
+sudo nixos-generate-config --show-hardware-config > hardware-configuration.nix
 
-# Apply the system configuration
+# 套用系統配置
 sudo nixos-rebuild switch --flake .#nixos
 ```
 
-> **Note**: This config targets an **AMD Radeon PRO W6800** (see `modules/system/amdgpu.nix`). The old `modules/system/nvidia.nix` is deprecated and no longer imported — if you switch to an NVIDIA GPU, re-enable it and remove the `amdgpu.nix` import in `modules/system/default.nix`.
+> **注意**：此配置面向 **AMD Radeon PRO W6800**（見 `modules/system/amdgpu.nix`）。舊的 `modules/system/nvidia.nix` 已棄用且不再匯入 — 若改用 NVIDIA 顯示卡，請重新啟用並移除 `modules/system/default.nix` 中的 `amdgpu.nix` 匯入。
+
+</details>
+
+<details>
+<summary><b>♻️ 安裝後復原方法（點擊展開）</b></summary>
+
+> 在另一台機器上復原此配置，或重新安裝後還原環境的完整檢查清單。
+
+### 快速復原
+
+```bash
+# 需要啟用 flakes 的 Nix（見 https://nixos.wiki/wiki/Flakes）
+git clone https://github.com/YuukiReina2023/nixos-config ~/nixos-config
+cd ~/nixos-config
+
+# 產生硬體配置並取代現有檔案
+nixos-generate-config --show-hardware-config > hardware-configuration.nix
+
+# 套用系統配置
+sudo nixos-rebuild switch --flake .#nixos
+```
+
+### 復原檢查清單
+
+在另一台機器上復原此配置時，請先確認以下事項，避免重建後無法登入或掛載失敗：
+
+1. **使用者名稱**：本配置的使用者名稱為 `YuukiReina2023`（見 `modules/system/users.nix`、`modules/home/default.nix`、`flake.nix`）。若你的使用者名稱不同，請同步修改這三處，以及 `modules/system/services.nix` 的 `services.getty.autologinUser` 與 PostgreSQL `ensureUsers`。
+2. **資料碟掛載**：`modules/system/filesystems.nix` 掛載 `/run/media/YuukiReina2023/lw`（磁碟標籤 `lw`）。若磁碟標籤不同，請修改 `device` 與掛載路徑（bash/fish 的 `cdlw` 別名也引用此路徑）。
+3. **顯示器輸出名**：niri 與 Noctalia 桌面小工具使用 `DP-1` 作為輸出名（AMD 桌面顯示卡）。若實際輸出名不同，請執行 `niri msg outputs` 或 `wlr-randr` 查看，並更新 `modules/home/window-managers/niri/default.nix` 與 `modules/home/noctalia/default.nix`。
+4. **顯示卡**：本配置面向 AMD Radeon PRO W6800（`modules/system/amdgpu.nix`）。NVIDIA 配置已棄用（`modules/system/nvidia.nix`），請勿重新匯入。
+5. **Ollama**：`modules/system/ai.nix` 已啟用 Ollama（ROCm 版，`ollama-rocm`），首次重建會拉取 `llama3.1:8b` 模型，建構時間較長。
+6. **非自由軟體**：`flake.nix` 與 `modules/system/packages.nix` 已設定 `nixpkgs.config.allowUnfree = true`，Chrome、Spotify、Postman、VSCode 等可正常建構。
+
+### 疑難排解
+
+| 問題 | 解決方法 |
+|---|---|
+| 重建失敗：找不到套件 | 執行 `nix flake update` 更新鎖定檔，或檢查套件名稱是否已變更 |
+| 無法登入圖形介面 | 確認 `services.getty.autologinUser` 與 `home.username` 一致 |
+| 桌布小工具未顯示 | 執行 `niri msg outputs` 確認輸出名，更新 `DP-1` 為實際名稱 |
+| 中文顯示為方塊 | 執行 `fc-cache -fv` 重建字型快取，確認粉圓字型已安裝 |
+| Ollama 無法使用 GPU | 確認 `ollama-rocm` 已建構，執行 `ollama run llama3.1:8b` 測試 |
+
+</details>
 
 ---
 
-
 <div align="center">
 
-Built with ❄ on NixOS, Feel free to use and customize :) 
+以 ❄ 建構於 NixOS，歡迎自由使用與自訂 :)
 
 </div>

@@ -13,7 +13,7 @@ in
 {
   programs.noctalia = {
     enable = true;
-    validateConfig = false;
+    validateConfig = true;
 
     settings = {
 
@@ -458,7 +458,7 @@ in
         widget = {
           clock_hero = {
             type = "clock";
-            output = "eDP-1";
+            output = "DP-1";
             cx = 1660.0;
             cy = 190.0;
             box_width = 420.0;
@@ -473,7 +473,7 @@ in
 
           weather_card = {
             type = "weather";
-            output = "eDP-1";
+            output = "DP-1";
             cx = 1660.0;
             cy = 400.0;
             rotation = 0.0;
@@ -486,7 +486,7 @@ in
           # wide linear bars along the bottom (fancy_* is radial-only)
           viz_floor = {
             type = "fancy_audio_visualizer";
-            output = "eDP-1";
+            output = "DP-1";
             cx = 1024.0;
             cy = 1140.0;
             box_width = 880.0;

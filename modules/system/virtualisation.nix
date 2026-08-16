@@ -10,7 +10,7 @@
 
   # Virtual Machine (QEMU/KVM)
 
-  users.groups.libvirtd.members = [ "nishansys" ];
+  users.groups.libvirtd.members = [ "YuukiReina2023" ];
 
   virtualisation.libvirtd = {
     enable = true;
@@ -29,7 +29,7 @@
     "L+ /var/lib/qemu/firmware - - - - ${pkgs.qemu}/share/qemu/firmware"
   ];
 
-  users.users.nishansys = {
+  users.users.YuukiReina2023 = {
     extraGroups = [
       "libvirtd"
       "kvm"
