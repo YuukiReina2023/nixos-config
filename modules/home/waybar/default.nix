@@ -98,7 +98,7 @@ in
         separate-outputs = true;
         rewrite = {
           "(.*) — Brave" = "  $1";
-          "(.*) — Firefox" = "  $1";
+          "(.*) — Google Chrome" = "  $1";
           "(.*)fish" = "  terminal";
           "(.*) - nvim" = "  $1";
         };

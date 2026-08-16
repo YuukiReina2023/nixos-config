@@ -187,7 +187,8 @@ nixos-config/
     │   ├── fastfetch/            # Fetch config
     │   ├── obsidian/             # Obsidian notes
     │   ├── discord/              # Discord (Vencord)
-    │   ├── firefox/ brave/       # Browser configs
+    │   ├── chrome/ brave/        # Browser configs
+    │   ├── telegram/             # Telegram Desktop
     │   ├── obs-studio/           # OBS Studio
     │   ├── cli/                  # CLI tools config (bat, btop, cava, htop)
     │   ├── devshell/             # Dev shell environments (base, Go, Node, Python)

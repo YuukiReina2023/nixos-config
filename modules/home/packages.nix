@@ -53,9 +53,6 @@
 
     openssl
 
-    # devel
-    nodejs_24
-    go
     prismlauncher
 
   ];

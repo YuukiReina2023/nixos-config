@@ -227,9 +227,12 @@
           clip-to-geometry = true;
         }
 
-        # Brave/Firefox
+        # Brave/Chrome
         {
-          matches = [ { app-id = "^brave-browser$"; } ];
+          matches = [
+            { app-id = "^brave-browser$"; }
+            { app-id = "^(google-chrome|google-chrome-stable)$"; }
+          ];
           opacity = 1.0;
           draw-border-with-background = false;
           geometry-corner-radius = {
@@ -327,7 +330,7 @@
         # Apps
         "Mod+Return".action.spawn = [ "foot" ];
         "Mod+E".action.spawn = [ "foot" ];
-        "Mod+B".action.spawn = [ "brave" ];
+        "Mod+B".action.spawn = [ "google-chrome-stable" ];
         "Mod+Q".action.spawn = [ "thunar" ];
 
         "Mod+Escape".action.spawn = [

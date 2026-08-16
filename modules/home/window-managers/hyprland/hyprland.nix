@@ -41,7 +41,7 @@
 
       "$terminal" = "foot";
       "$fileManager" = "thunar";
-      "$browser" = "firefox";
+      "$browser" = "google-chrome-stable";
       "$mod" = "SUPER";
 
       # ══════════════════════════════════════════════════════════════════

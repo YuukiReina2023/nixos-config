@@ -1,12 +1,13 @@
 { pkgs, ... }:
 {
   fonts = {
-    enableDefaultPackages = true;
+    enableDefaultPackages = false;
     packages = with pkgs; [
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-cjk-serif
       noto-fonts-color-emoji
+      montserrat
       liberation_ttf
       carlito
       caladea
