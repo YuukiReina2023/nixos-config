@@ -203,7 +203,7 @@ nixos-config/
 
 ```bash
 # Clone the config
-git clone https://github.com/nishansys/nixos-config ~/nixos-config
+git clone https://github.com/YuukiReina2023/nixos-config ~/nixos-config
 cd ~/nixos-config
 
 # Generate hardware configuration and replace the existing one
