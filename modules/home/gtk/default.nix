@@ -5,8 +5,8 @@
   gtk = {
     enable = true;
     theme = {
-      name = "Graphite-Dark";
-      package = pkgs.graphite-gtk-theme;
+      name = "Colloid-Dark";
+      package = pkgs.colloid-gtk-theme;
     };
     iconTheme = {
       name = "Papirus-Dark";
