@@ -260,7 +260,7 @@ sudo dd if=nixos-gnome-25.05.iso of=/dev/sdX bs=4M status=progress
    - `/boot`：EFI 分割區，512MB–1GB，**FAT32**，掛載點 `/boot`
    - `/`：**btrfs**，使用剩餘空間，掛載點 `/`
    - `swap`：**建議與 RAM 相同大小或更大**（本機 32GB RAM → 建議 32–64GB），用於**休眠**（suspend-to-disk）。安裝後需記錄 swap 的 UUID，並在 `modules/system/boot.nix` 的 `boot.kernelParams` 加入 `resume=UUID=<swap 的 UUID>` 才能正常休眠
-5. **使用者**：建立使用者帳號（此配置的使用者名稱為 `YuukiReina2023`，可於安裝後修改配置）
+5. **使用者**：建立使用者帳號（此配置的使用者名稱為 `yuukireina2023`，可於安裝後修改配置）
 6. **安裝**：點選安裝並等待完成
 7. 安裝完成後重新啟動，移除 USB
 
@@ -292,7 +292,7 @@ ping -c 3 nixos.org
 sudo nix-env -iA nixos.git
 
 # 複製此配置
-git clone https://github.com/YuukiReina2023/nixos-config ~/nixos-config
+git clone https://github.com/yuukireina2023/nixos-config ~/nixos-config
 cd ~/nixos-config
 
 # 產生硬體配置並取代現有檔案
@@ -315,7 +315,7 @@ sudo nixos-rebuild switch --flake .#nixos
 
 ```bash
 # 需要啟用 flakes 的 Nix（見 https://nixos.wiki/wiki/Flakes）
-git clone https://github.com/YuukiReina2023/nixos-config ~/nixos-config
+git clone https://github.com/yuukireina2023/nixos-config ~/nixos-config
 cd ~/nixos-config
 
 # 產生硬體配置並取代現有檔案
@@ -332,17 +332,17 @@ sudo nixos-rebuild switch --flake .#nixos
 
 ### 1. 使用者名稱
 
-**檢查**：確認你的使用者名稱是否為 `YuukiReina2023`：
+**檢查**：確認你的使用者名稱是否為 `yuukireina2023`：
 
 ```bash
-grep -rn "YuukiReina2023" --include="*.nix" . | cut -d: -f1 | sort -u
+grep -rn "yuukireina2023" --include="*.nix" . | cut -d: -f1 | sort -u
 ```
 
 **解決**：若使用者名稱不同，先全域替換，再手動修正特殊路徑：
 
 ```bash
 # 全域替換（flake.nix、users.nix、home/default.nix、services.nix、virtualisation.nix 等）
-grep -rl "YuukiReina2023" --include="*.nix" . | xargs sed -i 's/YuukiReina2023/你的使用者名稱/g'
+grep -rl "yuukireina2023" --include="*.nix" . | xargs sed -i 's/yuukireina2023/你的使用者名稱/g'
 
 # 手動修正（sed 無法處理的動態路徑）：
 # - modules/system/filesystems.nix：掛載路徑 /run/media/<使用者>/lw

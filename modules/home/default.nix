@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, ... }:
 {
   imports = [
     ./rofi/default.nix
@@ -59,8 +59,7 @@
   '';
 
   home.username = "yuukireina2023";
-  # 使用 lib.mkForce 覆盖来自 common.nix 的 /var/empty 默认值
-  home.homeDirectory = lib.mkForce "/home/yuukireina2023";
+  home.homeDirectory = "/home/yuukireina2023";
   home.stateVersion = "25.11";
 
 }

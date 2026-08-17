@@ -36,8 +36,6 @@
   services.tumbler.enable = true;
   services.openssh.enable = true;
 
-  services.getty.autologinUser = "YuukiReina2023";
-
   security.polkit.enable = true;
 
 
@@ -59,11 +57,11 @@
 
     ensureDatabases = [
       "mydb"
-      "YuukiReina2023"
+      "yuukireina2023"
     ];
     ensureUsers = [
       {
-        name = "YuukiReina2023";
+        name = "yuukireina2023";
         ensureDBOwnership = true;
       }
     ];

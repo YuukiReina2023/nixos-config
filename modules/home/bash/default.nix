@@ -6,14 +6,14 @@
 
       "ff" = "clear && fastfetch";
       "fm" = "yazi";
-      "cdlw" = "cd /run/media/YuukiReina2023/lw";
+      "cdlw" = "cd /run/media/yuukireina2023/lw";
 
     };
 
     bashrcExtra = ''
       if [[ $- == *i* ]]; then
         fastfetch
-        source /etc/profiles/per-user/YuukiReina2023/etc/profile.d/hm-session-vars.sh
+        source /etc/profiles/per-user/yuukireina2023/etc/profile.d/hm-session-vars.sh
       fi
     '';
 
