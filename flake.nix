@@ -1,9 +1,9 @@
 {
-  description = "NixOS";
+  description = "NixOS Configuration";
 
   inputs = {
-
-      nixpkgs.url = "git+https://mirrors.tuna.tsinghua.edu.cn/git/nixpkgs.git?ref=nixos-unstable";
+    # 使用清华大学镜像源
+    nixpkgs.url = "git+https://mirrors.tuna.tsinghua.edu.cn/git/nixpkgs.git?ref=nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -41,7 +41,6 @@
       repo = "Burpsuite-Professional";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
   };
 
   outputs =
@@ -51,31 +50,35 @@
       nixvim,
       nur,
       claude-code,
+      burpsuitepro,
       ...
     }:
     {
-
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-
         system = "x86_64-linux";
         modules = [
           ./modules/system/default.nix
           ./hardware-configuration.nix
           inputs.niri.nixosModules.niri
 
-          {
-            nixpkgs.overlays = [
-              nur.overlays.default
-              claude-code.overlays.default
-            ];
-            nixpkgs.config.allowUnfree = true;
+          # 系统层级配置与 Overlay 注入
+          (
+            { pkgs, ... }:
+            {
+              nixpkgs.overlays = [
+                nur.overlays.default
+                claude-code.overlays.default
+              ];
+              nixpkgs.config.allowUnfree = true;
 
-            environment.systemPackages = with nixpkgs.legacyPackages.x86_64-linux; [
-              claude-code
-            ];
+              environment.systemPackages = [
+                # 使用 overlay 扩展后的 pkgs 引用 claude-code
+                pkgs.claude-code
+              ];
+            }
+          )
 
-          }
-
+          # Home Manager 模块配置
           home-manager.nixosModules.home-manager
           {
             home-manager = {
@@ -84,22 +87,19 @@
 
               extraSpecialArgs = {
                 inherit nixvim inputs;
-
               };
 
-              users.YuukiReina2023 = import ./modules/home/default.nix;
+              # 修正为小写用户名
+              users.yuukireina2023 = import ./modules/home/default.nix;
               backupFileExtension = "backup";
 
               sharedModules = [
                 nixvim.homeModules.nixvim
                 inputs.noctalia.homeModules.default
               ];
-
             };
           }
-
         ];
-
       };
     };
 }
