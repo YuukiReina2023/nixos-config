@@ -66,6 +66,29 @@
               nixpkgs.overlays = [
                 nur.overlays.default
                 claude-code.overlays.default
+
+                # niri-flake 的 niri-stable (v25.08) 連結 libdisplay-info-sys 0.2.2，
+                # 需要系統 libdisplay-info 0.2.x。nixpkgs 已移除 libdisplay-info_0_2
+                # （僅保留 _0_3 與 0.4），並留下會 throw 的 alias，
+                # 導致 niri-flake 的 `libdisplay-info_0_2 ? libdisplay-info` 預設值失效
+                # （callPackage 仍會找到該屬性）且其 `assert libdisplay-info_0_2.version == "0.2.0"`
+                # 在評估時爆炸。重新建置 0.2.0（而非指向 _0_3）是刻意的：
+                # 0.3 對該 crate 而言是 ABI 不相容。
+                # 上游：https://github.com/sodiboo/niri-flake/issues/1851
+                # 修復進行中：https://github.com/sodiboo/niri-flake/pull/1853
+                # 待該 PR 合併並更新 niri-flake 鎖定後即可移除。
+                (final: prev: {
+                  libdisplay-info_0_2 = prev.libdisplay-info.overrideAttrs {
+                    version = "0.2.0";
+                    src = prev.fetchFromGitLab {
+                      domain = "gitlab.freedesktop.org";
+                      owner = "emersion";
+                      repo = "libdisplay-info";
+                      rev = "0.2.0";
+                      hash = "sha256-6xmWBrPHghjok43eIDGeshpUEQTuwWLXNHg7CnBUt3Q=";
+                    };
+                  };
+                })
               ];
               nixpkgs.config.allowUnfree = true;
 
