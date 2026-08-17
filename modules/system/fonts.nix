@@ -16,7 +16,7 @@
       wqy_microhei
       dejavu_fonts
       corefonts
-      jf-open-huninn-font # 粉圓字體 (jf open 粉圓)
+      jf-open-huninn # 粉圓字體 (已修正包名)
 
       nerd-fonts.jetbrains-mono
       nerd-fonts.fira-code
