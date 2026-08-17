@@ -1,7 +1,6 @@
 { pkgs, config, ... }:
 
 {
-
   # Docker
   virtualisation.docker = {
     enable = true;
@@ -9,8 +8,8 @@
   };
 
   # Virtual Machine (QEMU/KVM)
-
-  users.groups.libvirtd.members = [ "YuukiReina2023" ];
+  # 修改为小写，或者由于下文 extraGroups 已包含，这行也可以直接删掉
+  users.groups.libvirtd.members = [ "yuukireina2023" ];
 
   virtualisation.libvirtd = {
     enable = true;
@@ -29,17 +28,17 @@
     "L+ /var/lib/qemu/firmware - - - - ${pkgs.qemu}/share/qemu/firmware"
   ];
 
-  users.users.YuukiReina2023 = {
+  # 这里改用 lib.mkMerge 或直接将 libvirtd/kvm 加入 users.nix 的 extraGroups
+  # 如果保留在此处，必须将属性名改为小写：
+  users.users.yuukireina2023 = {
     extraGroups = [
       "libvirtd"
       "kvm"
       "qemu-libvirtd"
     ];
-
   };
 
   environment.systemPackages = with pkgs; [
-
     virt-manager
     virt-viewer # SPICE viewer
     virtio-win
