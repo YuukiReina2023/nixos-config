@@ -58,8 +58,9 @@
     continue = on
   '';
 
-  home.username = "YuukiReina2023";
-  home.homeDirectory = "/home/YuukiReina2023";
+  # 修改这里：全部换成全小写
+  home.username = "yuukireina2023";
+  home.homeDirectory = "/home/yuukireina2023";
   home.stateVersion = "25.11";
 
 }
