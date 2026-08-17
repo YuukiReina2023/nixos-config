@@ -5,40 +5,39 @@
     # 使用清华大学镜像源
     nixpkgs.url = "git+https://mirrors.tuna.tsinghua.edu.cn/git/nixpkgs.git?ref=nixos-unstable";
 
+    # 通过 gh-proxy 镜像加速 github input
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "git+https://gh-proxy.com/https://github.com/nix-community/home-manager.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nixvim = {
-      url = "github:nix-community/nixvim";
+      url = "git+https://gh-proxy.com/https://github.com/nix-community/nixvim.git";
       # inputs.nixpkgs.follows = "nixpkgs";
     };
 
     niri = {
-      url = "github:sodiboo/niri-flake";
+      url = "git+https://gh-proxy.com/https://github.com/sodiboo/niri-flake.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     noctalia = {
-      url = "github:noctalia-dev/noctalia";
+      url = "git+https://gh-proxy.com/https://github.com/noctalia-dev/noctalia.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nur = {
-      url = "github:nix-community/nur";
+      url = "git+https://gh-proxy.com/https://github.com/nix-community/nur.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     claude-code = {
-      url = "github:sadjow/claude-code-nix";
+      url = "git+https://gh-proxy.com/https://github.com/sadjow/claude-code-nix.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     burpsuitepro = {
-      type = "github";
-      owner = "xiv3r";
-      repo = "Burpsuite-Professional";
+      url = "git+https://gh-proxy.com/https://github.com/xiv3r/Burpsuite-Professional.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
