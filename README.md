@@ -43,10 +43,10 @@
 | 終端機 | [foot](https://codeberg.org/dnkl/foot) / kitty |
 | Shell | bash + [fish](https://fishshell.com) |
 | 提示字元 | [Starship](https://starship.rs) (Tokyo Night Moon 色盤) |
-| GTK 主題 | Graphite-Dark |
+| GTK 主題 | Colloid-Dark |
 | 圖示 | Papirus-Dark |
 | 游標 | volantes\_cursors |
-| 字型 | JetBrainsMono Nerd Font、Fira Code Nerd Font、Hack Nerd Font、jf open 粉圓（預設中文字型）、Noto Sans CJK、LXGW WenKai |
+| 字型 | JetBrainsMono Nerd Font、Fira Code Nerd Font、Hack Nerd Font、Noto Sans CJK（預設中文字型）、LXGW WenKai、AR PL UKai、WenQuanYi Micro Hei |
 | 音訊 | PipeWire + WirePlumber |
 | GPU | AMD Radeon PRO W6800 (RDNA2, amdgpu) |
 | 輸入法 | fcitx5 (拼音, CapsLock 切換) |
@@ -76,7 +76,7 @@
 - **啟動器** — 應用程式搜尋 + 剪貼簿歷史 + 視窗切換器 + 設定搜尋
 - **控制中心** — 個人資料卡、快速開關（Wi-Fi、藍牙、保持喚醒、電源模式、通知、夜燈、桌布）、音訊卡、亮度、天氣、媒體 + 系統監控
 - **桌布挑選器** — 隨機輪播、多種動畫轉場（fade、disc、stripes、wipe、zoom、honeycomb）、Wallhaven 整合
-- **鎖定畫面** — 模糊 + 色調、倒數計時、可選媒體控制、閒置 5 分鐘自動鎖定
+- **鎖定畫面** — 模糊 + 色調、倒數計時、可選媒體控制、閒置 5 分鐘調暗、16 分鐘自動鎖定
 - **動態色彩方案** — 桌布產生的 Material You 色彩，同步至 GTK、niri 聚焦環與終端機（透過範本）
 - **夜燈** — 手動或自動排程色溫（夜間 4300 K / 日間 3800 K）
 - **OSD** — 音量、亮度、麥克風覆蓋層顯示於右上角
@@ -117,7 +117,7 @@
 | 快捷鍵 | 動作 |
 |---|---|
 | `Mod + Return` / `Mod + E` | 開啟終端機 (foot) |
-| `Mod + B` | Brave 瀏覽器 |
+| `Mod + B` | Chrome 瀏覽器 |
 | `Mod + Q` | 檔案管理員 (Thunar) |
 | `Mod + Space` | 應用程式啟動器 (noctalia) |
 | `Mod + Shift + Space` | 控制中心 |
@@ -175,7 +175,7 @@ nixos-config/
     │   ├── noctalia/             # Noctalia 桌面外殼設定
     │   ├── nixvim/               # Neovim (LSP、外掛、色彩主題)
     │   │   └── plugins/          # nixvim 外掛配置
-    │   ├── waybar/               # Waybar (舊版，未啟用)
+    │   ├── waybar/               # Waybar（已配置，noctalia 為主要外殼）
     │   │   └── scripts/          # Waybar 輔助腳本
     │   ├── rofi/                 # Rofi 啟動器
     │   ├── foot/                 # 終端機模擬器
@@ -210,7 +210,7 @@ nixos-config/
     │   ├── amdgpu.nix            # AMD Radeon PRO W6800 (amdgpu)
     │   ├── audio.nix             # PipeWire + WirePlumber
     │   ├── boot.nix              # systemd-boot、核心參數、BBR
-    │   ├── fonts.nix             # 系統字型 (CJK 含 jf open 粉圓、Nerd Fonts)
+    │   ├── fonts.nix             # 系統字型 (CJK 含 Noto Sans CJK、LXGW WenKai、Nerd Fonts)
     │   ├── network.nix           # NetworkManager
     │   ├── virtualisation.nix    # Docker + virt-manager / KVM
     │   ├── ai.nix                # Ollama (ROCm, 已啟用)
@@ -347,7 +347,7 @@ grep -rl "yuukireina2023" --include="*.nix" . | xargs sed -i 's/yuukireina2023/�
 # 手動修正（sed 無法處理的動態路徑）：
 # - modules/system/filesystems.nix：掛載路徑 /run/media/<使用者>/lw
 # - modules/home/bash/default.nix 與 fish/default.nix：cdlw 別名路徑
-# - modules/system/services.nix：services.getty.autologinUser 與 PostgreSQL ensureUsers
+# - modules/system/services.nix：PostgreSQL ensureUsers
 ```
 
 ### 2. 資料碟掛載
@@ -451,7 +451,7 @@ niri msg version                         # 確認 niri 版本
 rocm-smi                                 # AMD GPU 狀態（溫度、時脈、VRAM）
 
 # 字型與中文顯示
-fc-list | grep -i "jf open"              # 確認粉圓字型已安裝
+fc-list | grep -i "lxgw wenkai"          # 確認 LXGW WenKai 字型已安裝
 fc-cache -fv                             # 重建字型快取（中文顯示為方塊時執行）
 
 # 音訊與輸入法
@@ -527,9 +527,9 @@ sudo btrfs inspect-internal map-swapfile -r /swap/swapfile   # 取得 btrfs swap
 | 問題 | 解決方法 |
 |---|---|
 | 重建失敗：找不到套件 | 執行 `nix flake update` 更新鎖定檔，或檢查套件名稱是否已變更 |
-| 無法登入圖形介面 | 確認 `services.getty.autologinUser` 與 `home.username` 一致 |
+| 無法登入圖形介面 | 確認 niri 合成器已正確啟動（檢查 `journalctl -b` 中的 niri 相關錯誤） |
 | 桌布小工具未顯示 | 執行 `niri msg outputs` 確認輸出名，更新 `DP-1` 為實際名稱 |
-| 中文顯示為方塊 | 執行 `fc-cache -fv` 重建字型快取，確認粉圓字型已安裝 |
+| 中文顯示為方塊 | 執行 `fc-cache -fv` 重建字型快取，確認 Noto Sans CJK / LXGW WenKai 字型已安裝 |
 | Ollama 無法使用 GPU | 確認 `ollama-rocm` 已建構，執行 `ollama run llama3.1:8b` 測試 |
 | 休眠失敗：`Not enough free memory` | swap 需 ≥ RAM 大小，且 `resume=` 參數指向正確的 swap UUID（參考 [ArchWiki](https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate)） |
 | 休眠後立即喚醒 | 檢查 `journalctl -b | grep -i hibernate`，確認 swap 空間足夠且未分散於多個 swap |
