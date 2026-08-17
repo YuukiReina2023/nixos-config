@@ -3,8 +3,7 @@
 
   inputs = {
 
-    # 替换为国内主流镜像源（南京大学/中科大/清华镜像选其一，这里使用中科大/NJU高可用镜像）
-    nixpkgs.url = "git+https://mirrors.ustc.edu.cn/nixpkgs.git?ref=nixos-unstable";
+      nixpkgs.url = "git+https://mirrors.tuna.tsinghua.edu.cn/git/nixpkgs.git?ref=nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager";
