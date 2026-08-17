@@ -2,50 +2,6 @@
 {
   programs.nixvim.plugins = {
 
-    # GitHub Copilot
-    copilot-lua = {
-      enable = true;
-      settings = {
-        suggestion = {
-          enabled = true;
-          auto_trigger = true;
-          keymap = {
-            accept = "<M-l>";
-            next = "<M-]>";
-            prev = "<M-[>";
-            dismiss = "<M-e>";
-          };
-        };
-        panel.enabled = false;
-        filetypes = {
-          markdown = true;
-          help = false;
-        };
-      };
-    };
-
-    copilot-cmp.enable = false;
-
-    # CopilotChat
-    copilot-chat = {
-      enable = true;
-      settings = {
-        model = "gpt-4o";
-        auto_follow_cursor = true;
-        show_help = true;
-        window = {
-          layout = "vertical";
-          width = 0.35;
-        };
-        mappings = {
-          complete.insert = "<Tab>";
-          close.normal = "q";
-          reset.normal = "<C-r>";
-          submit_prompt.insert = "<C-s>";
-        };
-      };
-    };
-
     # Snippets
     luasnip = {
       enable = true;
