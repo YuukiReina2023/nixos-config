@@ -7,6 +7,8 @@
     ];
     auto-optimise-store = true;
     substituters = [
+      # 清华大学二进制缓存镜像（建议优先）
+      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"
       "https://niri.cachix.org"
