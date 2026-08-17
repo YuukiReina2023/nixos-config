@@ -2,7 +2,6 @@
 {
   programs.fish.enable = true;
 
-  # 将 YuukiReina2023 修改为全小写的 yuukireina2023
   users.users.yuukireina2023 = {
     isNormalUser = true;
     description = "yuukireina2023";
