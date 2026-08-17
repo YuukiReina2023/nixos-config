@@ -67,6 +67,10 @@
               nixpkgs.overlays = [
                 nur.overlays.default
                 claude-code.overlays.default
+                # 修复 niri-flake 引用已废弃 libdisplay-info_0_2 的修补 Overlay
+                (final: prev: {
+                  libdisplay-info_0_2 = prev.libdisplay-info or prev.libdisplay-info_0_3;
+                })
               ];
               nixpkgs.config.allowUnfree = true;
 
