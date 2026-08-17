@@ -1,7 +1,8 @@
 { pkgs, config, ... }:
 {
+  # 預設使用 niri 作為視窗管理器，停用 hyprland
   programs.hyprland = {
-    enable = true;
+    enable = false;
     xwayland.enable = true;
   };
 

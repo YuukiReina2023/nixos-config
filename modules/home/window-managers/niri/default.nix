@@ -1,6 +1,7 @@
 { pkgs, lib, ... }:
 {
   programs.niri = {
+    enable = true;
 
     settings = {
       prefer-no-csd = true;
@@ -61,7 +62,8 @@
 
       gestures.hot-corners.enable = false;
 
-      outputs."DP-1".scale = 1.25;
+      # 通用縮放：套用到所有輸出（可依實際螢幕調整數值）
+      outputs."*".scale = 1.25;
 
       overview = {
         workspace-shadow.enable = false;
@@ -136,6 +138,8 @@
         { command = [ "noctalia" ]; }
         { command = [ "xwayland-satellite" ]; }
         { command = [ "hyprlock" ]; }
+        # 啟動 fcitx5 輸入法（Wayland text-input 前端）
+        { command = [ "fcitx5" "-d" ]; }
         {
           command = [
             "nm-applet"
@@ -330,7 +334,12 @@
         # Apps
         "Mod+Return".action.spawn = [ "foot" ];
         "Mod+E".action.spawn = [ "foot" ];
-        "Mod+B".action.spawn = [ "google-chrome-stable" ];
+        # Chrome 以 Wayland 模式啟動並啟用 IME（text-input-v3）
+        "Mod+B".action.spawn = [
+          "google-chrome-stable"
+          "--ozone-platform=wayland"
+          "--enable-wayland-ime"
+        ];
         "Mod+Q".action.spawn = [ "thunar" ];
 
         "Mod+Escape".action.spawn = [

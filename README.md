@@ -49,7 +49,8 @@
 | 字型 | JetBrainsMono Nerd Font、Fira Code Nerd Font、Hack Nerd Font、Noto Sans CJK（預設中文字型）、LXGW WenKai、AR PL UKai、WenQuanYi Micro Hei |
 | 音訊 | PipeWire + WirePlumber |
 | GPU | AMD Radeon PRO W6800 (RDNA2, amdgpu) |
-| 輸入法 | fcitx5 (拼音, CapsLock 切換) |
+| 輸入法 | fcitx5 (拼音, CapsLock 切換, Wayland text-input-v3) |
+| 遊戲 | Steam + Proton、Wine (wineWowPackages)、gamescope、gamemode |
 | 虛擬化 | Docker、virt-manager/QEMU/KVM |
 | 資料庫 | PostgreSQL 17 |
 | AI | Ollama (ROCm, llama3.1:8b) |
@@ -106,6 +107,14 @@
 | bat | 語法高亮的 cat 替代品 |
 | cava | 音訊視覺化 |
 
+### 遊戲與轉譯層
+
+- **Steam** — 完整遊戲平台（`programs.steam`，自動處理 32 位元支援），可透過 `xwayland-satellite` 在 niri 下執行
+- **Proton** — Steam 內建 Windows 遊戲相容層；`protonup-qt` 可管理 GE-Proton 等社群版本
+- **Wine** — `wineWowPackages.stable`（32+64 位元）執行 Windows 應用，搭配 `winetricks` 管理元件
+- **gamescope** — Wayland 遊戲合成器，Steam 遊戲可全螢幕執行（啟動選項：`gamescope -e -- %command%`）
+- **gamemode** — CPU/GPU 自動調頻，提升遊戲效能
+
 ---
 
 ## 快捷鍵
@@ -117,7 +126,7 @@
 | 快捷鍵 | 動作 |
 |---|---|
 | `Mod + Return` / `Mod + E` | 開啟終端機 (foot) |
-| `Mod + B` | Chrome 瀏覽器 |
+| `Mod + B` | Chrome 瀏覽器（Wayland 模式 + IME） |
 | `Mod + Q` | 檔案管理員 (Thunar) |
 | `Mod + Space` | 應用程式啟動器 (noctalia) |
 | `Mod + Shift + Space` | 控制中心 |
@@ -171,7 +180,7 @@ nixos-config/
     ├── home/                     # Home Manager 模組
     │   ├── window-managers/
     │   │   ├── niri/             # Niri 配置、快捷鍵、視窗規則
-    │   │   └── hyprland/         # Hyprland (hyprland, hypridle, hyprlock)
+    │   │   └── hyprland/         # Hyprland（已停用，保留 hypridle/hyprlock 供 niri 使用）
     │   ├── noctalia/             # Noctalia 桌面外殼設定
     │   ├── nixvim/               # Neovim (LSP、外掛、色彩主題)
     │   │   └── plugins/          # nixvim 外掛配置
@@ -219,7 +228,7 @@ nixos-config/
     │   ├── filesystems.nix       # 檔案系統配置
     │   ├── locale.nix            # 語言環境與時區
     │   ├── users.nix             # 使用者帳號
-    │   └── packages.nix          # 系統套件
+    │   └── packages.nix          # 系統套件 (Steam、Wine、gamescope、gamemode)
     └── scripts/                  # 截圖輔助腳本
 ```
 
@@ -371,23 +380,21 @@ fileSystems."/run/media/<使用者>/<標籤>" = {
 
 同時更新 bash/fish 的 `cdlw` 別名路徑。
 
-### 3. 顯示器輸出名
+### 3. 顯示器縮放
 
-**檢查**：確認實際輸出名是否為 `DP-1`：
-
-```bash
-niri msg outputs   # niri 環境下
-wlr-randr          # 或使用 wlr-randr
-```
-
-**解決**：若輸出名不同，將 `DP-1` 改為實際名稱：
+**檢查**：確認縮放比例是否符合你的螢幕（本配置預設 `1.25`，對應 4K 螢幕 Windows 125% 縮放）：
 
 ```bash
-# 搜尋所有引用 DP-1 的檔案
-grep -rn "DP-1" --include="*.nix" modules/
+niri msg outputs   # niri 環境下查看各輸出的 scale
 ```
 
-需更新：`modules/home/window-managers/niri/default.nix`（輸出規則）與 `modules/home/noctalia/default.nix`（桌面小工具）。
+**解決**：若縮放不合適，修改 [`modules/home/window-managers/niri/default.nix`](modules/home/window-managers/niri/default.nix:65) 的 `outputs."*".scale`（萬用字元套用所有輸出）：
+
+```nix
+outputs."*".scale = 1.25;  # 依螢幕調整（4K 建議 1.25–2.0）
+```
+
+桌面小工具（[`modules/home/noctalia/default.nix`](modules/home/noctalia/default.nix:453)）已省略 `output` 指定，自動使用主輸出；座標依 4K 邏輯解析度（3840x2160 @ 1.25 → 3072x1728）調整，可用 `noctalia msg desktop-widgets-edit` 微調。
 
 ### 4. 顯示卡
 
@@ -528,8 +535,11 @@ sudo btrfs inspect-internal map-swapfile -r /swap/swapfile   # 取得 btrfs swap
 |---|---|
 | 重建失敗：找不到套件 | 執行 `nix flake update` 更新鎖定檔，或檢查套件名稱是否已變更 |
 | 無法登入圖形介面 | 確認 niri 合成器已正確啟動（檢查 `journalctl -b` 中的 niri 相關錯誤） |
-| 桌布小工具未顯示 | 執行 `niri msg outputs` 確認輸出名，更新 `DP-1` 為實際名稱 |
+| 桌布小工具未顯示 | 執行 `niri msg outputs` 確認主輸出；座標依 4K 邏輯解析度調整，可用 `noctalia msg desktop-widgets-edit` 微調 |
 | 中文顯示為方塊 | 執行 `fc-cache -fv` 重建字型快取，確認 Noto Sans CJK / LXGW WenKai 字型已安裝 |
+| 輸入法無法使用 | 確認 fcitx5 已啟動（`pgrep fcitx5`），執行 `fcitx5-diagnose` 診斷；Qt 應用需 `QT_IM_MODULE=fcitx`（已於 home 層級設定） |
+| Chrome 無法輸入中文 | 確認 Chrome 以 Wayland 模式啟動（`--ozone-platform=wayland --enable-wayland-ime`，已於 niri 綁定與 desktop entry 設定） |
+| Steam 遊戲無法全螢幕 | 在 Steam 遊戲「啟動選項」加入 `gamescope -e -- %command%` |
 | Ollama 無法使用 GPU | 確認 `ollama-rocm` 已建構，執行 `ollama run llama3.1:8b` 測試 |
 | 休眠失敗：`Not enough free memory` | swap 需 ≥ RAM 大小，且 `resume=` 參數指向正確的 swap UUID（參考 [ArchWiki](https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate)） |
 | 休眠後立即喚醒 | 檢查 `journalctl -b | grep -i hibernate`，確認 swap 空間足夠且未分散於多個 swap |

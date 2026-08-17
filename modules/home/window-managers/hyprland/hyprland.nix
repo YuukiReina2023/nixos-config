@@ -3,7 +3,8 @@
 
   wayland.windowManager.hyprland = {
     configType = "hyprlang";
-    enable = true;
+    # 預設使用 niri，停用 hyprland
+    enable = false;
     settings = {
 
       layerrule = [

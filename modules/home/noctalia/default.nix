@@ -22,14 +22,13 @@ in
       # ╚══════════════════════════════════════════════════════════╝
       shell = {
         lang = "zh-CN";
-        font_family = "jf open huninn";
+        font_family = "JetBrainsMono Nerd Font";
         ui_scale = 1.0;
         corner_radius_scale = 1.2;
         avatar_path = "~/.face";
         telemetry_enabled = false;
         clipboard_enabled = true;
         clipboard_auto_paste = "off";
-        app_icon_colorize = false;
         time_format = "{:%I:%M %p}";
         date_format = "%A, %d %B";
 
@@ -79,10 +78,6 @@ in
           freeze_screen = true;
           directory = "~/Pictures/Screenshots";
         };
-      };
-
-      accessibility = {
-        ui_scale = 1.1;
       };
 
       # ╔══════════════════════════════════════════════════════════╗
@@ -458,9 +453,11 @@ in
         widget = {
           clock_hero = {
             type = "clock";
-            output = "DP-1";
-            cx = 1660.0;
-            cy = 190.0;
+            # 省略 output 以使用主輸出（通用設定）
+            # 座標依 4K 主輸出（3840x2160 @ scale 1.25 → 邏輯 3072x1728）調整，
+            # 可用編輯模式微調：noctalia msg desktop-widgets-edit
+            cx = 2772.0;
+            cy = 200.0;
             box_width = 420.0;
             box_height = 170.0;
             rotation = 0.0;
@@ -473,8 +470,8 @@ in
 
           weather_card = {
             type = "weather";
-            output = "DP-1";
-            cx = 1660.0;
+            # 省略 output 以使用主輸出（通用設定）
+            cx = 2772.0;
             cy = 400.0;
             rotation = 0.0;
             settings = {
@@ -486,9 +483,9 @@ in
           # wide linear bars along the bottom (fancy_* is radial-only)
           viz_floor = {
             type = "fancy_audio_visualizer";
-            output = "DP-1";
-            cx = 1024.0;
-            cy = 1140.0;
+            # 省略 output 以使用主輸出（通用設定）
+            cx = 1536.0;
+            cy = 1500.0;
             box_width = 880.0;
             box_height = 200.0;
             rotation = 0.0;

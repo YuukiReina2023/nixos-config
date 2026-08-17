@@ -52,6 +52,11 @@
     LESSHISTFILE = "${config.xdg.stateHome}/less/history";
     CARGO_HOME = "${config.xdg.dataHome}/cargo";
     GNUPGHOME = "${config.xdg.dataHome}/gnupg";
+
+    # fcitx5 輸入法：niri 不支援 text-input-v2（Qt < 6.7 需要），
+    # 故 Qt 應用需用 fcitx im module；Qt 6.7+ 優先 wayland 再 fallback 到 fcitx
+    QT_IM_MODULE = "fcitx";
+    QT_IM_MODULES = "wayland;fcitx";
   };
 
   xdg.configFile."wget/wgetrc".text = ''
