@@ -5,39 +5,38 @@
     # 使用清华大学镜像源
     nixpkgs.url = "git+https://mirrors.tuna.tsinghua.edu.cn/git/nixpkgs.git?ref=nixos-unstable";
 
-    # 通过 gh-proxy 镜像加速 github input
+    # 使用官方 GitHub URL，不经过第三方代理
     home-manager = {
-      url = "git+https://gh-proxy.com/https://github.com/nix-community/home-manager.git";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nixvim = {
-      url = "git+https://gh-proxy.com/https://github.com/nix-community/nixvim.git";
-      # inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nixvim";
     };
 
     niri = {
-      url = "git+https://gh-proxy.com/https://github.com/sodiboo/niri-flake.git";
+      url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     noctalia = {
-      url = "git+https://gh-proxy.com/https://github.com/noctalia-dev/noctalia.git";
+      url = "github:noctalia-dev/noctalia";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nur = {
-      url = "git+https://gh-proxy.com/https://github.com/nix-community/nur.git";
+      url = "github:nix-community/nur";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     claude-code = {
-      url = "git+https://gh-proxy.com/https://github.com/sadjow/claude-code-nix.git";
+      url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     burpsuitepro = {
-      url = "git+https://gh-proxy.com/https://github.com/xiv3r/Burpsuite-Professional.git";
+      url = "github:xiv3r/Burpsuite-Professional";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -71,7 +70,6 @@
               nixpkgs.config.allowUnfree = true;
 
               environment.systemPackages = [
-                # 使用 overlay 扩展后的 pkgs 引用 claude-code
                 pkgs.claude-code
               ];
             }
@@ -88,7 +86,6 @@
                 inherit nixvim inputs;
               };
 
-              # 修正为小写用户名
               users.yuukireina2023 = import ./modules/home/default.nix;
               backupFileExtension = "backup";
 
