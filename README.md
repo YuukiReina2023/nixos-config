@@ -199,7 +199,7 @@ nixos-config/
     │   ├── mpv/                  # MPV 媒體播放器
     │   ├── obsidian/             # Obsidian 筆記
     │   ├── discord/              # Discord (Vencord)
-    │   ├── chrome/ brave/        # 瀏覽器配置
+    │   ├── chrome/               # 瀏覽器配置
     │   ├── telegram/             # Telegram Desktop
     │   ├── obs-studio/           # OBS Studio
     │   ├── swappy/               # 截圖註解
