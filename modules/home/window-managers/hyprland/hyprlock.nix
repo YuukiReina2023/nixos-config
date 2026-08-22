@@ -13,10 +13,12 @@
         immediate_render = true;
       };
 
+      # ── Background (读取 Noctalia 壁纸目录) ─────────────────────────
       background = [
         {
           monitor = "";
-          path = "screenshot";
+          # 自动抓取 Noctalia 壁纸目录下的第一张图片，解决 Niri 截屏黑屏问题
+          path = "$(ls /home/yuukireina2023/.config/noctalia/wallpapers/* 2>/dev/null | head -n 1)";
           blur_passes = 3;
           blur_size = 7;
           brightness = 0.5;
@@ -42,13 +44,18 @@
           shadow_color = "rgba(27, 29, 43, 0.8)";
         }
 
-        # ── Date ──────────────────────────────────────────────────────
+        # ── Date (修复语言混用，使用规范格式) ───────────────────────
         {
           monitor = "";
-          text = ''cmd[update:60000] echo "$(date +"%A, %d %B %Y")"'';
+          # 如果想用规范中文（例：2026年08月22日 星期六）：
+          text = ''cmd[update:60000] echo "$(LC_TIME=zh_CN.UTF-8 date +'%Y年%m月%d日 %A')"'';
+          
+          # 如果想用规范英文（例：Saturday, 22 Aug 2026），请解除下面这行的注释并替换上一行：
+          # text = ''cmd[update:60000] echo "$(LC_TIME=en_US.UTF-8 date +'%A, %d %b %Y')"'';
+
           color = "rgba(130, 139, 184, 1.0)"; # subtext #828bb8
           font_size = 22;
-          font_family = "JetBrainsMono Nerd Font";
+          font_family = "LXGW WenKai"; # 修改为你的字体（如 LXGW WenKai 或 JetBrainsMono）
           position = "0, 110";
           halign = "center";
           valign = "center";
@@ -69,10 +76,10 @@
           valign = "center";
         }
 
-        # ── Caps Lock warning ─────────────────────────────────────────
+        # ── Caps Lock warning (已修复，$LAYOUT 为原生键盘状态) ─────────
         {
           monitor = "";
-          text = "$CAPS";
+          text = "$LAYOUT[Caps Lock]"; # 只有按着 CapsLock 时才会动态显示提示
           color = "rgba(255, 117, 127, 1.0)"; # red #ff757f
           font_size = 14;
           font_family = "JetBrainsMono Nerd Font Bold";
@@ -82,11 +89,11 @@
         }
       ];
 
-      # ── Avatar ────────────────────────────────────────────────────
+      # ── Avatar (修复了路径) ─────────────────────────────────────────
       image = [
         {
           monitor = "";
-          path = "$HOME/.face"; # put a .face image in your home dir
+          path = "/home/yuukireina2023/.face"; # 使用完整绝对路径
           size = 100;
           rounding = -1; # fully circular
           border_size = 3;
