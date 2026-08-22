@@ -18,7 +18,7 @@
         {
           monitor = "";
           # hyprlock 的 background.path 只接受字面路径，不支持 $(...) 命令替换
-          path = "/home/yuukireina2023/.config/noctalia/wallpapers/wallpaper.png";
+          path = "/home/yuukireina2023/.config/noctalia/wallpapers/wallpapers.png";
           blur_passes = 3;
           blur_size = 7;
           brightness = 0.5;
