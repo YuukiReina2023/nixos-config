@@ -26,7 +26,7 @@ in
         clipboard_enabled = true;
         clipboard_auto_paste = "off";
         time_format = "{:%H:%M:%S}";
-        date_format = "%m/%d";
+        date_format = "%Y/%m/%d";
 
         animation = {
           enabled = true;
@@ -196,19 +196,19 @@ in
       bar = {
         main = {
           position = "top";
-          thickness = 32;
+          thickness = 36;          # 加高空間，避免上下被截
           background_opacity = 0.6;
           margin_edge = 0;
           margin_ends = 0;
           padding = 8;
-          widget_spacing = 8; # 利用原生 spacing 代替過多的硬間隔 gap
+          widget_spacing = 10;     # 舒適的自然間距
           radius = 10;
           shadow = true;
           auto_hide = false;
           reserve_space = true;
           font_weight = 600;
 
-          # 清除 start 裡多餘的 gap 避免硬擠
+          # 乾淨的 start 佈局，不再使用重複擠壓的 gap
           start = [
             "control-center"
             "clock"
@@ -243,9 +243,9 @@ in
           custom_image_colorize = true;
         };
 
-        # 簡化並確保寬度：將格式簡化，避免 CJK 字符渲染時佔位計算錯誤
+        # 指定格式：2026/08/22 週六 15:44:14
         clock = {
-          format = "{:%H:%M:%S} {:%m/%d}";
+          format = "{:%Y/%m/%d 週%a %H:%M:%S}";
           tooltip_format = "{:%A, %d %B %Y — %I:%M:%S %p}";
           color = "primary";
         };
