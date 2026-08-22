@@ -76,10 +76,11 @@
           valign = "center";
         }
 
-        # ── Caps Lock warning ($CAPS 为 hyprlock 原生变量，启用时显示 "Caps Lock") ──
+        # ── Caps Lock warning (hyprlock 0.9.6 不支持 $CAPS 变量，改用 sysfs LED 检测) ──
         {
           monitor = "";
-          text = "$CAPS"; # 只有 CapsLock 启用时才会动态显示提示
+          # 通过 sysfs 轮询 Caps Lock LED 状态，启用时显示 "Caps Lock"
+          text = ''cmd[update:1000] grep -q 1 /sys/class/leds/*capslock*/brightness 2>/dev/null && echo "Caps Lock"'';
           color = "rgba(255, 117, 127, 1.0)"; # red #ff757f
           font_size = 14;
           font_family = "JetBrainsMono Nerd Font Bold";
