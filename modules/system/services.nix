@@ -13,18 +13,15 @@
 
   services.greetd = {
     enable = true;
-    vt = 1; # 修正：強制指定卡位 tty1，阻止 agetty (命令行登入) 搶先啟動
+    # vt = 1; # 删除了此行（新版 NixOS 默认已固定在 VT1，配置该选项会报错）
     settings = {
       default_session = {
-        # 修正：加上 --remember-session 並確保 command 格式完整
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd niri";
+        # --issue-screen-clear 清除 tty1 开机留下的命令行文字，避免看到命令行提示
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --issue-screen-clear --cmd niri";
         user = "greeter";
       };
     };
   };
-
-  # 確保 systemd 預設目標直接進入圖形化 target
-  systemd.defaultUnit = "graphical.target";
 
   # 啟用 GNOME Keyring 供 greetd 登入時自動解鎖秘鑰環
   security.pam.services.greetd.enableGnomeKeyring = true;
