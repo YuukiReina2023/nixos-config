@@ -1,8 +1,6 @@
 { pkgs, lib, ... }:
 {
   programs.niri = {
-    enable = true;
-
     settings = {
       prefer-no-csd = true;
 
@@ -562,16 +560,6 @@
       };
     };
   };
-
-  # services.swayidle = {
-  #   enable = true;
-  #   timeouts = [
-  #     {
-  #       timeout = 960;
-  #       command = "noctalia msg session lock";
-  #     }
-  #   ];
-  # };
 
   home.packages = with pkgs; [
     xwayland-satellite
