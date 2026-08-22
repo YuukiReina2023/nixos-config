@@ -41,6 +41,7 @@
     wineWowPackages.stable # Wine（32+64 位元）
     winetricks # Wine 設定工具
     protonup-qt # Proton 版本管理工具
+    crossover # CodeWeavers CrossOver（商業版 Wine）
 
   ];
 }
