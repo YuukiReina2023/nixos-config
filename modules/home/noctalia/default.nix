@@ -324,9 +324,9 @@ in
       # ║  ✦ WIDGETS — per-widget tuning                           ║
       # ╚══════════════════════════════════════════════════════════╝
       widget = {
-        # ❄ NixOS snowflake icon
+        # ❄ NixOS 發行版標誌
         "control-center" = {
-          icon = "nixos";
+          use_distro_icon = true;
           icon_colorize = true;
         };
 
@@ -435,9 +435,9 @@ in
         };
       };
 
-      # 恢復桌面小組件為預設值
+      # 完全停用桌面小組件，保持桌面乾淨
       desktop_widgets = {
-        enabled = true;
+        enabled = false;
       };
     };
   };
