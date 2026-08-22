@@ -251,9 +251,9 @@ in
           custom_image_colorize = true;
         };
 
-        # 修正後的時鐘排版，拉開欄位間距
+        # 調整為更簡短的格式 (月/日 星期)，避免頂端欄位空間不足
         clock = {
-          format = "{:%H:%M:%S}    󰃭 {:%b%d日}  {:%a}";
+          format = "{:%H:%M:%S}  󰃭 {:%m/%d} {:%a}";
           tooltip_format = "{:%A, %d %B %Y — %I:%M:%S %p}";
           color = "primary";
         };
