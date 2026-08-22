@@ -29,6 +29,7 @@
     ./telegram/default.nix
 
     ./xdg-portal.nix
+    ./brave/default.nix
     ./chrome/default.nix
     ./fish/default.nix
     ./deploy-files.nix

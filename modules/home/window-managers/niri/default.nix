@@ -229,9 +229,10 @@
           clip-to-geometry = true;
         }
 
-        # Chrome
+        # Brave/Chrome
         {
           matches = [
+            { app-id = "^brave-browser$"; }
             { app-id = "^(google-chrome|google-chrome-stable)$"; }
           ];
           opacity = 1.0;
