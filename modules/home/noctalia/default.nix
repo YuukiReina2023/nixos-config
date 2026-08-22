@@ -25,8 +25,8 @@ in
         telemetry_enabled = false;
         clipboard_enabled = true;
         clipboard_auto_paste = "off";
-        time_format = "{:%I:%M %p}";
-        date_format = "%A, %d %B";
+        time_format = "{:%H:%M:%S}";
+        date_format = "%m/%d";
 
         animation = {
           enabled = true;
@@ -200,43 +200,35 @@ in
           background_opacity = 0.6;
           margin_edge = 0;
           margin_ends = 0;
-          padding = 10;
-          widget_spacing = 10;
+          padding = 8;
+          widget_spacing = 8; # 利用原生 spacing 代替過多的硬間隔 gap
           radius = 10;
           shadow = true;
           auto_hide = false;
           reserve_space = true;
           font_weight = 600;
 
+          # 清除 start 裡多餘的 gap 避免硬擠
           start = [
             "control-center"
-            "gap"
             "clock"
-            "gap"
             "weather"
-            "gap"
-            "gap"
             "active_window"
           ];
           center = [ "workspaces" ];
           end = [
             "media"
             "media_viz"
-            "gap"
             "cpu"
             "ram"
-            "gap"
             "network"
             "bluetooth"
             "volume"
             "microphone"
             "brightness"
-            "gap"
-            "gap"
             "tray"
             "clipboard"
             "notifications"
-            "gap"
             "battery"
             "caffeine"
             "session"
@@ -251,9 +243,9 @@ in
           custom_image_colorize = true;
         };
 
-        # 調整為更簡短的格式 (月/日 星期)，避免頂端欄位空間不足
+        # 簡化並確保寬度：將格式簡化，避免 CJK 字符渲染時佔位計算錯誤
         clock = {
-          format = "{:%H:%M:%S}  󰃭 {:%m/%d} {:%a}";
+          format = "{:%H:%M:%S} {:%m/%d}";
           tooltip_format = "{:%A, %d %B %Y — %I:%M:%S %p}";
           color = "primary";
         };
@@ -266,7 +258,7 @@ in
 
         gap = {
           type = "spacer";
-          length = 16;
+          length = 8;
         };
 
         media = {
@@ -290,7 +282,7 @@ in
 
         active_window = {
           label_type = "icon_and_text";
-          max_length = 300;
+          max_length = 200;
           title_scroll = "on_hover";
           color = "secondary";
         };
