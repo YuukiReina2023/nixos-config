@@ -13,11 +13,10 @@
 
   services.greetd = {
     enable = true;
-    # vt = 1; # 删除了此行（新版 NixOS 默认已固定在 VT1，配置该选项会报错）
     settings = {
       default_session = {
-        # --issue-screen-clear 清除 tty1 开机留下的命令行文字，避免看到命令行提示
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --issue-screen-clear --cmd niri";
+        # 只保留 tuigreet 支持的合法参数
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd niri";
         user = "greeter";
       };
     };
