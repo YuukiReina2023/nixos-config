@@ -8,17 +8,21 @@
 
   programs.niri.enable = true; # 在系統級啟用 Niri（自動產生 niri.desktop）
 
-  # 2. 顯示管理器 (Display Manager) 配置：手動輸入密碼登入
-  services.displayManager = {
-    defaultSession = "niri";
-    sddm = {
-      enable = true;
-      wayland.enable = true;
+  # 2. 顯示管理器 (Display Manager) 配置：改用 Greetd 搭配 tuigreet 實現極簡登入
+  services.displayManager.sddm.enable = false;
+
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd niri";
+        user = "greeter";
+      };
     };
   };
 
-  # 啟用 GNOME Keyring 供 SDDM 登入時自動解鎖秘鑰環
-  security.pam.services.sddm.enableGnomeKeyring = true;
+  # 啟用 GNOME Keyring 供 greetd 登入時自動解鎖秘鑰環
+  security.pam.services.greetd.enableGnomeKeyring = true;
 
   # 3. 硬體與系統服務配置
   services.upower.enable = true;
