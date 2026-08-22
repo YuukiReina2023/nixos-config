@@ -17,9 +17,6 @@ in
 
     settings = {
 
-      # ╔══════════════════════════════════════════════════════════╗
-      # ║  ✦ SHELL — glass, shadows, silky animations              ║
-      # ╚══════════════════════════════════════════════════════════╝
       shell = {
         lang = "zh-CN";
         font_family = "Noto Sans CJK SC";
@@ -41,7 +38,6 @@ in
           alpha = 0.65;
         };
 
-        # frosted-glass panels, floating off the bar
         panel = {
           transparency_mode = "glass";
           borders = true;
@@ -64,7 +60,6 @@ in
           sort_by_usage = true;
         };
 
-        # rounded screen corners, faux-CRT style
         screen_corners = {
           enabled = true;
           size = 24;
@@ -78,9 +73,6 @@ in
         };
       };
 
-      # ╔══════════════════════════════════════════════════════════╗
-      # ║  ✦ THEME — colors ripped live from the wallpaper         ║
-      # ╚══════════════════════════════════════════════════════════╝
       theme = {
         mode = "dark";
         source = "wallpaper";
@@ -100,21 +92,11 @@ in
         };
       };
 
-      # ╔══════════════════════════════════════════════════════════╗
-      # ║  ✦ WALLPAPER — animated transitions                      ║
-      # ╚══════════════════════════════════════════════════════════╝
       wallpaper = {
         enabled = true;
         directory = wallpaperDir;
         fill_mode = "crop";
-        transition = [
-          "fade"
-          "disc"
-          "stripes"
-          "wipe"
-          "zoom"
-          "honeycomb"
-        ];
+        transition = [ "fade" "disc" "stripes" "wipe" "zoom" "honeycomb" ];
         transition_duration = 1500;
         edge_smoothness = 0.3;
         transition_on_startup = true;
@@ -143,9 +125,6 @@ in
         temperature_night = 3800;
       };
 
-      # ╔══════════════════════════════════════════════════════════╗
-      # ║  ✦ NOTIFICATIONS + OSD — frosted toasts, side sliders    ║
-      # ╚══════════════════════════════════════════════════════════╝
       notification = {
         enable_daemon = true;
         layer = "overlay";
@@ -163,22 +142,10 @@ in
         offset_y = 12;
       };
 
-      audio = {
-        enable_overdrive = false;
-      };
+      audio = { enable_overdrive = false; };
+      brightness = { enable_ddcutil = false; };
+      battery = { warning_threshold = 40; };
 
-      brightness = {
-        enable_ddcutil = false;
-      };
-
-      # built-in low-battery warning fires at this percentage
-      battery = {
-        warning_threshold = 40;
-      };
-
-      # ╔══════════════════════════════════════════════════════════╗
-      # ║  ✦ LOCK SCREEN — blurred live desktop snapshot           ║
-      # ╚══════════════════════════════════════════════════════════╝
       lockscreen = {
         enabled = true;
         blurred_desktop = true;
@@ -190,40 +157,25 @@ in
         behavior = {
           "screen-off" = {
             enabled = true;
-            timeout = 300; # 5 min → dim to 10% brightness
+            timeout = 300;
             command = "brightnessctl -s set 10%";
             resume_command = "brightnessctl -r";
           };
           lock = {
             enabled = true;
-            timeout = 960; # 16 min → lock
+            timeout = 960;
             command = "hyprlock";
           };
           suspend = {
             enabled = true;
-            timeout = 1140; # 19 min → suspend
+            timeout = 1140;
             command = "systemctl suspend";
           };
         };
       };
 
-      # ╔══════════════════════════════════════════════════════════╗
-      # ║  ✦ HOT CORNERS — flick the mouse, run the shell          ║
-      # ╚══════════════════════════════════════════════════════════╝
       hot_corners = {
         enabled = false;
-        top_left = {
-          action = "overview";
-        };
-        top_right = {
-          action = "control_center";
-        };
-        bottom_left = {
-          action = "launcher";
-        };
-        bottom_right = {
-          action = "window_switcher";
-        };
       };
 
       control_center = {
@@ -237,38 +189,10 @@ in
         ];
       };
 
-      # ╔══════════════════════════════════════════════════════════╗
-      # ║  ✦ DOCK — macOS-style, magnifying, auto-hiding           ║
-      # ╚══════════════════════════════════════════════════════════╝
       dock = {
         enabled = false;
-        position = "bottom";
-        auto_hide = true;
-        reserve_space = false;
-        icon_size = 44;
-        background_opacity = 0.78;
-        radius = 20;
-        margin_edge = 8;
-        item_spacing = 6;
-        shadow = true;
-        show_running = true;
-        magnification = true;
-        magnification_scale = 1.5;
-        active_scale = 1.0;
-        inactive_scale = 0.88;
-        inactive_opacity = 0.8;
-        show_dots = true;
-        launcher_position = "start";
-        launcher_icon = "grid-dots";
       };
 
-      # ╔══════════════════════════════════════════════════════════╗
-      # ║  ✦ BAR — glass strip, 2px off the top, grouped w/ air    ║
-      # ║                                                          ║
-      # ║  ┌──────────────────────────────────────────────────┐   ║
-      # ║  │ ❄ date ☁ win   ●○○○   ♪song▁▃▅ stats net ··🔋 ⏻ │   ║
-      # ║  └──────────────────────────────────────────────────┘   ║
-      # ╚══════════════════════════════════════════════════════════╝
       bar = {
         main = {
           position = "top";
@@ -320,19 +244,16 @@ in
         };
       };
 
-      # ╔══════════════════════════════════════════════════════════╗
-      # ║  ✦ WIDGETS — per-widget tuning                           ║
-      # ╚══════════════════════════════════════════════════════════╝
       widget = {
-        # ❄ NixOS 發行版標誌 (採用 SVG 靜態尋址以確保渲染穩定度)
         "control-center" = {
           use_distro_icon = false;
           custom_image = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
           custom_image_colorize = true;
         };
 
+        # 修正後的時鐘排版，拉開欄位間距
         clock = {
-          format = "{:%H:%M:%S}  󰃭 {:%a %d %b}";
+          format = "{:%H:%M:%S}    󰃭 {:%b%d日}  {:%a}";
           tooltip_format = "{:%A, %d %B %Y — %I:%M:%S %p}";
           color = "primary";
         };
@@ -343,13 +264,11 @@ in
           color = "tertiary";
         };
 
-        # breathing room between widget groups
         gap = {
           type = "spacer";
           length = 16;
         };
 
-        # song + album art, vanishes when nothing plays
         media = {
           min_length = 80;
           max_length = 150;
@@ -358,7 +277,6 @@ in
           hide_when_no_media = true;
         };
 
-        # mini cava-style bars glued to the media block
         media_viz = {
           type = "audio_visualizer";
           width = 60;
@@ -389,11 +307,8 @@ in
           hide_when_empty = true;
         };
 
-        tray = {
-          drawer = true;
-        };
+        tray = { drawer = true; };
 
-        # icon-only stats — hover for the full system readout
         cpu = {
           type = "sysmon";
           stat = "cpu_usage";
@@ -410,11 +325,7 @@ in
           highlight_color = "error";
         };
 
-        # label = connected SSID; speeds live in the hover tooltip
-        network = {
-          show_value = true;
-        };
-
+        network = { show_value = true; };
         microphone = {
           type = "volume";
           device = "input";
@@ -427,16 +338,10 @@ in
           warning_color = "error";
         };
 
-        notifications = {
-          hide_when_no_unread = false;
-        };
-
-        session = {
-          icon_color = "error";
-        };
+        notifications = { hide_when_no_unread = false; };
+        session = { icon_color = "error"; };
       };
 
-      # 完全停用桌面小組件，保持桌面乾淨
       desktop_widgets = {
         enabled = false;
       };
