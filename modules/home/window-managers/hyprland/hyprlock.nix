@@ -123,10 +123,10 @@
           dots_center = true;
           dots_rounding = -1;
 
-          outer_color = "rgba(47, 51, 77, 1.0)"; # surface0 #2f334d
-          inner_color = "rgba(34, 36, 54, 1.0)"; # bg #222436
+          outer_color = "rgba(47, 51, 77, 0.85)"; # surface0 #2f334d
+          inner_color = "rgba(34, 36, 54, 0.9)"; # bg #222436
           font_color = "rgba(200, 211, 245, 1.0)"; # text #c8d3f5
-          fade_on_empty = true;
+          fade_on_empty = false;
           fade_timeout = 1000;
 
           placeholder_text = ''<span foreground="##828bb8"> Password...</span>'';
