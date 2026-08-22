@@ -13,14 +13,18 @@
 
   services.greetd = {
     enable = true;
+    vt = 1; # 修正：強制指定卡位 tty1，阻止 agetty (命令行登入) 搶先啟動
     settings = {
       default_session = {
-        # 修正：tuigreet 套件位於 pkgs.tuigreet
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri";
+        # 修正：加上 --remember-session 並確保 command 格式完整
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd niri";
         user = "greeter";
       };
     };
   };
+
+  # 確保 systemd 預設目標直接進入圖形化 target
+  systemd.defaultUnit = "graphical.target";
 
   # 啟用 GNOME Keyring 供 greetd 登入時自動解鎖秘鑰環
   security.pam.services.greetd.enableGnomeKeyring = true;
