@@ -234,7 +234,7 @@
           matches = [
             { app-id = "^(google-chrome|google-chrome-stable)$"; }
           ];
-          opacity = 1.0;
+          opacity = 0.92;
           draw-border-with-background = false;
           geometry-corner-radius = {
             top-left = 10.0;
@@ -326,6 +326,19 @@
         {
           matches = [ { app-id = "^(org.telegram.desktop|telegramdesktop)$"; } ];
           opacity = 0.93;
+          draw-border-with-background = false;
+          geometry-corner-radius = {
+            top-left = 12.0;
+            top-right = 12.0;
+            bottom-left = 12.0;
+            bottom-right = 12.0;
+          };
+          clip-to-geometry = true;
+        }
+        # Discord
+        {
+          matches = [ { app-id = "^(discord|Discord)$"; } ];
+          opacity = 0.92;
           draw-border-with-background = false;
           geometry-corner-radius = {
             top-left = 12.0;
