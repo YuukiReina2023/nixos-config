@@ -27,6 +27,7 @@
     ./cc/default.nix
     ./obs-studio/default.nix
     ./telegram/default.nix
+    ./netease-cloud-music/default.nix
 
     ./xdg-portal.nix
     ./chrome/default.nix
