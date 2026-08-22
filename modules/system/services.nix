@@ -8,14 +8,19 @@
 
   programs.niri.enable = true; # 在系統級啟用 Niri
 
-  # 2. 顯示管理器配置：改用 Greetd 搭配 tuigreet
+  # 2. 顯示管理器配置：啟用自动登录以消除双重登录
   services.displayManager.sddm.enable = false;
 
   services.greetd = {
     enable = true;
     settings = {
+      # 开机首次启动时直接自动登录指定用户并启动 niri，跳过 tuigreet
+      initial_session = {
+        command = "niri";
+        user = "yuukireina2023";
+      };
+      # 手动注销或退出会话后回退到 tuigreet 登录界面
       default_session = {
-        # 只保留 tuigreet 支持的合法参数
         command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd niri";
         user = "greeter";
       };
