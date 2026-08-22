@@ -144,26 +144,6 @@
             "--indicator"
           ];
         }
-        {
-          command = [
-            "wl-paste"
-            "--type"
-            "text"
-            "--watch"
-            "cliphist"
-            "store"
-          ];
-        }
-        {
-          command = [
-            "wl-paste"
-            "--type"
-            "image"
-            "--watch"
-            "cliphist"
-            "store"
-          ];
-        }
       ];
 
       screenshot-path = "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png";
