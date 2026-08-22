@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 #  ███╗   ██╗ ██████╗  ██████╗████████╗ █████╗ ██╗     ██╗ █████╗
 #  ████╗  ██║██╔═══██╗██╔════╝╚══██╔══╝██╔══██╗██║     ██║██╔══██╗
 #  ██╔██╗ ██║██║   ██║██║        ██║   ███████║██║     ██║███████║
@@ -22,8 +22,7 @@ in
       # ╚══════════════════════════════════════════════════════════╝
       shell = {
         lang = "zh-CN";
-        font_family = "JetBrainsMono Nerd Font";
-        ui_scale = 1.0;
+        font_family = "Noto Sans CJK SC";
         corner_radius_scale = 1.2;
         avatar_path = "~/.face";
         telemetry_enabled = false;
@@ -63,7 +62,6 @@ in
           categories = true;
           show_icons = true;
           sort_by_usage = true;
-          session_search = true;
         };
 
         # rounded screen corners, faux-CRT style
@@ -312,7 +310,6 @@ in
             "gap"
             "gap"
             "tray"
-            # "screenshot"
             "clipboard"
             "notifications"
             "gap"
@@ -327,10 +324,10 @@ in
       # ║  ✦ WIDGETS — per-widget tuning                           ║
       # ╚══════════════════════════════════════════════════════════╝
       widget = {
-        # ❄ NixOS snowflake, tinted with the wallpaper accent
+        # ❄ NixOS snowflake icon
         "control-center" = {
-          custom_image = "${config.programs.noctalia.package}/share/noctalia/assets/images/distros/nixos.svg";
-          custom_image_colorize = true;
+          icon = "nixos";
+          icon_colorize = true;
         };
 
         clock = {
@@ -373,20 +370,20 @@ in
         };
 
         active_window = {
-          display = "icon_and_text";
+          label_type = "icon_and_text";
           max_length = 300;
           title_scroll = "on_hover";
           color = "secondary";
         };
 
         workspaces = {
-          display = "name";
+          label_type = "name";
           max_label_chars = 10;
           labels_only_when_occupied = true;
           focused_color = "primary";
           occupied_color = "tertiary";
           empty_color = "outline";
-          pill_scale = 1.2;
+          pill_scale = 1.0;
           active_pill_size = 2.4;
           hide_when_empty = true;
         };
@@ -399,22 +396,22 @@ in
         cpu = {
           type = "sysmon";
           stat = "cpu_usage";
-          display = "gauge";
-          show_label = false;
+          visualization = "gauge";
+          show_value = false;
           highlight_color = "error";
         };
 
         ram = {
           type = "sysmon";
           stat = "ram_pct";
-          display = "gauge";
-          show_label = false;
+          visualization = "gauge";
+          show_value = false;
           highlight_color = "error";
         };
 
         # label = connected SSID; speeds live in the hover tooltip
         network = {
-          show_label = true;
+          show_value = true;
         };
 
         microphone = {
@@ -425,7 +422,7 @@ in
 
         battery = {
           display_mode = "graphic";
-          show_label = true;
+          show_value = true;
           warning_color = "error";
         };
 
@@ -438,67 +435,9 @@ in
         };
       };
 
-      # ╔══════════════════════════════════════════════════════════╗
-      # ║  ✦ DESKTOP WIDGETS — art on the wallpaper layer          ║
-      # ║       big clock ✚ weather card ✚ audio rings             ║
-      # ╚══════════════════════════════════════════════════════════╝
+      # 恢復桌面小組件為預設值
       desktop_widgets = {
         enabled = true;
-        widget_order = [
-          "clock_hero"
-          "weather_card"
-          "viz_floor"
-        ];
-
-        widget = {
-          clock_hero = {
-            type = "clock";
-            # 省略 output 以使用主輸出（通用設定）
-            # 座標依 4K 主輸出（3840x2160 @ scale 1.25 → 邏輯 3072x1728）調整，
-            # 可用編輯模式微調：noctalia msg desktop-widgets-edit
-            cx = 2772.0;
-            cy = 200.0;
-            box_width = 420.0;
-            box_height = 170.0;
-            rotation = 0.0;
-            settings = {
-              clock_style = "digital";
-              format = "{:%I:%M}";
-              background_opacity = 0.0;
-            };
-          };
-
-          weather_card = {
-            type = "weather";
-            # 省略 output 以使用主輸出（通用設定）
-            cx = 2772.0;
-            cy = 400.0;
-            rotation = 0.0;
-            settings = {
-              show_forecast = true;
-              forecast_days = 3;
-            };
-          };
-
-          # wide linear bars along the bottom (fancy_* is radial-only)
-          viz_floor = {
-            type = "fancy_audio_visualizer";
-            # 省略 output 以使用主輸出（通用設定）
-            cx = 1536.0;
-            cy = 1500.0;
-            box_width = 880.0;
-            box_height = 200.0;
-            rotation = 0.0;
-            settings = {
-              visualization_mode = "bars";
-              bar_width = 0.6;
-              sensitivity = 1.5;
-              fade_when_idle = true;
-              primary_color = "primary";
-              secondary_color = "tertiary";
-            };
-          };
-        };
       };
     };
   };
