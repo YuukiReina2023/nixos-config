@@ -14,7 +14,7 @@
       settings = {
         globalOptions = {
           "Hotkey/TriggerKeys" = {
-            "0" = "Caps_Lock";
+            "0" = "Shift_L"; # 改为左 Shift 切换
           };
         };
         inputMethod = {
