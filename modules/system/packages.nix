@@ -21,6 +21,7 @@
     python3
     ffmpeg
     pciutils
+    rocmPackages.rocm-smi # AMD GPU 監控工具（Radeon PRO W6800）
 
     docker-compose
 
