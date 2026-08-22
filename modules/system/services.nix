@@ -1,14 +1,26 @@
 { pkgs, config, ... }:
 {
-  # 1. 禁用 Hyprland，启用系统级 Niri 窗口管理器
+  # 1. 禁用 Hyprland，啟用系統級 Niri 視窗管理器
   programs.hyprland = {
     enable = false;
     xwayland.enable = true;
   };
 
-  programs.niri.enable = true; # 在系统级启用 Niri
+  programs.niri.enable = true; # 在系統級啟用 Niri（自動產生 niri.desktop）
 
-  # 2. 硬件与系统服务配置
+  # 2. 顯示管理器 (Display Manager) 配置：手動輸入密碼登入
+  services.displayManager = {
+    defaultSession = "niri";
+    sddm = {
+      enable = true;
+      wayland.enable = true;
+    };
+  };
+
+  # 啟用 GNOME Keyring 供 SDDM 登入時自動解鎖秘鑰環
+  security.pam.services.sddm.enableGnomeKeyring = true;
+
+  # 3. 硬體與系統服務配置
   services.upower.enable = true;
   hardware.bluetooth = {
     enable = true;
@@ -37,7 +49,7 @@
 
   security.polkit.enable = true;
 
-  # 3. 数据库配置
+  # 4. 資料庫配置
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_17;
