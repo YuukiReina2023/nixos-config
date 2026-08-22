@@ -1,11 +1,14 @@
 { pkgs, config, ... }:
 {
-  # 預設使用 niri 作為視窗管理器，停用 hyprland
+  # 1. 禁用 Hyprland，启用系统级 Niri 窗口管理器
   programs.hyprland = {
     enable = false;
     xwayland.enable = true;
   };
 
+  programs.niri.enable = true; # 在系统级启用 Niri
+
+  # 2. 硬件与系统服务配置
   services.upower.enable = true;
   hardware.bluetooth = {
     enable = true;
@@ -21,17 +24,12 @@
         SupervisionTimeout = 100;
       };
     };
-
   };
 
   services.blueman.enable = true;
-
   hardware.enableAllFirmware = true;
-
   services.power-profiles-daemon.enable = true;
 
-  programs.niri.enable = true;
-  niri-flake.cache.enable = false;
   programs.thunar.enable = true;
   services.gvfs.enable = true;
   services.tumbler.enable = true;
@@ -39,7 +37,7 @@
 
   security.polkit.enable = true;
 
-
+  # 3. 数据库配置
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_17;
@@ -67,5 +65,4 @@
       }
     ];
   };
-
 }
