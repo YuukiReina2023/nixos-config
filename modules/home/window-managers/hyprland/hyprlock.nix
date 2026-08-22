@@ -17,8 +17,8 @@
       background = [
         {
           monitor = "";
-          # 自动抓取 Noctalia 壁纸目录下的第一张图片，解决 Niri 截屏黑屏问题
-          path = "$(ls /home/yuukireina2023/.config/noctalia/wallpapers/* 2>/dev/null | head -n 1)";
+          # hyprlock 的 background.path 只接受字面路径，不支持 $(...) 命令替换
+          path = "/home/yuukireina2023/.config/noctalia/wallpapers/wallpaper.png";
           blur_passes = 3;
           blur_size = 7;
           brightness = 0.5;
@@ -76,10 +76,10 @@
           valign = "center";
         }
 
-        # ── Caps Lock warning (已修复，$LAYOUT 为原生键盘状态) ─────────
+        # ── Caps Lock warning ($CAPS 为 hyprlock 原生变量，启用时显示 "Caps Lock") ──
         {
           monitor = "";
-          text = "$LAYOUT[Caps Lock]"; # 只有按着 CapsLock 时才会动态显示提示
+          text = "$CAPS"; # 只有 CapsLock 启用时才会动态显示提示
           color = "rgba(255, 117, 127, 1.0)"; # red #ff757f
           font_size = 14;
           font_family = "JetBrainsMono Nerd Font Bold";
