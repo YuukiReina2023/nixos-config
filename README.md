@@ -166,7 +166,7 @@
 | `Mod + ,` / `Mod + .` | 上一首 / 下一首 |
 | `XF86Audio*` | 音量控制（鎖定畫面亦可用） |
 | `XF86Brightness*` | 亮度（鎖定畫面亦可用） |
-| `Caps_Lock` | 切換輸入法 (fcitx5 拼音) |
+| `Shift_L` | 切換輸入法 (fcitx5 拼音) |
 
 ---
 
