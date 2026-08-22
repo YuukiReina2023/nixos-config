@@ -50,7 +50,7 @@
 | 音訊 | PipeWire + WirePlumber |
 | GPU | AMD Radeon PRO W6800 (RDNA2, amdgpu) |
 | 輸入法 | fcitx5 (拼音, CapsLock 切換, Wayland text-input-v3) |
-| 遊戲 | Steam + Proton、Wine (wineWowPackages)、CrossOver、gamescope、gamemode |
+| 遊戲 | Steam + Proton、Wine (wineWowPackages)、gamescope、gamemode |
 | 虛擬化 | Docker、virt-manager/QEMU/KVM |
 | 資料庫 | PostgreSQL 17 |
 | AI | Ollama (ROCm, llama3.1:8b) |
@@ -112,7 +112,6 @@
 - **Steam** — 完整遊戲平台（`programs.steam`，自動處理 32 位元支援），可透過 `xwayland-satellite` 在 niri 下執行
 - **Proton** — Steam 內建 Windows 遊戲相容層；`protonup-qt` 可管理 GE-Proton 等社群版本
 - **Wine** — `wineWowPackages.stable`（32+64 位元）執行 Windows 應用，搭配 `winetricks` 管理元件
-- **CrossOver** — CodeWeavers 商業版 Wine，提供圖形化介面管理 Windows 應用程式與 Bottles
 - **gamescope** — Wayland 遊戲合成器，Steam 遊戲可全螢幕執行（啟動選項：`gamescope -e -- %command%`）
 - **gamemode** — CPU/GPU 自動調頻，提升遊戲效能
 
@@ -229,7 +228,7 @@ nixos-config/
     │   ├── filesystems.nix       # 檔案系統配置
     │   ├── locale.nix            # 語言環境與時區
     │   ├── users.nix             # 使用者帳號
-    │   └── packages.nix          # 系統套件 (Steam、Wine、CrossOver、gamescope、gamemode)
+    │   └── packages.nix          # 系統套件 (Steam、Wine、gamescope、gamemode)
     └── scripts/                  # 截圖輔助腳本
 ```
 
