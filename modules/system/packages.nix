@@ -39,7 +39,7 @@
 
     # 遊戲轉譯層
     gamescope # Wayland 遊戲合成器（Steam 遊戲全螢幕執行）
-    wineWowPackages.stable # Wine（32+64 位元）
+    wineWow64Packages.stable # Wine（32+64 位元）
     winetricks # Wine 設定工具
     protonup-qt # Proton 版本管理工具
 
