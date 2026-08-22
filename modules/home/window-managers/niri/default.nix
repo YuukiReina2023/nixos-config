@@ -136,6 +136,9 @@
         { command = [ "noctalia" ]; }
         { command = [ "xwayland-satellite" ]; }
         { command = [ "hyprlock" ]; }
+        # 剪貼簿管理（cliphist）：監聽文字與圖片，避免來源程式關閉後內容遺失
+        { command = [ "wl-paste" "--type" "text" "--watch" "cliphist" "store" ]; }
+        { command = [ "wl-paste" "--type" "image" "--watch" "cliphist" "store" ]; }
         # 啟動 fcitx5 輸入法（Wayland text-input 前端）
         { command = [ "fcitx5" "-d" ]; }
         {
