@@ -323,6 +323,18 @@
           };
           clip-to-geometry = true;
         }
+        {
+          matches = [ { app-id = "^(org.telegram.desktop|telegramdesktop)$"; } ];
+          opacity = 0.93;
+          draw-border-with-background = false;
+          geometry-corner-radius = {
+            top-left = 12.0;
+            top-right = 12.0;
+            bottom-left = 12.0;
+            bottom-right = 12.0;
+          };
+          clip-to-geometry = true;
+        }
       ];
 
       # Keybindings

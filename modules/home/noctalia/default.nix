@@ -197,7 +197,7 @@ in
         main = {
           position = "top";
           thickness = 36;          # 加高空間，避免上下被截
-          background_opacity = 0.6;
+          background_opacity = 0.75;
           margin_edge = 0;
           margin_ends = 0;
           padding = 8;
