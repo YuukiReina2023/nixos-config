@@ -324,10 +324,11 @@ in
       # ║  ✦ WIDGETS — per-widget tuning                           ║
       # ╚══════════════════════════════════════════════════════════╝
       widget = {
-        # ❄ NixOS 發行版標誌
+        # ❄ NixOS 發行版標誌 (採用 SVG 靜態尋址以確保渲染穩定度)
         "control-center" = {
-          use_distro_icon = true;
-          icon_colorize = true;
+          use_distro_icon = false;
+          custom_image = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+          custom_image_colorize = true;
         };
 
         clock = {
