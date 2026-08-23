@@ -6,8 +6,9 @@
       main = {
         term = "xterm-256color";
         # 回退链：JetBrainsMono（拉丁/Nerd 图标）→ Noto Sans CJK SC（中文）→ Symbola（符号块）→ Unifont（最后兜底）
-        font = "JetBrainsMono Nerd Font:size=12, Noto Sans CJK SC, Symbola, Unifont";
-        font-bold = "JetBrainsMono Nerd Font:weight=Bold:size=12, Noto Sans CJK SC, Symbola, Unifont";
+        # 中文回退字体显式指定 size=14（比主字体大 2pt），补偿 CJK 与拉丁字体度量差异导致的视觉偏小
+        font = "JetBrainsMono Nerd Font:size=12, Noto Sans CJK SC:size=14, Symbola, Unifont";
+        font-bold = "JetBrainsMono Nerd Font:weight=Bold:size=12, Noto Sans CJK SC:size=14, Symbola, Unifont";
         dpi-aware = "no";
         pad = "12x10";
         shell = "fish";
