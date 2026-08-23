@@ -5,8 +5,9 @@
     settings = {
       main = {
         term = "xterm-256color";
-        font = "JetBrainsMono Nerd Font:size=12, Symbola, Unifont";
-        font-bold = "JetBrainsMono Nerd Font:weight=Bold:size=12, Symbola, Unifont";
+        # 回退链：JetBrainsMono（拉丁/Nerd 图标）→ Noto Sans CJK SC（中文）→ Symbola（符号块）→ Unifont（最后兜底）
+        font = "JetBrainsMono Nerd Font:size=12, Noto Sans CJK SC, Symbola, Unifont";
+        font-bold = "JetBrainsMono Nerd Font:weight=Bold:size=12, Noto Sans CJK SC, Symbola, Unifont";
         dpi-aware = "no";
         pad = "12x10";
         shell = "fish";
