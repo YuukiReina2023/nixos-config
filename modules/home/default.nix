@@ -28,9 +28,11 @@
     ./obs-studio/default.nix
     ./telegram/default.nix
     ./netease-cloud-music/default.nix
+    ./hmcl/default.nix
 
     ./xdg-portal.nix
     ./chrome/default.nix
+    ./file-roller/default.nix
     ./fish/default.nix
     ./deploy-files.nix
     ./flake-pkgs.nix
