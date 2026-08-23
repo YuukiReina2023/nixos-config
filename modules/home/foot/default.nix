@@ -5,8 +5,8 @@
     settings = {
       main = {
         term = "xterm-256color";
-        font = "JetBrainsMono Nerd Font:size=12, Noto Sans CJK SC, Symbola, Unifont";
-        font-bold = "JetBrainsMono Nerd Font:weight=Bold:size=12, Noto Sans CJK SC, Symbola, Unifont";
+        font = "JetBrainsMono Nerd Font:size=12, Noto Sans CJK SC:size=14, Symbola:size=12, Unifont:size=12";
+        font-bold = "JetBrainsMono Nerd Font:weight=Bold:size=12, Noto Sans CJK SC:size=14, Symbola:size=12, Unifont:size=12";
         dpi-aware = "no";
         pad = "12x10";
         shell = "fish";
