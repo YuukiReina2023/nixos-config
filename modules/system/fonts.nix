@@ -20,6 +20,10 @@
       nerd-fonts.jetbrains-mono
       nerd-fonts.fira-code
       nerd-fonts.hack
+
+      # Symbols for Legacy Computing (U+1FB00–U+1FBFF) 等符号块
+      symbola
+      unifont
     ];
     fontconfig = {
       enable = true;
