@@ -59,6 +59,11 @@
     # 故 Qt 應用需用 fcitx im module；Qt 6.7+ 優先 wayland 再 fallback 到 fcitx
     QT_IM_MODULE = "fcitx";
     QT_IM_MODULES = "wayland;fcitx";
+
+    # Java/GTK/XIM 應用（如 HMCL 的 JavaFX）走 GTK im module 或 XWayland 下的 XIM，
+    # 需額外設定這兩個變數才能使用 fcitx5
+    GTK_IM_MODULE = "fcitx";
+    XMODIFIERS = "@im=fcitx";
   };
 
   xdg.configFile."wget/wgetrc".text = ''
