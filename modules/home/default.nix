@@ -2,8 +2,8 @@
 {
   imports = [
     ./rofi/default.nix
-    ./fcitx5/default.nix  # fcitx5 輸入法框架
-    ./window-managers/default.nix # window managers
+    ./fcitx5/default.nix              # fcitx5 輸入法框架
+    ./window-managers/default.nix     # window managers
     ./waybar/default.nix
     ./gtk/default.nix
     ./wallpapers
@@ -29,6 +29,10 @@
     ./telegram/default.nix
     ./netease-cloud-music/default.nix
     ./hmcl/default.nix
+    ./bottles/default.nix
+    ./steam/default.nix
+    ./gamescope/default.nix
+    ./gamemode/default.nix
 
     ./xdg-portal.nix
     ./chrome/default.nix

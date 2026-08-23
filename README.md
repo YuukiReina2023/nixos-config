@@ -49,11 +49,19 @@
 | 字型 | JetBrainsMono Nerd Font、Fira Code Nerd Font、Hack Nerd Font、Noto Sans CJK（預設中文字型）、LXGW WenKai、AR PL UKai、WenQuanYi Micro Hei |
 | 音訊 | PipeWire + WirePlumber |
 | GPU | AMD Radeon PRO W6800 (RDNA2, amdgpu) |
-| 輸入法 | fcitx5 (拼音, CapsLock 切換, Wayland text-input-v3) |
-| 遊戲 | Steam + Proton、Wine (wineWowPackages)、gamescope、gamemode |
+| 輸入法 | fcitx5 (拼音, Shift_L 切換, Wayland text-input-v3) |
+| 遊戲 | Steam + Proton、Bottles、gamescope、gamemode |
 | 虛擬化 | Docker、virt-manager/QEMU/KVM |
 | 資料庫 | PostgreSQL 17 |
 | AI | Ollama (ROCm, llama3.1:8b) |
+| 安全工具 | Burp Suite Professional |
+| 音樂 | 網易雲音樂 (netease-cloud-music-gtk) |
+| 遊戲啟動器 | HMCL (Minecraft 啟動器) |
+| 媒體 | MPV、OBS Studio |
+| 筆記 | Obsidian |
+| 通訊 | Discord (Vencord)、Telegram Desktop |
+| 瀏覽器 | Google Chrome |
+| 檔案管理 | Yazi、file-roller |
 
 ---
 
@@ -87,7 +95,7 @@
 以 Nix 管理的完整 Neovim 配置：
 
 - **色彩主題**：Tokyo Night Moon（支援透明）
-- **LSP**、補全、Treesitter、Telescope、Git 整合（lazygit、gitsigns）
+- **LSP**、補全、Treesitter、Telescope、Git 整合（gitsigns）
 - vim-tmux-navigator 無縫窗格導覽
 - 前導鍵：`<Space>`
 
@@ -109,9 +117,9 @@
 
 ### 遊戲與轉譯層
 
-- **Steam** — 完整遊戲平台（`programs.steam`，自動處理 32 位元支援），可透過 `xwayland-satellite` 在 niri 下執行
+- **Steam** — 完整遊戲平台（使用者套件，自動處理 32 位元支援），可透過 `xwayland-satellite` 在 niri 下執行
 - **Proton** — Steam 內建 Windows 遊戲相容層；`protonup-qt` 可管理 GE-Proton 等社群版本
-- **Wine** — `wineWowPackages.stable`（32+64 位元）執行 Windows 應用，搭配 `winetricks` 管理元件
+- **Bottles** — 基於 Wine 的 Windows 應用程式管理工具，提供圖形化介面建立與管理相容層
 - **gamescope** — Wayland 遊戲合成器，Steam 遊戲可全螢幕執行（啟動選項：`gamescope -e -- %command%`）
 - **gamemode** — CPU/GPU 自動調頻，提升遊戲效能
 
@@ -178,6 +186,7 @@ nixos-config/
 ├── hardware-configuration.nix    # 硬體掃描輸出
 └── modules/
     ├── home/                     # Home Manager 模組
+    │   ├── default.nix           # 模組匯入彙整
     │   ├── window-managers/
     │   │   ├── niri/             # Niri 配置、快捷鍵、視窗規則
     │   │   └── hyprland/         # Hyprland（已停用，保留 hypridle/hyprlock 供 niri 使用）
@@ -201,9 +210,16 @@ nixos-config/
     │   ├── discord/              # Discord (Vencord)
     │   ├── chrome/               # 瀏覽器配置
     │   ├── telegram/             # Telegram Desktop
+    │   ├── netease-cloud-music/  # 網易雲音樂
+    │   ├── hmcl/                 # HMCL Minecraft 啟動器
+    │   ├── bottles/              # Bottles (Windows 應用程式管理)
+    │   ├── steam/                # Steam 遊戲平台
+    │   ├── gamescope/            # Wayland 遊戲合成器
+    │   ├── gamemode/             # 遊戲模式最佳化
     │   ├── obs-studio/           # OBS Studio
     │   ├── swappy/               # 截圖註解
     │   ├── virt-manager/         # virt-manager dconf
+    │   ├── file-roller/          # 檔案壓縮管理員
     │   ├── wallpapers/           # 桌布收藏
     │   ├── cli/                  # CLI 工具配置 (bat, btop, cava, htop)
     │   ├── devshell/             # 開發環境 (base, Go, Node, Python)
@@ -211,24 +227,27 @@ nixos-config/
     │   ├── packages.nix          # 使用者套件
     │   ├── tools.nix             # 工具 (zoxide, atuin, eza, wireshark)
     │   ├── cc/                   # Claude Code 配置
-    │   ├── flake-pkgs.nix        # Flake 衍生套件
+    │   ├── flake-pkgs.nix        # Flake 衍生套件 (Burp Suite Pro)
     │   ├── deploy-files.nix      # 部署檔案
     │   ├── xdg-portal.nix        # XDG Portal 設定
     │   └── features/             # 功能模組 (截圖)
     ├── system/                   # NixOS 系統模組
+    │   ├── default.nix           # 模組匯入彙整
     │   ├── amdgpu.nix            # AMD Radeon PRO W6800 (amdgpu)
+    │   ├── nvidia.nix            # NVIDIA（已棄用，未匯入）
     │   ├── audio.nix             # PipeWire + WirePlumber
     │   ├── boot.nix              # systemd-boot、核心參數、BBR
     │   ├── fonts.nix             # 系統字型 (CJK 含 Noto Sans CJK、LXGW WenKai、Nerd Fonts)
     │   ├── network.nix           # NetworkManager
+    │   ├── nix.nix               # Nix 設定 (Tsinghua 鏡像、GC、效能調校)
     │   ├── virtualisation.nix    # Docker + virt-manager / KVM
     │   ├── ai.nix                # Ollama (ROCm, 已啟用)
     │   ├── services.nix          # 服務 (PostgreSQL、藍牙、niri)
-    │   ├── systemd.nix           # Systemd 設定
+    │   ├── systemd.nix           # Systemd 設定（未匯入）
     │   ├── filesystems.nix       # 檔案系統配置
     │   ├── locale.nix            # 語言環境與時區
     │   ├── users.nix             # 使用者帳號
-    │   └── packages.nix          # 系統套件 (Steam、Wine、gamescope、gamemode)
+    │   └── packages.nix          # 系統套件 (protonup-qt 等)
     └── scripts/                  # 截圖輔助腳本
 ```
 
@@ -313,138 +332,7 @@ sudo nixos-rebuild switch --flake .#nixos
 
 > **注意**：此配置面向 **AMD Radeon PRO W6800**（見 `modules/system/amdgpu.nix`）。舊的 `modules/system/nvidia.nix` 已棄用且不再匯入 — 若改用 NVIDIA 顯示卡，請重新啟用並移除 `modules/system/default.nix` 中的 `amdgpu.nix` 匯入。
 
-</details>
-
-<details>
-<summary><b>♻️ 安裝後復原方法（點擊展開）</b></summary>
-
-> 在另一台機器上復原此配置，或重新安裝後還原環境的完整檢查清單。
-
-### 快速復原
-
-```bash
-# 需要啟用 flakes 的 Nix（見 https://nixos.wiki/wiki/Flakes）
-git clone https://github.com/yuukireina2023/nixos-config ~/nixos-config
-cd ~/nixos-config
-
-# 產生硬體配置並取代現有檔案
-nixos-generate-config --show-hardware-config > hardware-configuration.nix
-
-# 套用系統配置
-sudo nixos-rebuild switch --flake .#nixos
-```
-
-<details>
-<summary><b>📋 復原檢查清單（點擊展開）</b></summary>
-
-> 在另一台機器上復原此配置時，依序檢查以下事項。每項皆附**檢查命令**與**解決方案**，避免重建後無法登入或掛載失敗。
-
-### 1. 使用者名稱
-
-**檢查**：確認你的使用者名稱是否為 `yuukireina2023`：
-
-```bash
-grep -rn "yuukireina2023" --include="*.nix" . | cut -d: -f1 | sort -u
-```
-
-**解決**：若使用者名稱不同，先全域替換，再手動修正特殊路徑：
-
-```bash
-# 全域替換（flake.nix、users.nix、home/default.nix、services.nix、virtualisation.nix 等）
-grep -rl "yuukireina2023" --include="*.nix" . | xargs sed -i 's/yuukireina2023/你的使用者名稱/g'
-
-# 手動修正（sed 無法處理的動態路徑）：
-# - modules/system/filesystems.nix：掛載路徑 /run/media/<使用者>/lw
-# - modules/home/bash/default.nix 與 fish/default.nix：cdlw 別名路徑
-# - modules/system/services.nix：PostgreSQL ensureUsers
-```
-
-### 2. 資料碟掛載
-
-**檢查**：確認資料碟標籤是否為 `lw`：
-
-```bash
-lsblk -f          # 查看所有磁碟的 LABEL
-lsblk -f /dev/sdX # 查看特定磁碟
-```
-
-**解決**：若標籤不同，修改 [`modules/system/filesystems.nix`](modules/system/filesystems.nix:4)：
-
-```nix
-# 將 device 改為你的磁碟標籤
-fileSystems."/run/media/<使用者>/<標籤>" = {
-  device = "/dev/disk/by-label/<標籤>";
-  # ...
-};
-```
-
-同時更新 bash/fish 的 `cdlw` 別名路徑。
-
-### 3. 顯示器縮放
-
-**檢查**：確認縮放比例是否符合你的螢幕（本配置預設 `1.25`，對應 4K 螢幕 Windows 125% 縮放）：
-
-```bash
-niri msg outputs   # niri 環境下查看各輸出的 scale
-```
-
-**解決**：若縮放不合適，修改 [`modules/home/window-managers/niri/default.nix`](modules/home/window-managers/niri/default.nix:65) 的 `outputs."*".scale`（萬用字元套用所有輸出）：
-
-```nix
-outputs."*".scale = 1.25;  # 依螢幕調整（4K 建議 1.25–2.0）
-```
-
-桌面小工具（[`modules/home/noctalia/default.nix`](modules/home/noctalia/default.nix:453)）已省略 `output` 指定，自動使用主輸出；座標依 4K 邏輯解析度（3840x2160 @ 1.25 → 3072x1728）調整，可用 `noctalia msg desktop-widgets-edit` 微調。
-
-### 4. 顯示卡
-
-**檢查**：確認顯示卡型號：
-
-```bash
-lspci -k | grep -A 3 -E "VGA|3D"
-```
-
-**解決**：
-- **AMD**（本配置預設）：使用 [`modules/system/amdgpu.nix`](modules/system/amdgpu.nix:1)，無需變更
-- **NVIDIA**：在 [`modules/system/default.nix`](modules/system/default.nix:1) 移除 `./amdgpu.nix` 匯入，改為 `./nvidia.nix`（已棄用但保留），並確認 `hardware.nvidia` 設定
-
-### 5. Ollama
-
-**檢查**：確認 Ollama 服務與模型：
-
-```bash
-systemctl status ollama
-ollama list
-```
-
-**解決**：
-- 首次重建會自動拉取 `llama3.1:8b`；若需手動拉取：`ollama pull llama3.1:8b`
-- **無 AMD GPU**：在 [`modules/system/ai.nix`](modules/system/ai.nix:1) 將 `ollama-rocm` 改為 `ollama`（CPU 版），並移除 ROCm 相關設定
-
-### 6. 非自由軟體
-
-**檢查**：確認 `allowUnfree` 已啟用：
-
-```bash
-grep -n "allowUnfree" flake.nix modules/system/packages.nix
-```
-
-**解決**：若未設定，在 [`flake.nix`](flake.nix:1) 加入：
-
-```nix
-nixpkgs.config.allowUnfree = true;
-```
-
-否則 Chrome、Spotify、Postman、VSCode 等非自由套件會建構失敗。
-
-</details>
-
-<details>
-<summary><b>🔍 系統檢查與命令速查（點擊展開）</b></summary>
-
-> 復原後驗證系統運作 + 日常維護命令速查。參考 [ArchWiki](https://wiki.archlinux.org) 與 [Nix Reference Manual](https://nix.dev/manual/nix/stable/command-ref/new-cli/nix3-flake) 整理。
-
-### 系統檢查
+## 系統檢查
 
 ```bash
 # Flake 與系統狀態
