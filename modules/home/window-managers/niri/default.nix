@@ -132,9 +132,11 @@
       };
 
       # Run at startup
+      # 注意：niri 25.08 已內建 xwayland-satellite 自動整合（自動建立 X11 socket、
+      # 匯出 $DISPLAY、按需啟動並在崩潰時自動重啟），因此不可再手動啟動，
+      # 否則會同時存在兩個實例互相競爭 X11 剪貼簿同步，導致貼上偶發失敗。
       spawn-at-startup = [
         { command = [ "noctalia" ]; }
-        { command = [ "xwayland-satellite" ]; }
         { command = [ "hyprlock" ]; }
         # 剪貼簿管理（cliphist）：監聽文字與圖片，避免來源程式關閉後內容遺失
         { command = [ "wl-paste" "--type" "text" "--watch" "cliphist" "store" ]; }
