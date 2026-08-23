@@ -50,13 +50,12 @@
 | 音訊 | PipeWire + WirePlumber |
 | GPU | AMD Radeon PRO W6800 (RDNA2, amdgpu) |
 | 輸入法 | fcitx5 (拼音, Shift_L 切換, Wayland text-input-v3) |
-| 遊戲 | Steam + Proton、Bottles、gamescope、gamemode |
+| 遊戲 | Steam + Proton、HMCL (Minecraft 啟動器)、Bottles、gamescope、gamemode |
 | 虛擬化 | Docker、virt-manager/QEMU/KVM |
 | 資料庫 | PostgreSQL 17 |
 | AI | Ollama (ROCm, llama3.1:8b) |
 | 安全工具 | Burp Suite Professional |
 | 音樂 | 網易雲音樂 (netease-cloud-music-gtk) |
-| 遊戲啟動器 | HMCL (Minecraft 啟動器) |
 | 媒體 | MPV、OBS Studio |
 | 筆記 | Obsidian |
 | 通訊 | Discord (Vencord)、Telegram Desktop |

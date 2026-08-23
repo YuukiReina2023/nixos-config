@@ -62,6 +62,11 @@
             TypePairedPunctuationsTogether = "False";
             Enabled = "True";
           };
+          # XIM 支援：Wine 應用（Bottles）在 XWayland 下透過 XIM 協定使用 fcitx5，
+          # 需搭配 XMODIFIERS="@im=fcitx" 環境變數（已在 modules/home/default.nix 全域設定）
+          xim.globalSection = {
+            UseXim = "True";
+          };
         };
       };
     };
