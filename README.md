@@ -57,6 +57,7 @@
 | 安全工具 | Burp Suite Professional |
 | 音樂 | 網易雲音樂 (netease-cloud-music-gtk) |
 | 媒體 | MPV、OBS Studio |
+| 3D 建模 | Blender (AMD HIP/ROCm GPU 加速) |
 | 筆記 | Obsidian |
 | 通訊 | Discord (Vencord)、Telegram Desktop |
 | 瀏覽器 | Google Chrome |
@@ -216,6 +217,7 @@ nixos-config/
     │   ├── gamescope/            # Wayland 遊戲合成器
     │   ├── gamemode/             # 遊戲模式最佳化
     │   ├── obs-studio/           # OBS Studio
+    │   ├── blender/              # Blender (AMD HIP/ROCm GPU 加速)
     │   ├── swappy/               # 截圖註解
     │   ├── virt-manager/         # virt-manager dconf
     │   ├── file-roller/          # 檔案壓縮管理員

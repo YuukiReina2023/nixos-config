@@ -33,6 +33,7 @@
     ./steam/default.nix
     ./gamescope/default.nix
     ./gamemode/default.nix
+    ./blender/default.nix
 
     ./xdg-portal.nix
     ./chrome/default.nix
