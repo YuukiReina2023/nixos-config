@@ -138,9 +138,11 @@
       spawn-at-startup = [
         { command = [ "noctalia" ]; }
         { command = [ "hyprlock" ]; }
-        # 剪貼簿管理（cliphist）：監聽文字與圖片，避免來源程式關閉後內容遺失
+        # 剪貼簿管理（cliphist）：監聽文字、圖片與檔案，避免來源程式關閉後內容遺失
         { command = [ "wl-paste" "--type" "text" "--watch" "cliphist" "store" ]; }
         { command = [ "wl-paste" "--type" "image" "--watch" "cliphist" "store" ]; }
+        # text/uri-list：檔案複製（如 Thunar 複製檔案）使用的 MIME 類型
+        { command = [ "wl-paste" "--type" "text/uri-list" "--watch" "cliphist" "store" ]; }
         # 啟動 fcitx5 輸入法（Wayland text-input 前端）
         { command = [ "fcitx5" "-d" ]; }
         {
