@@ -329,6 +329,9 @@ sudo nixos-generate-config --show-hardware-config > hardware-configuration.nix
 
 # 套用系統配置
 sudo nixos-rebuild switch --flake .#nixos
+
+# 开机锁屏看不到头像的解决方法
+将头像重命名为 ".face" 放入 "/home/yuukireina2023/"
 ```
 
 > **注意**：此配置面向 **AMD Radeon PRO W6800**（見 `modules/system/amdgpu.nix`）。舊的 `modules/system/nvidia.nix` 已棄用且不再匯入 — 若改用 NVIDIA 顯示卡，請重新啟用並移除 `modules/system/default.nix` 中的 `amdgpu.nix` 匯入。
