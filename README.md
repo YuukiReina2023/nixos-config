@@ -207,6 +207,7 @@ nixos-config/
     │   ├── fastfetch/            # Fetch 配置
     │   ├── mpv/                  # MPV 媒體播放器
     │   ├── obsidian/             # Obsidian 筆記
+    │   ├── qq/                   # SB QQ
     │   ├── discord/              # Discord (Vencord)
     │   ├── chrome/               # 瀏覽器配置
     │   ├── telegram/             # Telegram Desktop
