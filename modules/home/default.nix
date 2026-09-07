@@ -28,6 +28,7 @@
     ./obs-studio/default.nix
     ./telegram/default.nix
     ./netease-cloud-music/default.nix
+    ./baidu-netdisk/default.nix
     ./hmcl/default.nix
     ./bottles/default.nix
     ./steam/default.nix
