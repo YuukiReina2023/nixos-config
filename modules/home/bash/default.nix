@@ -6,7 +6,6 @@
 
       "ff" = "clear && fastfetch";
       "fm" = "yazi";
-      "cdlw" = "cd /run/media/yuukireina2023/lw";
 
     };
 
