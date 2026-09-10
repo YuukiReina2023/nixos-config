@@ -212,7 +212,6 @@ nixos-config/
     │   ├── chrome/               # 瀏覽器配置
     │   ├── telegram/             # Telegram Desktop
     │   ├── netease-cloud-music/  # 網易雲音樂
-    │   ├── baidu-netdisk/        # 百度網盤
     │   ├── hmcl/                 # HMCL Minecraft 啟動器
     │   ├── bottles/              # Bottles (Windows 應用程式管理)
     │   ├── steam/                # Steam 遊戲平台
