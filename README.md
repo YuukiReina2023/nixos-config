@@ -208,6 +208,7 @@ nixos-config/
     │   ├── mpv/                  # MPV 媒體播放器
     │   ├── obsidian/             # Obsidian 筆記
     │   ├── qq/                   # SB QQ
+    │   ├── wechat/               # WeChat 客户端
     │   ├── discord/              # Discord (Vencord)
     │   ├── chrome/               # 瀏覽器配置
     │   ├── telegram/             # Telegram Desktop

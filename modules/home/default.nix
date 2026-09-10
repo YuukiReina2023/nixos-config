@@ -35,6 +35,7 @@
     ./gamemode/default.nix
     ./blender/default.nix
     ./qq/default.nix
+    ./wechat/default.nix
     ./xdg-portal.nix
     ./chrome/default.nix
     ./file-roller/default.nix
