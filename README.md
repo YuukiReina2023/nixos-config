@@ -53,6 +53,7 @@
 | 遊戲 | Steam + Proton、HMCL (Minecraft 啟動器)、Bottles、gamescope、gamemode |
 | 虛擬化 | Docker、virt-manager/QEMU/KVM |
 | 資料庫 | PostgreSQL 17 |
+| 打印 | CUPS、`epson-escpr`、`system-config-printer` (系統層安裝)，Home Manager: `epson-escpr` |
 | AI | Ollama (ROCm, llama3.1:8b) |
 | 安全工具 | Burp Suite Professional |
 | 音樂 | 網易雲音樂 (netease-cloud-music-gtk) |
@@ -232,6 +233,7 @@ nixos-config/
     │   ├── cc/                   # Claude Code 配置
     │   ├── flake-pkgs.nix        # Flake 衍生套件 (Burp Suite Pro)
     │   ├── deploy-files.nix      # 部署檔案
+    │   ├── printer/              # 打印機驅動與 Home Manager 設定 (epson-escpr)
     │   ├── xdg-portal.nix        # XDG Portal 設定
     │   └── features/             # 功能模組 (截圖)
     ├── system/                   # NixOS 系統模組
@@ -245,7 +247,7 @@ nixos-config/
     │   ├── nix.nix               # Nix 設定 (Tsinghua 鏡像、GC、效能調校)
     │   ├── virtualisation.nix    # Docker + virt-manager / KVM
     │   ├── ai.nix                # Ollama (ROCm, 已啟用)
-    │   ├── services.nix          # 服務 (PostgreSQL、藍牙、niri)
+    │   ├── services.nix          # 服務 (PostgreSQL、藍牙、niri、打印/CUPS)
     │   ├── systemd.nix           # Systemd 設定（未匯入）
     │   ├── filesystems.nix       # 檔案系統配置
     │   ├── locale.nix            # 語言環境與時區
