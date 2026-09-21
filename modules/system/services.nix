@@ -91,7 +91,6 @@
     webInterface = true; # 启用 CUPS Web UI (http://localhost:631)
     drivers = with pkgs; [
       epson-escpr
-      epson-inkjet-printer-escpr2
       foomatic-db-ppds
     ];
     openFirewall = true;
