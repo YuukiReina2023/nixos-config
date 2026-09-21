@@ -83,4 +83,24 @@
       }
     ];
   };
+
+  # 5. 打印服務 (CUPS) 與 Epson 驱动
+  services.printing = {
+    enable = true;
+    package = pkgs.cups;
+    webInterface = true; # 启用 CUPS Web UI (http://localhost:631)
+    drivers = with pkgs; [
+      epson-escpr
+      epson-inkjet-printer-escpr2
+      foomatic-db-ppds
+    ];
+    openFirewall = true;
+    startWhenNeeded = true;
+  };
+
+  # 安装图形打印配置工具到系统包（备用）
+  environment.systemPackages = with pkgs; [
+    system-config-printer
+    epsonscan2
+  ];
 }

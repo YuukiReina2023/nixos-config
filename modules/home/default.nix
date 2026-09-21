@@ -43,6 +43,7 @@
     ./deploy-files.nix
     ./flake-pkgs.nix
     ./devshell/default.nix
+    ./printer/default.nix
   ];
 
   xdg = {
