@@ -91,6 +91,7 @@
     webInterface = true; # 启用 CUPS Web UI (http://localhost:631)
     drivers = with pkgs; [
       epson-escpr
+      epson-escpr2
       foomatic-db-ppds
     ];
     openFirewall = true;
