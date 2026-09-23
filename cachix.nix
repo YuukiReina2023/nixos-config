@@ -10,6 +10,8 @@ let
 in {
   inherit imports;
 
-  # Provide a fallback to ensure cache.nixos.org is always present.
-  nix.settings = lib.mkMerge [ { substituters = [ "https://cache.nixos.org" ]; } ];
+  # Keep the official cache available alongside the Cachix caches.
+  nix.settings = lib.mkMerge [
+    { extra-substituters = [ "https://cache.nixos.org" ]; }
+  ];
 }
