@@ -54,7 +54,7 @@
 | 虛擬化 | Docker、virt-manager/QEMU/KVM |
 | 資料庫 | PostgreSQL 17 |
 | 打印 | CUPS、`epson-escpr`、`system-config-printer` (系統層安裝)，Home Manager: `epson-escpr` |
-| AI | Ollama (ROCm, llama3.1:8b) |
+| AI | Ollama (ROCm, llama3.1:8b)、LM Studio |
 | 安全工具 | Burp Suite Professional |
 | 音樂 | 網易雲音樂 (netease-cloud-music-gtk) |
 | 媒體 | MPV、OBS Studio |
@@ -246,7 +246,7 @@ nixos-config/
     │   ├── network.nix           # NetworkManager
     │   ├── nix.nix               # Nix 設定 (Tsinghua 鏡像、GC、效能調校)
     │   ├── virtualisation.nix    # Docker + virt-manager / KVM
-    │   ├── ai.nix                # Ollama (ROCm, 已啟用)
+    │   ├── ai.nix                # Ollama (ROCm, 已啟用) + LM Studio
     │   ├── services.nix          # 服務 (PostgreSQL、藍牙、niri、打印/CUPS)
     │   ├── systemd.nix           # Systemd 設定（未匯入）
     │   ├── filesystems.nix       # 檔案系統配置

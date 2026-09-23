@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 {
+  environment.systemPackages = [
+    pkgs.lmstudio
+  ];
+
   # Ollama (model runner)
   services.ollama = {
     enable = true;
