@@ -98,9 +98,17 @@
     startWhenNeeded = true;
   };
 
-  # 安装图形打印配置工具到系统包（备用）
+  hardware.sane = {
+    enable = true;
+    extraBackends = with pkgs; [
+      sane-airscan
+    ];
+  };
+
+  # 安装打印与扫描图形工具到系统包
   environment.systemPackages = with pkgs; [
     system-config-printer
+    simple-scan
     epsonscan2
   ];
   # Ensure Cachix substituters and trusted keys are available to the Nix daemon
