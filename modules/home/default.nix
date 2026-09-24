@@ -44,6 +44,7 @@
     ./flake-pkgs.nix
     ./devshell/default.nix
     ./printer/default.nix
+    ./waydroid/default.nix
   ];
 
   xdg = {
