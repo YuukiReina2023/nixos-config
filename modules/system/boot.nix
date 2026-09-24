@@ -19,6 +19,10 @@
 
   boot.kernelModules = [
     "kvm_intel"
+    "ip_tables"
+    "iptable_filter"
+    "iptable_nat"
+    "br_netfilter"
   ];
 
   boot.kernel.sysctl = {
