@@ -105,6 +105,10 @@
     ];
   };
 
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTR{idVendor}=="04b8", ATTR{idProduct}=="11b6", GROUP="scanner", MODE="0660", TAG+="uaccess"
+  '';
+
   # 安装打印与扫描图形工具到系统包
   environment.systemPackages = with pkgs; [
     system-config-printer
