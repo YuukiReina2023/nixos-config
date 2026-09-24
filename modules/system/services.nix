@@ -100,6 +100,10 @@
 
   hardware.sane = {
     enable = true;
+    disabledDefaultBackends = [
+      "epson2"
+      "epsonds"
+    ];
     extraBackends = with pkgs; [
       sane-airscan
       epsonscan2
