@@ -100,13 +100,8 @@
 
   hardware.sane = {
     enable = true;
-    disabledDefaultBackends = [
-      "epson2"
-      "epsonds"
-    ];
     extraBackends = with pkgs; [
       sane-airscan
-      epsonscan2
     ];
   };
 
@@ -114,7 +109,6 @@
   environment.systemPackages = with pkgs; [
     system-config-printer
     simple-scan
-    epsonscan2
   ];
   # Ensure Cachix substituters and trusted keys are available to the Nix daemon
   # (use nix.extraOptions to write to /etc/nix/nix.conf so the daemon trusts the caches)

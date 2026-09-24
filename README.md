@@ -53,7 +53,7 @@
 | 遊戲 | Steam + Proton、HMCL (Minecraft 啟動器)、Bottles、gamescope、gamemode |
 | 虛擬化 | Docker、virt-manager/QEMU/KVM |
 | 資料庫 | PostgreSQL 17 |
-| 打印 | CUPS、`epson-escpr`、`system-config-printer` (系統層安裝)，Home Manager: `epson-escpr` |
+| 打印與掃描 | CUPS、`epson-escpr`、`system-config-printer`、Simple Scan (SANE USB)，Home Manager: `epson-escpr` |
 | AI | Ollama (ROCm, llama3.1:8b)、LM Studio |
 | 安全工具 | Burp Suite Professional |
 | 音樂 | 網易雲音樂 (netease-cloud-music-gtk) |
