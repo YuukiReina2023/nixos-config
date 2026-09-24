@@ -13,7 +13,6 @@
       "audio"
       "docker"
       "wireshark"
-      "scanner"
     ];
     # shell = pkgs.bash;
     shell = pkgs.fish;

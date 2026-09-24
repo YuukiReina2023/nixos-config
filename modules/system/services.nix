@@ -98,21 +98,9 @@
     startWhenNeeded = true;
   };
 
-  hardware.sane = {
-    enable = true;
-    extraBackends = with pkgs; [
-      sane-airscan
-    ];
-  };
-
-  services.udev.extraRules = ''
-    SUBSYSTEM=="usb", ATTR{idVendor}=="04b8", ATTR{idProduct}=="11b6", GROUP="scanner", MODE="0660", TAG+="uaccess"
-  '';
-
-  # 安装打印与扫描图形工具到系统包
+  # 安装打印图形配置工具到系统包
   environment.systemPackages = with pkgs; [
     system-config-printer
-    simple-scan
   ];
   # Ensure Cachix substituters and trusted keys are available to the Nix daemon
   # (use nix.extraOptions to write to /etc/nix/nix.conf so the daemon trusts the caches)
