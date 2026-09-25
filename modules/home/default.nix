@@ -30,9 +30,6 @@
     ./netease-cloud-music/default.nix
     ./hmcl/default.nix
     ./bottles/default.nix
-    ./steam/default.nix
-    ./gamescope/default.nix
-    ./gamemode/default.nix
     ./blender/default.nix
     ./qq/default.nix
     ./wechat/default.nix

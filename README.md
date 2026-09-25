@@ -112,17 +112,17 @@
 | [btop](https://github.com/aristocratos/btop) / htop | 資源監控 |
 | [tmux](https://github.com/tmux/tmux) | 終端機多工器 |
 | [starship](https://starship.rs) | 跨 Shell 提示字元 |
-| [wireshark](https://www.wireshark.org) | 網路分析 |
+| [wireshark](https://www.wireshark.org) | 網路封包分析（系統級配置 Linux Capabilities，支援免 root 側錄） |
 | bat | 語法高亮的 cat 替代品 |
 | cava | 音訊視覺化 |
 
 ### 遊戲與轉譯層
 
-- **Steam** — 完整遊戲平台（使用者套件，自動處理 32 位元支援），可透過 `xwayland-satellite` 在 niri 下執行
+- **Steam** — 完整遊戲平台（系統級 `programs.steam` 啟用，原生配置 32 位元驅動、手柄 udev、FHS 隔離與防火牆），可透過 `xwayland-satellite` 在 niri 下執行
 - **Proton** — Steam 內建 Windows 遊戲相容層；`protonup-qt` 可管理 GE-Proton 等社群版本
 - **Bottles** — 基於 Wine 的 Windows 應用程式管理工具，提供圖形化介面建立與管理相容層
-- **gamescope** — Wayland 遊戲合成器，Steam 遊戲可全螢幕執行（啟動選項：`gamescope -e -- %command%`）
-- **gamemode** — CPU/GPU 自動調頻，提升遊戲效能
+- **gamescope** — Wayland 遊戲合成器，Steam 遊戲可全螢幕執行（系統級啟用並配置 `capSysNice` 提升排程效能，啟動選項：`gamescope -e -- %command%`）
+- **gamemode** — 系統級遊戲效能最佳化（`programs.gamemode`，具備 Polkit 提權與 CPU Governor 調度權限）
 
 ---
 
@@ -216,9 +216,6 @@ nixos-config/
     │   ├── netease-cloud-music/  # 網易雲音樂
     │   ├── hmcl/                 # HMCL Minecraft 啟動器
     │   ├── bottles/              # Bottles (Windows 應用程式管理)
-    │   ├── steam/                # Steam 遊戲平台
-    │   ├── gamescope/            # Wayland 遊戲合成器
-    │   ├── gamemode/             # 遊戲模式最佳化
     │   ├── obs-studio/           # OBS Studio
     │   ├── blender/              # Blender (AMD HIP/ROCm GPU 加速)
     │   ├── swappy/               # 截圖註解
@@ -229,7 +226,7 @@ nixos-config/
     │   ├── devshell/             # 開發環境 (base, Go, Node, Python)
     │   │   └── shells/           # 開發環境定義
     │   ├── packages.nix          # 使用者套件
-    │   ├── tools.nix             # 工具 (zoxide, atuin, eza, wireshark)
+    │   ├── tools.nix             # CLI 工具 (zoxide, atuin, eza)
     │   ├── cc/                   # Claude Code 配置
     │   ├── flake-pkgs.nix        # Flake 衍生套件 (Burp Suite Pro)
     │   ├── deploy-files.nix      # 部署檔案
@@ -245,14 +242,14 @@ nixos-config/
     │   ├── fonts.nix             # 系統字型 (CJK 含 Noto Sans CJK、LXGW WenKai、Nerd Fonts)
     │   ├── network.nix           # NetworkManager
     │   ├── nix.nix               # Nix 設定 (Tsinghua 鏡像、GC、效能調校)
-    │   ├── virtualisation.nix    # Docker + virt-manager / KVM
+    │   ├── virtualisation.nix    # Docker + 原生 virt-manager / KVM
     │   ├── ai.nix                # Ollama (ROCm, 已啟用) + LM Studio
     │   ├── services.nix          # 服務 (PostgreSQL、藍牙、niri、打印/CUPS)
     │   ├── systemd.nix           # Systemd 設定（未匯入）
     │   ├── filesystems.nix       # 檔案系統配置
     │   ├── locale.nix            # 語言環境與時區
     │   ├── users.nix             # 使用者帳號
-    │   └── packages.nix          # 系統套件 (protonup-qt 等)
+    │   └── packages.nix          # 系統套件與服務 (Steam, GameMode, Gamescope, Wireshark, Java)
     └── scripts/                  # 截圖輔助腳本
 ```
 

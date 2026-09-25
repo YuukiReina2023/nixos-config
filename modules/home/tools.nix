@@ -1,10 +1,5 @@
-{ pkgs, ... }:
+{ ... }:
 {
-
-  home.packages = with pkgs; [
-    wireshark
-  ];
-
   programs.zoxide = {
     enable = true;
     enableBashIntegration = true;
