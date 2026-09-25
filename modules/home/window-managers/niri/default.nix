@@ -205,6 +205,10 @@
 
         {
           matches = [ { app-id = "^(code|Code)$"; } ];
+          matches = [
+            { app-id = "^(code|Code)$"; }
+            { app-id = "^(antigravity-ide|Antigravity IDE)$"; }
+          ];
           opacity = 0.94;
           draw-border-with-background = false;
           geometry-corner-radius = {

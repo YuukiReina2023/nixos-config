@@ -339,6 +339,5 @@ in
     '';
   };
 
-  # 停用 swaync，由 Noctalia 獨占接管 org.freedesktop.Notifications D-Bus 介面
-  services.swaync.enable = false;
+  services.swaync.enable = true;
 }

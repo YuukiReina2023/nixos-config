@@ -5,7 +5,6 @@
       "nix-command"
       "flakes"
     ];
-    trusted-users = [ "root" "@wheel" ];
     auto-optimise-store = true;
     substituters = [
       # 中科大二进制缓存镜像（建议优先，国内最稳定之一）

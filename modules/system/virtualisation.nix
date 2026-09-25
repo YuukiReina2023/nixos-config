@@ -8,8 +8,7 @@
   };
 
   # Virtual Machine (QEMU/KVM)
-  programs.virt-manager.enable = true;
-  programs.dconf.enable = true;
+  users.groups.libvirtd.members = [ "yuukireina2023" ];
 
   virtualisation.libvirtd = {
     enable = true;
@@ -26,9 +25,9 @@
 
   virtualisation.spiceUSBRedirection.enable = true;
 
-  # UEFI firmware symlink fix (使用輕量 qemu_kvm，避免重複下載龐大的多架構全套 qemu)
+  # UEFI firmware symlink fix
   systemd.tmpfiles.rules = [
-    "L+ /var/lib/qemu/firmware - - - - ${pkgs.qemu_kvm}/share/qemu/firmware"
+    "L+ /var/lib/qemu/firmware - - - - ${pkgs.qemu}/share/qemu/firmware"
   ];
 
   users.users.yuukireina2023 = {
@@ -40,6 +39,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    virt-manager
     virt-viewer # SPICE viewer
     virtio-win
     spice-gtk # SPICE GTK client

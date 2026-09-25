@@ -38,6 +38,7 @@
 
     libreoffice-stable
     vscode-fhs
+    antigravity-ide-fhs
 
     # Screenshot tools
     grim
