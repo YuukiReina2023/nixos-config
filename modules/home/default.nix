@@ -13,7 +13,6 @@
     ./swappy/default.nix
     ./packages.nix
     ./virt-manager/default.nix
-    ./obsidian/default.nix
     # features
     ./features/screenshot.nix
     ./starship/default.nix
@@ -24,13 +23,8 @@
     ./yazi/default.nix
     ./noctalia/default.nix
     ./tools.nix
-    ./cc/default.nix
     ./obs-studio/default.nix
-    ./telegram/default.nix
-    ./netease-cloud-music/default.nix
-    ./hmcl/default.nix
     ./bottles/default.nix
-    ./blender/default.nix
     ./qq/default.nix
     ./wechat/default.nix
     ./xdg-portal.nix
@@ -40,7 +34,6 @@
     ./deploy-files.nix
     ./flake-pkgs.nix
     ./devshell/default.nix
-    ./printer/default.nix
     ./waydroid/default.nix
   ];
 

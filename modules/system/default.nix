@@ -14,7 +14,6 @@
     ./services.nix
     ./users.nix
     ./virtualisation.nix
-    ./filesystems.nix
     ./ai.nix
     ../../cachix.nix
 

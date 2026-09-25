@@ -45,6 +45,8 @@
       enableTelescope = true;
     };
 
+    nixpkgs.source = inputs.nixpkgs;
+
     # System packages available inside Neovim
     # Formatters, LSP tools, and utilities
     extraPackages = with pkgs; [

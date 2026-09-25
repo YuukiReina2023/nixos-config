@@ -13,13 +13,17 @@
 
     lf
 
-    fastfetch
-
     gthumb
-    mpv
     postman
     spotify
     zathura
+
+    # Apps consolidated from single-file modules
+    (blender.override { rocmSupport = true; })
+    hmcl
+    obsidian
+    netease-cloud-music-gtk
+    telegram-desktop
 
     #postgresql
     postgresql_17
@@ -32,7 +36,7 @@
 
     kitty
 
-    libreoffice-fresh
+    libreoffice-stable
     vscode-fhs
 
     # Screenshot tools
@@ -44,6 +48,7 @@
     libnotify
 
     openssl
-
   ];
+
+  programs.claude-code.enable = true;
 }

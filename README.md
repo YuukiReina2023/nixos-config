@@ -53,7 +53,7 @@
 | 遊戲 | Steam + Proton、HMCL (Minecraft 啟動器)、Bottles、gamescope、gamemode |
 | 虛擬化 | Docker、virt-manager/QEMU/KVM |
 | 資料庫 | PostgreSQL 17 |
-| 打印 | CUPS、`epson-escpr`、`system-config-printer`，Home Manager: `epson-escpr` |
+| 打印 | CUPS、`epson-escpr`、`epson-escpr2`、`system-config-printer` |
 | AI | Ollama (ROCm, llama3.1:8b)、LM Studio |
 | 安全工具 | Burp Suite Professional |
 | 音樂 | 網易雲音樂 (netease-cloud-music-gtk) |
@@ -207,17 +207,12 @@ nixos-config/
     │   ├── fcitx5/               # 輸入法框架 (拼音)
     │   ├── fastfetch/            # Fetch 配置
     │   ├── mpv/                  # MPV 媒體播放器
-    │   ├── obsidian/             # Obsidian 筆記
     │   ├── qq/                   # SB QQ
     │   ├── wechat/               # WeChat 客户端
     │   ├── discord/              # Discord (Vencord)
     │   ├── chrome/               # 瀏覽器配置
-    │   ├── telegram/             # Telegram Desktop
-    │   ├── netease-cloud-music/  # 網易雲音樂
-    │   ├── hmcl/                 # HMCL Minecraft 啟動器
     │   ├── bottles/              # Bottles (Windows 應用程式管理)
     │   ├── obs-studio/           # OBS Studio
-    │   ├── blender/              # Blender (AMD HIP/ROCm GPU 加速)
     │   ├── swappy/               # 截圖註解
     │   ├── virt-manager/         # virt-manager dconf
     │   ├── file-roller/          # 檔案壓縮管理員
@@ -225,18 +220,15 @@ nixos-config/
     │   ├── cli/                  # CLI 工具配置 (bat, btop, cava, htop)
     │   ├── devshell/             # 開發環境 (base, Go, Node, Python)
     │   │   └── shells/           # 開發環境定義
-    │   ├── packages.nix          # 使用者套件
+    │   ├── packages.nix          # 使用者套件（Blender, HMCL, Obsidian, 網易雲, Telegram, Claude Code）
     │   ├── tools.nix             # CLI 工具 (zoxide, atuin, eza)
-    │   ├── cc/                   # Claude Code 配置
     │   ├── flake-pkgs.nix        # Flake 衍生套件 (Burp Suite Pro)
     │   ├── deploy-files.nix      # 部署檔案
-    │   ├── printer/              # 打印機驅動與 Home Manager 設定 (epson-escpr)
     │   ├── xdg-portal.nix        # XDG Portal 設定
     │   └── features/             # 功能模組 (截圖)
     ├── system/                   # NixOS 系統模組
     │   ├── default.nix           # 模組匯入彙整
     │   ├── amdgpu.nix            # AMD Radeon PRO W6800 (amdgpu)
-    │   ├── nvidia.nix            # NVIDIA（已棄用，未匯入）
     │   ├── audio.nix             # PipeWire + WirePlumber
     │   ├── boot.nix              # systemd-boot、核心參數、BBR
     │   ├── fonts.nix             # 系統字型 (CJK 含 Noto Sans CJK、LXGW WenKai、Nerd Fonts)
@@ -245,8 +237,6 @@ nixos-config/
     │   ├── virtualisation.nix    # Docker + 原生 virt-manager / KVM
     │   ├── ai.nix                # Ollama (ROCm, 已啟用) + LM Studio
     │   ├── services.nix          # 服務 (PostgreSQL、藍牙、niri、打印/CUPS)
-    │   ├── systemd.nix           # Systemd 設定（未匯入）
-    │   ├── filesystems.nix       # 檔案系統配置
     │   ├── locale.nix            # 語言環境與時區
     │   ├── users.nix             # 使用者帳號
     │   └── packages.nix          # 系統套件與服務 (Steam, GameMode, Gamescope, Wireshark, Java)

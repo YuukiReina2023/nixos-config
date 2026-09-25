@@ -13,7 +13,7 @@ in
 {
   programs.noctalia = {
     enable = true;
-    validateConfig = true;
+    checkConfig = true;
 
     settings = {
 
@@ -338,11 +338,5 @@ in
         enabled = false;
       };
     };
-  };
-
-  xdg.configFile."noctalia/wallpapers" = {
-    source = ../wallpapers;
-    recursive = true;
-    force = true;
   };
 }
