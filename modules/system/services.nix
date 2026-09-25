@@ -102,10 +102,4 @@
   environment.systemPackages = with pkgs; [
     system-config-printer
   ];
-  # Ensure Cachix substituters and trusted keys are available to the Nix daemon
-  # (use nix.extraOptions to write to /etc/nix/nix.conf so the daemon trusts the caches)
-  # Cachix keys are managed via the dedicated cachix.nix module imported in
-  # modules/system/default.nix. Do not set nix.extraOptions here to avoid
-  # conflicting writes to /etc/nix/nix.conf.
-
 }

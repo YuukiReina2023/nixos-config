@@ -240,8 +240,8 @@ nixos-config/
     │   ├── audio.nix             # PipeWire + WirePlumber
     │   ├── boot.nix              # systemd-boot、核心參數、BBR
     │   ├── fonts.nix             # 系統字型 (CJK 含 Noto Sans CJK、LXGW WenKai、Nerd Fonts)
-    │   ├── network.nix           # NetworkManager
-    │   ├── nix.nix               # Nix 設定 (Tsinghua 鏡像、GC、效能調校)
+    │   ├── network.nix           # NetworkManager (本地安全連線管理)
+    │   ├── nix.nix               # Nix 設定 (Tsinghua 鏡像、trusted-users、GC、效能調校)
     │   ├── virtualisation.nix    # Docker + 原生 virt-manager / KVM
     │   ├── ai.nix                # Ollama (ROCm, 已啟用) + LM Studio
     │   ├── services.nix          # 服務 (PostgreSQL、藍牙、niri、打印/CUPS)
