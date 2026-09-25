@@ -65,9 +65,8 @@
     QT_IM_MODULE = "fcitx";
     QT_IM_MODULES = "wayland;fcitx";
 
-    # Java/GTK/XIM 應用（如 HMCL 的 JavaFX）走 GTK im module 或 XWayland 下的 XIM，
-    # 需額外設定這兩個變數才能使用 fcitx5
-    GTK_IM_MODULE = "fcitx";
+    # X11 / XWayland 應用走 XIM 協定呼叫 fcitx5；GTK4 / Wayland 原生使用 text-input 協定，
+    # 官方強烈建議不要全域設定 GTK_IM_MODULE=fcitx 以免破壞 GTK4 原生輸入法支援。
     XMODIFIERS = "@im=fcitx";
   };
 

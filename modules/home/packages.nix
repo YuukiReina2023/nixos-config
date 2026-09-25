@@ -8,7 +8,6 @@
 
     pavucontrol
     networkmanagerapplet
-    swaynotificationcenter # for swaync-client
     nwg-drawer
     nwg-menu
 
@@ -27,7 +26,6 @@
     prisma-engines
 
     # hypr
-    hypridle
     hyprlock
     wlr-randr # display management
     cliphist

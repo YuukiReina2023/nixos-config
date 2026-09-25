@@ -1,7 +1,8 @@
 { ... }:
 {
   services.hypridle = {
-    enable = true;
+    # 預設使用 Niri + Noctalia 桌面外殼，閒置/鎖定由 Noctalia 內建的 idle 管理，停用 hypridle 避免執行失效的 hyprctl
+    enable = false;
     settings = {
       general = {
         lock_cmd = "pidof hyprlock || hyprlock";

@@ -190,7 +190,7 @@ nixos-config/
     │   ├── default.nix           # 模組匯入彙整
     │   ├── window-managers/
     │   │   ├── niri/             # Niri 配置、快捷鍵、視窗規則
-    │   │   └── hyprland/         # Hyprland（已停用，保留 hypridle/hyprlock 供 niri 使用）
+    │   │   └── hyprland/         # Hyprland（已停用，閒置管理由 Noctalia 接管，保留 hyprlock 供鎖定）
     │   ├── noctalia/             # Noctalia 桌面外殼設定
     │   ├── nixvim/               # Neovim (LSP、外掛、色彩主題)
     │   │   └── plugins/          # nixvim 外掛配置
