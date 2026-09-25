@@ -13,7 +13,7 @@ in
 {
   programs.noctalia = {
     enable = true;
-    validateConfig = true;
+    checkConfig = true;
 
     settings = {
 

@@ -204,7 +204,6 @@
         }
 
         {
-          matches = [ { app-id = "^(code|Code)$"; } ];
           matches = [
             { app-id = "^(code|Code)$"; }
             { app-id = "^(antigravity-ide|Antigravity IDE)$"; }
