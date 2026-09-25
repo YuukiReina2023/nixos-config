@@ -13,7 +13,6 @@
     nwg-menu
 
     lf
-    yazi
 
     fastfetch
 

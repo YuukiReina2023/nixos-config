@@ -1,23 +1,8 @@
+{ pkgs, ... }:
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
-let
-  cfg = config.userSettings.yazi;
-in
-{
-  options = {
-    userSettings.yazi = {
-      enable = lib.mkEnableOption "Enable yazi TUI file manager";
-    };
-  };
-
-  config = lib.mkIf cfg.enable {
-    programs.yazi = {
-      enable = true;
+  programs.yazi = {
+    enable = true;
+    shellWrapperName = "y";
       # enableZshIntegration = true;
       theme.icon = {
         dirs = [
@@ -443,5 +428,4 @@ in
         ];
       };
     };
-  };
 }
