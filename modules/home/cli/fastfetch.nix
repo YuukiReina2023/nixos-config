@@ -4,7 +4,7 @@
     enable = true;
     settings = {
       logo = {
-        source = "nixos_old"; # 经典 ASCII 字符点阵大雪花（Neofetch 原版排版）
+        source = "NixOS"; # 精致版 NixOS 大雪花 Logo
         type = "builtin";
         padding = {
           top = 0;
