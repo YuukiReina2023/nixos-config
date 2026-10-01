@@ -1,7 +1,73 @@
-{ pkgs, ... }:
+{ pkgs, config, lib, ... }:
+let
+  wallpaperSymlink = "${config.xdg.cacheHome}/current_wallpaper.png";
+  defaultWallpaper = "${config.xdg.configHome}/noctalia/wallpapers/wallpapers14.png";
+  settingsFile = "${config.xdg.stateHome}/noctalia/settings.toml";
+
+  syncWallpaperScript = pkgs.writeShellScript "sync-hyprlock-wallpaper" ''
+    set -euo pipefail
+    TARGET=""
+
+    # 1. 若 Noctalia 正在運行，優先通過 IPC 獲取當前桌布
+    if command -v noctalia >/dev/null 2>&1; then
+      TARGET="$(noctalia msg wallpaper-get 2>/dev/null || true)"
+    fi
+
+    # 2. 若 IPC 未獲取到（如剛開機啟動階段），直接解析 settings.toml 持久化配置
+    if [ -z "$TARGET" ] || [ ! -f "$TARGET" ]; then
+      if [ -f "${settingsFile}" ]; then
+        TARGET="$(sed -n '/\[wallpaper\.default\]/,/\[/p' "${settingsFile}" | grep -E '^path\s*=' | head -n1 | sed -E 's/^path\s*=\s*"([^"]+)".*/\1/' || true)"
+        if [ -z "$TARGET" ] || [ ! -f "$TARGET" ]; then
+          TARGET="$(sed -n '/\[wallpaper\.last\]/,/\[/p' "${settingsFile}" | grep -E '^path\s*=' | head -n1 | sed -E 's/^path\s*=\s*"([^"]+)".*/\1/' || true)"
+        fi
+      fi
+    fi
+
+    # 3. 兜底回退預設桌布
+    if [ -z "$TARGET" ] || [ ! -f "$TARGET" ]; then
+      TARGET="${defaultWallpaper}"
+    fi
+
+    # 4. 原子更新符號連結
+    if [ -f "$TARGET" ]; then
+      mkdir -p "$(dirname "${wallpaperSymlink}")"
+      ln -sf "$TARGET" "${wallpaperSymlink}.tmp"
+      mv -f "${wallpaperSymlink}.tmp" "${wallpaperSymlink}"
+    fi
+  '';
+
+  hyprlockWrapped = pkgs.writeShellScriptBin "hyprlock" ''
+    ${syncWallpaperScript} || true
+    exec ${pkgs.hyprlock}/bin/hyprlock "$@"
+  '';
+in
 {
+  # 監聽 Noctalia 設定檔變更（在桌面自選桌布時即時同步）
+  systemd.user.paths.sync-hyprlock-wallpaper = {
+    Unit.Description = "Watch Noctalia settings for wallpaper changes";
+    Path = {
+      PathModified = "%h/.local/state/noctalia/settings.toml";
+      Unit = "sync-hyprlock-wallpaper.service";
+    };
+    Install.WantedBy = [ "default.target" ];
+  };
+
+  systemd.user.services.sync-hyprlock-wallpaper = {
+    Unit.Description = "Sync Noctalia desktop wallpaper to hyprlock";
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${syncWallpaperScript}";
+    };
+  };
+
+  # 部署時初始化桌布連結
+  home.activation.syncHyprlockWallpaper = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    ${syncWallpaperScript} || true
+  '';
+
   programs.hyprlock = {
     enable = true;
+    package = hyprlockWrapped;
 
     settings = {
       general = {
@@ -13,17 +79,16 @@
         immediate_render = true;
       };
 
-      # ── Background (读取 Noctalia 壁纸目录) ─────────────────────────
+      # ── Background (動態同步桌面自選桌布) ─────────────────────────
       background = [
         {
           monitor = "";
-          # hyprlock 的 background.path 只接受字面路径，不支持 $(...) 命令替换
-          path = "/home/yuukireina2023/.config/noctalia/wallpapers/wallpapers14.png";
-          blur_passes = 3;
-          blur_size = 7;
-          brightness = 0.5;
-          contrast = 1.0;
-          vibrancy = 0.2;
+          path = wallpaperSymlink;
+          blur_passes = 2;
+          blur_size = 5;
+          brightness = 0.75;
+          contrast = 0.95;
+          vibrancy = 0.25;
           vibrancy_darkness = 0.1;
         }
       ];
@@ -123,9 +188,9 @@
           dots_center = true;
           dots_rounding = -1;
 
-          outer_color = "rgba(47, 51, 77, 0.85)"; # surface0 #2f334d
-          inner_color = "rgba(34, 36, 54, 0.9)"; # bg #222436
-          font_color = "rgba(200, 211, 245, 1.0)"; # text #c8d3f5
+          outer_color = "rgba(130, 170, 255, 0.45)"; # 半透明強調邊框 #82aaff
+          inner_color = "rgba(34, 36, 54, 0.45)";    # 45% 透光毛玻璃底色 #222436
+          font_color = "rgba(200, 211, 245, 1.0)";   # text #c8d3f5
           fade_on_empty = false;
           fade_timeout = 1000;
 
@@ -142,9 +207,9 @@
           numlock_color = "rgba(130, 170, 255, 1.0)"; # blue #82aaff
           bothlock_color = "rgba(255, 117, 127, 1.0)"; # red
 
-          shadow_passes = 3;
-          shadow_size = 12;
-          shadow_color = "rgba(27, 29, 43, 0.8)";
+          shadow_passes = 2;
+          shadow_size = 10;
+          shadow_color = "rgba(27, 29, 43, 0.5)";
         }
       ];
     };

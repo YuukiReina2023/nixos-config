@@ -30,7 +30,6 @@
     prisma-engines
 
     # hypr
-    hyprlock
     wlr-randr # display management
     cliphist
 

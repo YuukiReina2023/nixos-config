@@ -149,8 +149,8 @@ in
       lockscreen = {
         enabled = true;
         blurred_desktop = true;
-        blur_intensity = 0.8;
-        tint_intensity = 0.4;
+        blur_intensity = 0.5;
+        tint_intensity = 0.2;
       };
 
       idle = {
