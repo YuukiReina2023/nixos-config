@@ -16,7 +16,6 @@
     # features
     ./features/screenshot.nix
     ./starship/default.nix
-    ./fastfetch/default.nix
     ./tmux/default.nix
     ./cli/default.nix
     ./discord/default.nix

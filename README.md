@@ -108,7 +108,7 @@
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | 智慧目錄跳轉 |
 | [atuin](https://github.com/atuinsh/atuin) | Shell 歷史同步 |
 | [eza](https://github.com/eza-community/eza) | 現代 `ls` 替代品 |
-| [fastfetch](https://github.com/fastfetch-cli/fastfetch) | 系統資訊 |
+| [fastfetch](https://github.com/fastfetch-cli/fastfetch) | 系統資訊（預設配置） |
 | [btop](https://github.com/aristocratos/btop) / htop | 資源監控 |
 | [tmux](https://github.com/tmux/tmux) | 終端機多工器 |
 | [starship](https://starship.rs) | 跨 Shell 提示字元 |
@@ -205,7 +205,6 @@ nixos-config/
     │   ├── yazi/                 # 檔案管理員
     │   ├── gtk/                  # GTK 主題、圖示、游標
     │   ├── fcitx5/               # 輸入法框架 (拼音)
-    │   ├── fastfetch/            # Fetch 配置
     │   ├── mpv/                  # MPV 媒體播放器
     │   ├── qq/                   # SB QQ
     │   ├── wechat/               # WeChat 客户端
@@ -217,7 +216,7 @@ nixos-config/
     │   ├── virt-manager/         # virt-manager dconf
     │   ├── file-roller/          # 檔案壓縮管理員
     │   ├── wallpapers/           # 桌布收藏
-    │   ├── cli/                  # CLI 工具配置 (bat, btop, cava, htop)
+    │   ├── cli/                  # CLI 工具配置 (bat, btop, cava, fastfetch, htop)
     │   ├── devshell/             # 開發環境 (base, Go, Node, Python)
     │   │   └── shells/           # 開發環境定義
     │   ├── packages.nix          # 使用者套件（Blender, HMCL, Obsidian, 網易雲, Telegram, Claude Code）
