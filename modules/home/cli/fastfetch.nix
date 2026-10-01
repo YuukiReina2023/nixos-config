@@ -44,7 +44,10 @@
         "font"
         "cursor"
         "terminal"
-        "terminalfont"
+        {
+          type = "terminalfont";
+          format = "{name} {size}"; # 仅显示主字体与字号，避免 fallback 字体链过长溢出
+        }
         "terminalsize"
 
         # 核心硬件（包含温度与传感器监控）
@@ -57,7 +60,7 @@
         {
           type = "gpu";
           temp = true;
-          driverSpecific = true;
+          format = "{name} - {temperature}"; # 紧凑显卡与温度显示，避免详细规格导致溢出
         }
         "vulkan"
         "opengl"
