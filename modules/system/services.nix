@@ -84,17 +84,17 @@
     ];
   };
 
-  # 5. 打印服務 (CUPS) 與 Epson 驱动
+  # 5. 打印服務 (CUPS) 與 Epson 驱动（仅本地，关闭 Web UI 与局域网端口暴露）
   services.printing = {
     enable = true;
     package = pkgs.cups;
-    webInterface = true; # 启用 CUPS Web UI (http://localhost:631)
+    webInterface = false; # 禁用 CUPS Web UI
     drivers = with pkgs; [
       epson-escpr
       epson-escpr2
       foomatic-db-ppds
     ];
-    openFirewall = true;
+    openFirewall = false; # 关闭防火墙打印端口暴露，只保留本地访问
     startWhenNeeded = true;
   };
 
