@@ -124,9 +124,35 @@
   services.ipp-usb.enable = true;
 
   # Epson WF-C5890 USB 专属 udev 规则：确保设备节点分配至 lp/scanner 组，并唤起 ipp-usb 服务
+  # 睡眠防秒醒 udev 规则：
+  # - 禁用 2.4G 无线接收器和蓝牙模块的 USB 唤醒，防止鼠标微小晃动、传感器底噪或蓝牙信号波动唤醒电脑
+  # - 禁用有线网卡 enp0s31f6 的设备唤醒属性
   services.udev.extraRules = ''
     ATTRS{idVendor}=="04b8", ATTRS{idProduct}=="11b6", MODE="0664", GROUP="lp", ENV{libsane_matched}="yes", TAG+="systemd", ENV{SYSTEMD_WANTS}+="ipp-usb.service"
+    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="3554", ATTRS{idProduct}=="fa09", ATTR{power/wakeup}="disabled"
+    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="05ac", ATTRS{idProduct}=="8290", ATTR{power/wakeup}="disabled"
+    ACTION=="add", SUBSYSTEM=="net", NAME=="enp0s31f6", ATTR{device/power/wakeup}="disabled"
   '';
+
+  # 7. 解决睡眠秒醒问题：
+  # 禁用 XHCI 与 GBE1 的 ACPI 误唤醒（Dell 工作站/Intel C620 芯片组经典问题，防止睡眠秒醒；机箱电源键 PWRB 仍可正常唤醒）
+  systemd.services.disable-acpi-wakeup = {
+    description = "Disable spurious ACPI wakeup triggers (XHCI, GBE1)";
+    wantedBy = [ "multi-user.target" "post-resume.target" ];
+    after = [ "multi-user.target" "post-resume.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = pkgs.writeShellScript "disable-acpi-wakeup" ''
+        for dev in XHCI GBE1; do
+          if grep -qE "^$dev\s+.*\*enabled" /proc/acpi/wakeup; then
+            echo "$dev" > /proc/acpi/wakeup
+          fi
+        done
+      '';
+    };
+  };
+
 
   # 安装打印与扫描开源图形工具
   environment.systemPackages = with pkgs; [

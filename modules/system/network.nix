@@ -4,6 +4,14 @@
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.powersave = false;
 
+  # 禁用以太网 Wake-on-LAN，防止局域网 ARP 与广播包唤醒电脑
+  networking.networkmanager.settings = {
+    connection = {
+      "ethernet.wake-on-lan" = "ignore";
+    };
+  };
+
+
   # 强制 WPA2-PSK 连接（绕过 brcmfmac 固件无法处理 WPA2/WPA3 混合模式的 SAE 协商问题）
   networking.networkmanager.ensureProfiles.profiles = {
     "NekoNetWork" = {

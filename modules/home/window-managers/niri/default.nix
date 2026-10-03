@@ -138,6 +138,8 @@
       spawn-at-startup = [
         { command = [ "noctalia" ]; }
         { command = [ "hyprlock" ]; }
+        # 空闲管理守护进程（处理屏幕超时变暗、锁屏、关闭显示器及40分钟自动休眠）
+        { command = [ "hypridle" ]; }
         # 剪貼簿管理（cliphist）：監聽文字、圖片與檔案，避免來源程式關閉後內容遺失
         { command = [ "wl-paste" "--type" "text" "--watch" "cliphist" "store" ]; }
         { command = [ "wl-paste" "--type" "image" "--watch" "cliphist" "store" ]; }
