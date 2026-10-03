@@ -84,10 +84,16 @@
     ];
   };
 
-  # 5. 打印服務 (CUPS) 與 Epson 驱动（仅本地，关闭 Web UI 与局域网端口暴露）
+  # 5. 打印服務 (CUPS) 與 Epson 驱动（仅本地，关闭 Web UI 并移除网页快捷方式）
   services.printing = {
     enable = true;
-    package = pkgs.cups;
+    package = pkgs.symlinkJoin {
+      name = "cups";
+      paths = [ pkgs.cups.out ];
+      postBuild = ''
+        rm -f $out/share/applications/cups.desktop
+      '';
+    };
     webInterface = false; # 禁用 CUPS Web UI
     drivers = with pkgs; [
       epson-escpr

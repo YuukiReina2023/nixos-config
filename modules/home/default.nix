@@ -39,6 +39,10 @@
   xdg = {
     enable = true;
     userDirs.enable = false;
+    desktopEntries.cups = {
+      name = "Manage Printing";
+      noDisplay = true;
+    };
   };
 
   home.sessionPath = [ "$HOME/.local/bin" ];
