@@ -98,9 +98,34 @@
     startWhenNeeded = true;
   };
 
-  # 安装打印图形配置工具到系统包
+  # 6. 扫描仪服务 (SANE) 与开源驱动方案 (eSCL / AirScan / WSD)
+  # Epson WF-C5890 现代多功能一体机支持标准免驱 eSCL (AirScan) 与 WSD 协议。
+  # 使用 sane-airscan 提供纯开源实现，无需安装闭源 epsonscan2 驱动与专有插件。
+  hardware.sane = {
+    enable = true;
+    extraBackends = [ pkgs.sane-airscan ];
+    openFirewall = true;
+  };
+
+  # 启用 Avahi (mDNS/DNS-SD)，供 SANE AirScan 自动发现局域网内的 Epson 扫描仪
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
+  # 启用 ipp-usb：若通过 USB 直连，将一体机模拟为本地 eSCL/IPP 免驱扫描仪
+  services.ipp-usb.enable = true;
+
+  # Epson WF-C5890 USB 专属 udev 规则：确保设备节点分配至 lp/scanner 组，并唤起 ipp-usb 服务
+  services.udev.extraRules = ''
+    ATTRS{idVendor}=="04b8", ATTRS{idProduct}=="11b6", MODE="0664", GROUP="lp", ENV{libsane_matched}="yes", TAG+="systemd", ENV{SYSTEMD_WANTS}+="ipp-usb.service"
+  '';
+
+  # 安装打印与扫描开源图形工具
   environment.systemPackages = with pkgs; [
     system-config-printer
+    simple-scan # 开源文档扫描工具 (Document Scanner)
   ];
   # Ensure Cachix substituters and trusted keys are available to the Nix daemon
   # (use nix.extraOptions to write to /etc/nix/nix.conf so the daemon trusts the caches)

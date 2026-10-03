@@ -30,4 +30,6 @@
   };
 
   networking.firewall.trustedInterfaces = [ "virbr0" ]; # virtual machine
+  # 放行 WS-Discovery 协议端口 (UDP 3702)，供 WSD 扫描仪局域网自动发现 (AirScan / WSD)
+  networking.firewall.allowedUDPPorts = [ 3702 ];
 }
