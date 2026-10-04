@@ -5,6 +5,6 @@
     ./btop.nix
     ./cava.nix
     ./htop.nix
-    ./hyfetch.nix
+    ./fastfetch.nix
   ];
 }

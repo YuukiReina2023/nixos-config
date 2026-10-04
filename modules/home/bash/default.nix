@@ -3,13 +3,14 @@
   programs.bash = {
     enable = true;
     shellAliases = {
+      "ff" = "clear && fastfetch";
       "hf" = "clear && hyfetch";
       "fm" = "yazi";
     };
 
     bashrcExtra = ''
       if [[ $- == *i* ]]; then
-        hyfetch
+        fastfetch
         source /etc/profiles/per-user/yuukireina2023/etc/profile.d/hm-session-vars.sh
       fi
     '';

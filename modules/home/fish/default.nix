@@ -10,7 +10,7 @@
       atuin init fish --disable-up-arrow | source
       starship init fish | source
 
-      hyfetch
+      fastfetch
     '';
 
     shellAliases = {
@@ -21,6 +21,7 @@
       v = "nvim";
       lg = "lazygit";
 
+      ff = "clear && fastfetch";
       hf = "clear && hyfetch";
       fm = "yazi";
 

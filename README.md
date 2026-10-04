@@ -108,7 +108,7 @@
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | 智慧目錄跳轉 |
 | [atuin](https://github.com/atuinsh/atuin) | Shell 歷史同步 |
 | [eza](https://github.com/eza-community/eza) | 現代 `ls` 替代品 |
-| [hyfetch](https://github.com/hykilpikonna/hyfetch) | 系統資訊（支援 LGBTQ+ 驕傲旗幟配色） |
+| [fastfetch](https://github.com/fastfetch-cli/fastfetch) / [hyfetch](https://github.com/hykilpikonna/hyfetch) | 系統資訊（現代硬體監控與 LGBTQ+ 旗幟配色） |
 | [btop](https://github.com/aristocratos/btop) / htop | 資源監控 |
 | [tmux](https://github.com/tmux/tmux) | 終端機多工器 |
 | [starship](https://starship.rs) | 跨 Shell 提示字元 |
@@ -216,7 +216,7 @@ nixos-config/
     │   ├── virt-manager/         # virt-manager dconf
     │   ├── file-roller/          # 檔案壓縮管理員
     │   ├── wallpapers/           # 桌布收藏
-    │   ├── cli/                  # CLI 工具配置 (bat, btop, cava, htop, hyfetch)
+    │   ├── cli/                  # CLI 工具配置 (bat, btop, cava, fastfetch, htop)
     │   ├── devshell/             # 開發環境 (base, Go, Node, Python)
     │   │   └── shells/           # 開發環境定義
     │   ├── packages.nix          # 使用者套件（Blender, HMCL, Obsidian, 網易雲, Telegram, Claude Code）
