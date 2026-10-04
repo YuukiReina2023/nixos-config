@@ -184,4 +184,5 @@
   # modules/system/default.nix. Do not set nix.extraOptions here to avoid
   # conflicting writes to /etc/nix/nix.conf.
 
+  systemd.oomd.enable = true;
 }

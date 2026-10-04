@@ -2,6 +2,7 @@
 {
   boot.loader.systemd-boot = {
     enable = true;
+    configurationLimit = 15;
     # 显式定义 Windows 启动入口
     extraEntries = {
       "windows.conf" = ''
@@ -37,4 +38,7 @@
   boot.extraModprobeConfig = ''
     options rtw89_pci disable_clkreq=y disable_aspm_l1=y disable_aspm_l1ss=y
   '';
+
+  services.fstrim.enable = true;
+  zramSwap.enable = true;
 }

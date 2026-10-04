@@ -1,4 +1,4 @@
-{ ... }:
+{ inputs, ... }:
 {
   nix.settings = {
     experimental-features = [
@@ -35,5 +35,8 @@
   powerManagement.cpuFreqGovernor = "performance";
 
   system.stateVersion = "25.11";
+
+  nix.registry.nixpkgs.flake = inputs.nixpkgs;
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
 }
