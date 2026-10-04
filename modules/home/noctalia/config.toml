@@ -16,11 +16,12 @@ date_format           = "%Y/%m/%d"    # default shell UI date format
 offline_mode          = false        # block all outgoing HTTP when true
 # panel_anchor_bar   = "main"        # bar panels attach to without a source bar; omit = first enabled bar
 telemetry_enabled     = false        # send an anonymous startup ping
-niri_overview_type_to_launch_enabled = false # opt in to type-to-launch from niri overview
+screen_time_enabled   = true         # track per-app usage time for the Control Center screen-time view
+niri_overview_type_to_launch_enabled = true # opt in to type-to-launch from niri overview
 polkit_agent          = false
 password_style        = "default"    # default | random
 settings_show_advanced = true        # show advanced settings by default in Settings
-# settings_window_translucent = false  # translucent settings window background
+settings_window_translucent = true   # translucent settings window background
 show_location         = true         # hide weather location text in shell UI when false
 # app_icon_colorize   = false        # recolor application icons across the shell
 # app_icon_color      = "on_surface" # ColorSpec role or #hex when colorize is enabled
@@ -177,9 +178,9 @@ community_ids              = []     # fetched from api.noctalia.dev/templates, c
 # ── Backdrop ──────────────────────────────────────────────────────────────────
 
 [backdrop]
-enabled                = false
-blur_intensity         = 0.5        # 0.0 = no blur, 1.0 = maximum
-tint_intensity         = 0.3        # 0.0 = no tint, 1.0 = opaque
+enabled                = true
+blur_intensity         = 0.65       # 0.0 = no blur, 1.0 = maximum
+tint_intensity         = 0.25       # 0.0 = no tint, 1.0 = opaque
 
 # ── Notifications ─────────────────────────────────────────────────────────────
 
@@ -239,8 +240,8 @@ privacy = true                      # microphone/camera/screen-share capture cha
 enabled                 = true
 lock_before_suspend     = true
 blurred_desktop         = true        # use a desktop snapshot as the lock screen background (requires wlr-screencopy)
-blur_intensity          = 0.5         # lock screen background blur (0.0 = none, 1.0 = maximum)
-tint_intensity          = 0.2         # surface-color tint over the lock screen background
+blur_intensity          = 0.65        # lock screen background blur (0.0 = none, 1.0 = maximum)
+tint_intensity          = 0.20        # surface-color tint over the lock screen background
 # wallpaper             = ""          # optional image path for the lock screen; empty uses the desktop wallpaper
 # monitors              = ["DP-1"]    # connectors that show the lock screen; empty shows all monitors, others stay black
 
@@ -331,33 +332,36 @@ address          = "Huizhou, Guangdong, China" # e.g. "Toronto, ON"; geocoded wh
 
 # ── Idle ──────────────────────────────────────────────────────────────────────
 
-# Optional `[idle]` keys:
-#   pre_action_fade_seconds: fade a fullscreen surface-color overlay in over this many seconds, then run `command`.
-#                             Use 0 for immediate commands with no overlay. Input during the fade cancels.
-# [idle]
-# pre_action_fade_seconds = 2.0
+# 全面由 Noctalia 原生接管 Wayland 空闲与休眠，具备 2 秒平滑渐变暗屏动画过渡
+[idle]
+behavior_order = ["dim", "lock", "screen-off", "suspend"]
+pre_action_fade_seconds = 2.0
 
-# 闲置策略统一由 hypridle 管理（modules/home/window-managers/idle.nix），
-# 停用 Noctalia 内置的闲置行为，彻底避免突然睡眠及双重锁屏冲突
-
-[idle.behavior.lock]
-timeout = 960
-action = "lock"
-command = "noctalia msg session lock"
-enabled = false
-
-[idle.behavior.screen-off]
+# 5 分钟：屏幕降低亮度至 20%，恢复活动时自动还原
+[idle.behavior.dim]
 timeout = 300
-action = "screen_off"
-command = "brightnessctl -s set 10%"
+action = "command"
+command = "brightnessctl -s set 20%"
 resume_command = "brightnessctl -r"
-enabled = false
+enabled = true
 
+# 10 分钟：锁定会话，呈现 Noctalia 绝美锁屏
+[idle.behavior.lock]
+timeout = 600
+action = "lock"
+enabled = true
+
+# 15 分钟：DPMS 熄灭显示器节省能源，按键或移动鼠标自动点亮
+[idle.behavior.screen-off]
+timeout = 900
+action = "screen_off"
+enabled = true
+
+# 40 分钟：安全休眠（先锁屏后挂起）
 [idle.behavior.suspend]
-timeout = 1140
-action = "suspend"
-command = "systemctl suspend"
-enabled = false
+timeout = 2400
+action = "lock_and_suspend"
+enabled = true
 
 # ── Hot Corners ───────────────────────────────────────────────────────────────
 
@@ -517,13 +521,15 @@ type = "wifi"
 [[control_center.shortcuts]]
 type = "bluetooth"
 [[control_center.shortcuts]]
-type = "caffeine"
+type = "screen_time"
 [[control_center.shortcuts]]
 type = "power_profile"
 [[control_center.shortcuts]]
 type = "nightlight"
 [[control_center.shortcuts]]
-type = "wallpaper"
+type = "caffeine"
+# [[control_center.shortcuts]]
+# type = "wallpaper"
 # [[control_center.shortcuts]]
 # type = "notification"
 # [[control_center.shortcuts]]

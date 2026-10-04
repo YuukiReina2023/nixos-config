@@ -189,8 +189,7 @@ nixos-config/
     ├── home/                     # Home Manager 模組
     │   ├── default.nix           # 模組匯入彙整
     │   ├── window-managers/
-    │   │   ├── niri/             # Niri 配置、快捷鍵、視窗規則
-    │   │   └── idle.nix          # 通用 Wayland 空閒與休眠管理（hypridle + Noctalia 鎖屏）
+    │   │   └── niri/             # Niri 配置、快捷鍵、視窗規則（空閒休眠由 Noctalia 原生接管）
     │   ├── noctalia/             # Noctalia 桌面外殼設定
     │   ├── nixvim/               # Neovim (LSP、外掛、色彩主題)
     │   │   └── plugins/          # nixvim 外掛配置
