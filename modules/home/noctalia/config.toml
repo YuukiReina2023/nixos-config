@@ -179,8 +179,8 @@ community_ids              = []     # fetched from api.noctalia.dev/templates, c
 
 [backdrop]
 enabled                = true
-blur_intensity         = 0.65       # 0.0 = no blur, 1.0 = maximum
-tint_intensity         = 0.25       # 0.0 = no tint, 1.0 = opaque
+blur_intensity         = 1.0        # 0.0 = no blur, 1.0 = maximum
+tint_intensity         = 0.10       # 0.0 = no tint, 1.0 = opaque
 
 # ── Notifications ─────────────────────────────────────────────────────────────
 
@@ -191,7 +191,7 @@ show_actions       = true           # show action buttons; when false, clicking 
 keep_dismissed_in_history = true    # set false to remove history entries when their toasts are dismissed
 layer              = "overlay"      # top | overlay
 scale              = 1.0            # notification size multiplier applied on top of accessibility.ui_scale
-background_opacity = 0.9
+background_opacity = 0.50
 offset_x           = 16             # absolute horizontal margin from the screen edge
 offset_y           = 12             # absolute vertical margin from the screen edge
 # [notification.filter.rhythmbox]
@@ -214,7 +214,7 @@ position = "top_right"              # top_right | top_left | top_center | bottom
 position_vertical = "center_right"  # same options; used when orientation = "vertical"
 orientation = "vertical"            # horizontal | vertical (volume/brightness sliders only; text popups stay horizontal)
 scale = 1.0                         # OSD size multiplier applied on top of accessibility.ui_scale
-background_opacity = 0.9            # background opacity of OSD popups
+background_opacity = 0.50           # background opacity of OSD popups
 offset_x = 16                       # absolute horizontal margin from the screen edge
 offset_y = 12                       # absolute vertical margin from the screen edge
 # monitors = ["DP-1"]               # connector names; omit or leave empty for all monitors
@@ -240,8 +240,8 @@ privacy = true                      # microphone/camera/screen-share capture cha
 enabled                 = true
 lock_before_suspend     = true
 blurred_desktop         = true        # use a desktop snapshot as the lock screen background (requires wlr-screencopy)
-blur_intensity          = 0.80        # lock screen background blur (0.0 = none, 1.0 = maximum)
-tint_intensity          = 0.15        # surface-color tint over the lock screen background
+blur_intensity          = 1.0         # lock screen background blur (0.0 = none, 1.0 = maximum)
+tint_intensity          = 0.10        # surface-color tint over the lock screen background
 wallpaper               = ""          # optional image path for the lock screen; empty uses the desktop wallpaper
 # monitors              = ["DP-1"]    # connectors that show the lock screen; empty shows all monitors, others stay black
 
@@ -396,7 +396,7 @@ delete   = ["del"]
 [bar.main]
 position           = "top"          # top | bottom | left | right
 thickness          = 36
-background_opacity = 0.75
+background_opacity = 0.40
 radius             = 10
 margin_ends        = 0
 margin_edge        = 0
@@ -444,7 +444,7 @@ icon_size           = 48
 main_axis_padding   = 16
 cross_axis_padding  = 8
 item_spacing        = 6
-background_opacity  = 0.88
+background_opacity  = 0.40
 radius              = 16
 radius_top_left     = 16
 radius_top_right    = 16
