@@ -26,6 +26,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    noctalia-greeter = {
+      url = "github:noctalia-dev/noctalia-greeter";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nur = {
       url = "github:nix-community/nur";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -60,6 +65,7 @@
           ./modules/system/default.nix
           ./hardware-configuration.nix
           inputs.niri.nixosModules.niri
+          inputs.noctalia-greeter.nixosModules.default
 
           # 系统层级配置与 Overlay 注入
           (

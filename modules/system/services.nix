@@ -3,21 +3,13 @@
   # 1. 啟用系統級 Niri 視窗管理器
   programs.niri.enable = true;
 
-  # 2. 顯示管理器配置：啟用自动登录以消除双重登录
-  services.displayManager.sddm.enable = false;
-
-  services.greetd = {
+  services.displayManager.noctalia-greeter = {
     enable = true;
+    passwordless-sync-users = [ "yuukireina2023" ]; # 允许你的用户同步壁纸和配色到 Greeter
     settings = {
-      # 开机首次启动时直接自动登录指定用户并启动 niri，跳过 tuigreet
-      initial_session = {
-        command = "niri";
-        user = "yuukireina2023";
-      };
-      # 手动注销或退出会话后回退到 tuigreet 登录界面
-      default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --cmd niri";
-        user = "greeter";
+      session.default = "niri";
+      appearance = {
+        scheme = "Synced"; # 自动读取桌面壁纸和配色
       };
     };
   };
