@@ -18,6 +18,7 @@
     ];
     # shell = pkgs.bash;
     shell = pkgs.fish;
+    homeMode = "711";
   };
 
   # 建立对应的同名主组
