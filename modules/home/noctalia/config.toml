@@ -240,8 +240,8 @@ privacy = true                      # microphone/camera/screen-share capture cha
 enabled                 = true
 lock_before_suspend     = true
 blurred_desktop         = false       # use a desktop snapshot as the lock screen background (requires wlr-screencopy)
-blur_intensity          = 0.65        # lock screen background blur (0.0 = none, 1.0 = maximum)
-tint_intensity          = 0.20        # surface-color tint over the lock screen background
+blur_intensity          = 0.80        # lock screen background blur (0.0 = none, 1.0 = maximum)
+tint_intensity          = 0.15        # surface-color tint over the lock screen background
 wallpaper               = ""          # optional image path for the lock screen; empty uses the desktop wallpaper
 # monitors              = ["DP-1"]    # connectors that show the lock screen; empty shows all monitors, others stay black
 
