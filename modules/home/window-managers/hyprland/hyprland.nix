@@ -54,7 +54,7 @@
         "systemctl --user start hyprpolkitagent"
         "awww-daemon"
         "hypridle"
-        "hyprlock"
+        "noctalia msg session lock"
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
         "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
@@ -281,7 +281,7 @@
 
         # ── Session ──────────────────────────────────────────────────
         "$mod SHIFT, M,        exit"
-        "$mod SHIFT, L,        exec, hyprlock"
+        "$mod SHIFT, L,        exec, noctalia msg session lock"
       ];
 
       bindm = [

@@ -125,28 +125,52 @@
 
   # Epson WF-C5890 USB 专属 udev 规则：确保设备节点分配至 lp/scanner 组，并唤起 ipp-usb 服务
   # 睡眠防秒醒 udev 规则：
-  # - 禁用 2.4G 无线接收器和蓝牙模块的 USB 唤醒，防止鼠标微小晃动、传感器底噪或蓝牙信号波动唤醒电脑
+  # - 默认禁用所有 USB 设备的唤醒功能（有线鼠标晃动、蓝牙控制器、麦克风等）
+  # - 白名单放行：仅保留 2.4G 无线键盘接收器（Compx 3554:fa09）与电源键唤醒
   # - 禁用有线网卡 enp0s31f6 的设备唤醒属性
   services.udev.extraRules = ''
     ATTRS{idVendor}=="04b8", ATTRS{idProduct}=="11b6", MODE="0664", GROUP="lp", ENV{libsane_matched}="yes", TAG+="systemd", ENV{SYSTEMD_WANTS}+="ipp-usb.service"
-    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="3554", ATTRS{idProduct}=="fa09", ATTR{power/wakeup}="disabled"
-    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="05ac", ATTRS{idProduct}=="8290", ATTR{power/wakeup}="disabled"
-    ACTION=="add", SUBSYSTEM=="net", NAME=="enp0s31f6", ATTR{device/power/wakeup}="disabled"
+    ACTION=="add|change", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{power/wakeup}="disabled"
+    ACTION=="add|change", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTRS{idVendor}=="3554", ATTRS{idProduct}=="fa09", ATTR{power/wakeup}="enabled"
+    ACTION=="add|change", SUBSYSTEM=="net", NAME=="enp0s31f6", ATTR{device/power/wakeup}="disabled"
   '';
 
-  # 7. 解决睡眠秒醒问题：
-  # 禁用 XHCI 与 GBE1 的 ACPI 误唤醒（Dell 工作站/Intel C620 芯片组经典问题，防止睡眠秒醒；机箱电源键 PWRB 仍可正常唤醒）
+  # 7. 解决睡眠秒醒问题（斩草除根仅保留键盘与电源键）：
+  # - 确保 PWRB（机箱电源键）与 XHCI（USB 控制器，承载键盘唤醒）处于启用状态
+  # - 斩草除根：禁用所有多余的 ACPI 唤醒设备（包括 Broadcom WiFi 网卡 PXSX/RP09、Intel 有线网 GBE1、AMD 显卡 PEGP、NVMe BR2D 等）
+  # - 兜底扫描 sysfs USB 节点：确保仅 3554:fa09 键盘处于 enabled，鼠标与蓝牙等外设全部处于 disabled
   systemd.services.disable-acpi-wakeup = {
-    description = "Disable spurious ACPI wakeup triggers (XHCI, GBE1)";
+    description = "Configure system sleep wakeup sources (keep only keyboard and power button)";
     wantedBy = [ "multi-user.target" "post-resume.target" ];
     after = [ "multi-user.target" "post-resume.target" ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = pkgs.writeShellScript "disable-acpi-wakeup" ''
-        for dev in XHCI GBE1; do
-          if grep -qE "^$dev\s+.*\*enabled" /proc/acpi/wakeup; then
+      ExecStart = pkgs.writeShellScript "configure-wakeup-sources" ''
+        # 1. 确保机箱电源键（PWRB）与 USB 主控（XHCI）保持启用，确保键盘与电源键能唤醒
+        for target in PWRB XHCI; do
+          if grep -qE "^$target\s+.*\*disabled" /proc/acpi/wakeup; then
+            echo "$target" > /proc/acpi/wakeup
+          fi
+        done
+
+        # 2. 斩草除根：禁用除 PWRB 与 XHCI 之外的所有 ACPI 唤醒源（WiFi、有线网、显卡、NVMe、PCIe 端口等）
+        while read -r dev _ status _; do
+          if [ "$status" = "*enabled" ] && [ "$dev" != "PWRB" ] && [ "$dev" != "XHCI" ]; then
             echo "$dev" > /proc/acpi/wakeup
+          fi
+        done < /proc/acpi/wakeup
+
+        # 3. 兜底确保 USB 设备的唤醒状态：仅允许无线键盘 3554:fa09 唤醒，有线鼠标与其他所有 USB 设备一律 disabled
+        for dev_dir in /sys/bus/usb/devices/*; do
+          if [ -f "$dev_dir/power/wakeup" ]; then
+            vid=$(cat "$dev_dir/idVendor" 2>/dev/null || true)
+            pid=$(cat "$dev_dir/idProduct" 2>/dev/null || true)
+            if [ "$vid" = "3554" ] && [ "$pid" = "fa09" ]; then
+              echo enabled > "$dev_dir/power/wakeup"
+            else
+              echo disabled > "$dev_dir/power/wakeup"
+            fi
           fi
         done
       '';

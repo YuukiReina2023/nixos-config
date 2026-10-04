@@ -190,7 +190,7 @@ nixos-config/
     │   ├── default.nix           # 模組匯入彙整
     │   ├── window-managers/
     │   │   ├── niri/             # Niri 配置、快捷鍵、視窗規則
-    │   │   └── hyprland/         # Hyprland（已停用，閒置管理由 Noctalia 接管，保留 hyprlock 供鎖定）
+    │   │   └── hyprland/         # Hyprland（保留 hypridle 閒置管理；鎖屏已全面遷移至 Noctalia 原生鎖屏）
     │   ├── noctalia/             # Noctalia 桌面外殼設定
     │   ├── nixvim/               # Neovim (LSP、外掛、色彩主題)
     │   │   └── plugins/          # nixvim 外掛配置
@@ -323,8 +323,6 @@ sudo nixos-rebuild switch --flake .#nixos
 # 开机锁屏看不到头像的解决方法
 将头像重命名为 ".face" 放入 "/home/yuukireina2023/"
 ```
-
-> **注意**：此配置面向 **AMD Radeon PRO W6800**（見 `modules/system/amdgpu.nix`）。舊的 `modules/system/nvidia.nix` 已棄用且不再匯入 — 若改用 NVIDIA 顯示卡，請重新啟用並移除 `modules/system/default.nix` 中的 `amdgpu.nix` 匯入。
 
 ## 系統檢查
 

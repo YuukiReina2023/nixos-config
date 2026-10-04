@@ -148,26 +148,29 @@ in
 
       lockscreen = {
         enabled = true;
+        lock_before_suspend = true;
         blurred_desktop = true;
         blur_intensity = 0.5;
         tint_intensity = 0.2;
       };
 
+      # 闲置策略统一由 hypridle 管理（modules/home/window-managers/hyprland/hypridle.nix），
+      # 停用 Noctalia 内置的闲置行为，彻底避免 19 分钟 (1140s) 突然睡眠及双重锁屏冲突
       idle = {
         behavior = {
           "screen-off" = {
-            enabled = true;
+            enabled = false;
             timeout = 300;
             command = "brightnessctl -s set 10%";
             resume_command = "brightnessctl -r";
           };
           lock = {
-            enabled = true;
+            enabled = false;
             timeout = 960;
-            command = "hyprlock";
+            command = "noctalia msg session lock";
           };
           suspend = {
-            enabled = true;
+            enabled = false;
             timeout = 1140;
             command = "systemctl suspend";
           };
