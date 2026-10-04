@@ -542,8 +542,8 @@ type = "caffeine"
 [hooks]
 
 # started           = "notify-send 'Noctalia' 'Shell started'"
-wallpaper_changed = ["noctalia msg sync"]
-colors_changed    = ["noctalia msg sync"]
+wallpaper_changed = ["noctalia msg greeter-sync"]
+colors_changed    = ["noctalia msg greeter-sync"]
 # theme_mode_changed = "notify-send 'Noctalia' \"Theme mode: $NOCTALIA_THEME_MODE\""
 # session_locked    = []
 # session_unlocked  = []
