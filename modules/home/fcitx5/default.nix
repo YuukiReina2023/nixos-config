@@ -9,6 +9,8 @@
       addons = with pkgs; [
         fcitx5-mellow-themes
         qt6Packages.fcitx5-chinese-addons
+        fcitx5-pinyin-zhwiki
+        fcitx5-pinyin-moegirl
       ];
       waylandFrontend = true;
       settings = {
