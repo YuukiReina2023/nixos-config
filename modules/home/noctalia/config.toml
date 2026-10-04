@@ -337,29 +337,29 @@ address          = "Huizhou, Guangdong, China" # e.g. "Toronto, ON"; geocoded wh
 behavior_order = ["dim", "lock", "screen-off", "suspend"]
 pre_action_fade_seconds = 2.0
 
-# 5 分钟：屏幕降低亮度至 20%，恢复活动时自动还原
+# 50 分钟：开始逐渐动作，屏幕降低亮度至 20%，恢复活动时自动还原
 [idle.behavior.dim]
-timeout = 300
+timeout = 3000
 action = "command"
 command = "brightnessctl -s set 20%"
 resume_command = "brightnessctl -r"
 enabled = true
 
-# 10 分钟：锁定会话，呈现 Noctalia 绝美锁屏
+# 52 分钟：锁定会话，呈现 Noctalia 绝美锁屏
 [idle.behavior.lock]
-timeout = 600
+timeout = 3120
 action = "lock"
 enabled = true
 
-# 15 分钟：DPMS 熄灭显示器节省能源，按键或移动鼠标自动点亮
+# 55 分钟：DPMS 熄灭显示器节省能源，按键或移动鼠标自动点亮
 [idle.behavior.screen-off]
-timeout = 900
+timeout = 3300
 action = "screen_off"
 enabled = true
 
-# 40 分钟：安全休眠（先锁屏后挂起）
+# 60 分钟（1小时）：安全休眠（先锁屏后挂起）
 [idle.behavior.suspend]
-timeout = 2400
+timeout = 3600
 action = "lock_and_suspend"
 enabled = true
 
