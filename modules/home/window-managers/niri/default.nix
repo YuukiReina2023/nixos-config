@@ -142,8 +142,6 @@
         { command = [ "wl-paste" "--type" "image" "--watch" "cliphist" "store" ]; }
         # text/uri-list：檔案複製（如 Thunar 複製檔案）使用的 MIME 類型
         { command = [ "wl-paste" "--type" "text/uri-list" "--watch" "cliphist" "store" ]; }
-        # 啟動 fcitx5 輸入法（Wayland text-input 前端）
-        { command = [ "fcitx5" "-d" ]; }
         {
           command = [
             "nm-applet"
