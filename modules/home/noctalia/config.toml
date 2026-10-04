@@ -239,10 +239,10 @@ privacy = true                      # microphone/camera/screen-share capture cha
 [lockscreen]
 enabled                 = true
 lock_before_suspend     = true
-blurred_desktop         = true        # use a desktop snapshot as the lock screen background (requires wlr-screencopy)
+blurred_desktop         = false       # use a desktop snapshot as the lock screen background (requires wlr-screencopy)
 blur_intensity          = 0.65        # lock screen background blur (0.0 = none, 1.0 = maximum)
 tint_intensity          = 0.20        # surface-color tint over the lock screen background
-# wallpaper             = ""          # optional image path for the lock screen; empty uses the desktop wallpaper
+wallpaper               = ""          # optional image path for the lock screen; empty uses the desktop wallpaper
 # monitors              = ["DP-1"]    # connectors that show the lock screen; empty shows all monitors, others stay black
 
 # ── System Monitor ────────────────────────────────────────────────────────────
@@ -542,8 +542,8 @@ type = "caffeine"
 [hooks]
 
 # started           = "notify-send 'Noctalia' 'Shell started'"
-# wallpaper_changed = []
-# colors_changed    = []
+wallpaper_changed = ["noctalia msg sync"]
+colors_changed    = ["noctalia msg sync"]
 # theme_mode_changed = "notify-send 'Noctalia' \"Theme mode: $NOCTALIA_THEME_MODE\""
 # session_locked    = []
 # session_unlocked  = []

@@ -137,8 +137,6 @@
       # 否則會同時存在兩個實例互相競爭 X11 剪貼簿同步，導致貼上偶發失敗。
       spawn-at-startup = [
         { command = [ "noctalia" ]; }
-        # 启动后触发 Noctalia 原生锁屏 (Greeter 界面)
-        { command = [ "sh" "-c" "sleep 0.8 && noctalia msg session lock" ]; }
         # 剪貼簿管理（cliphist）：監聽文字、圖片與檔案，避免來源程式關閉後內容遺失
         { command = [ "wl-paste" "--type" "text" "--watch" "cliphist" "store" ]; }
         { command = [ "wl-paste" "--type" "image" "--watch" "cliphist" "store" ]; }
