@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   # AMD Radeon PRO W6800 (RDNA2) — Dell Precision 7820 Tower
   services.xserver.videoDrivers = [ "amdgpu" ];
