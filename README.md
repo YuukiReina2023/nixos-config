@@ -37,6 +37,8 @@
 | 層級 | 工具 |
 |---|---|
 | 作業系統 | NixOS (unstable) |
+| 核心 | Linux XanMod Latest |
+| 顯示管理器 | [noctalia-greeter](https://github.com/noctalia-dev/noctalia-greeter) |
 | 合成器 | [niri](https://github.com/YaLTeR/niri) |
 | 桌面外殼 | [noctalia-shell](https://github.com/noctalia-dev/noctalia) (zh-CN) |
 | 編輯器 | [nixvim](https://github.com/nix-community/nixvim) (Neovim — Tokyo Night Moon) |
@@ -86,10 +88,17 @@
 - **啟動器** — 應用程式搜尋 + 剪貼簿歷史 + 視窗切換器 + 設定搜尋
 - **控制中心** — 個人資料卡、快速開關（Wi-Fi、藍牙、保持喚醒、電源模式、通知、夜燈、桌布）、音訊卡、亮度、天氣、媒體 + 系統監控
 - **桌布挑選器** — 隨機輪播、多種動畫轉場（fade、disc、stripes、wipe、zoom、honeycomb）、Wallhaven 整合
+- **登入介面 (Greeter)** — 原生整合 `Noctalia Greeter`，支援密碼解鎖 Gnome Keyring，並與桌面外殼無縫同步桌布、配色、毛玻璃透明度與頭像
 - **鎖定畫面** — 模糊 + 色調、倒數計時、可選媒體控制、閒置 5 分鐘調暗、16 分鐘自動鎖定
 - **動態色彩方案** — 桌布產生的 Material You 色彩，同步至 GTK、niri 聚焦環與終端機（透過範本）
 - **夜燈** — 手動或自動排程色溫（夜間 4300 K / 日間 3800 K）
 - **OSD** — 音量、亮度、麥克風覆蓋層顯示於右上角
+
+### 系統與效能最佳化
+
+- **極致桌面效能** — 採用 `linuxPackages_xanmod_latest` (XanMod 最新核心)，專為桌面響應速度與低延遲最佳化
+- **記憶體管理** — 啟用 `zramSwap` 壓縮記憶體，配合 `systemd-oomd` 防止 OOM 當機，高負載下依然流暢
+- **檔案系統 (BTRFS)** — 啟用 `compress=zstd` (Zstandard 壓縮)、`noatime`、非同步 SSD TRIM (`discard=async` 與 `fstrim.timer`)，延長 SSD 壽命並大幅提升 I/O 效能
 
 ### 編輯器 — Nixvim
 
