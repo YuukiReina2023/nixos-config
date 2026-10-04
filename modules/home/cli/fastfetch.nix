@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  # 1. 深度美化 fastfetch 作为 hyfetch 的现代化高性能渲染后端
+  # 现代化高性能系统信息面板 (Fastfetch)
   programs.fastfetch = {
     enable = true;
     settings = {
@@ -22,6 +22,10 @@
         {
           type = "separator";
           string = "─";
+        }
+        {
+          type = "host";
+          key = "󰌢  Host";
         }
         {
           type = "os";
@@ -89,21 +93,6 @@
           symbol = "circle";
         }
       ];
-    };
-  };
-
-  # 2. Hyfetch 主配置：启用 fastfetch 高性能后端与 Transgender 专属 RGB 渐变配色
-  programs.hyfetch = {
-    enable = true;
-    settings = {
-      preset = "transgender";
-      mode = "rgb";
-      backend = "fastfetch";
-      color_align = {
-        mode = "horizontal";
-      };
-      distro = "nixos_old";
-      pride_month_disable = false;
     };
   };
 

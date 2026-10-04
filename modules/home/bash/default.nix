@@ -4,7 +4,6 @@
     enable = true;
     shellAliases = {
       "ff" = "clear && fastfetch";
-      "hf" = "clear && hyfetch";
       "fm" = "yazi";
     };
 

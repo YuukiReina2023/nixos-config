@@ -22,7 +22,6 @@
       lg = "lazygit";
 
       ff = "clear && fastfetch";
-      hf = "clear && hyfetch";
       fm = "yazi";
 
       vm = "GDK_SCALE=1 GDK_DPI_SCALE=1 GDK_BACKEND=x11 virt-manager";

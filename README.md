@@ -108,7 +108,7 @@
 | [zoxide](https://github.com/ajeetdsouza/zoxide) | 智慧目錄跳轉 |
 | [atuin](https://github.com/atuinsh/atuin) | Shell 歷史同步 |
 | [eza](https://github.com/eza-community/eza) | 現代 `ls` 替代品 |
-| [fastfetch](https://github.com/fastfetch-cli/fastfetch) / [hyfetch](https://github.com/hykilpikonna/hyfetch) | 系統資訊（現代硬體監控與 LGBTQ+ 旗幟配色） |
+| [fastfetch](https://github.com/fastfetch-cli/fastfetch) | 系統資訊（現代硬體監控與精美排版） |
 | [btop](https://github.com/aristocratos/btop) / htop | 資源監控 |
 | [tmux](https://github.com/tmux/tmux) | 終端機多工器 |
 | [starship](https://starship.rs) | 跨 Shell 提示字元 |
