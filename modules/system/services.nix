@@ -1,12 +1,7 @@
 { pkgs, config, ... }:
 {
-  # 1. 禁用 Hyprland，啟用系統級 Niri 視窗管理器
-  programs.hyprland = {
-    enable = false;
-    xwayland.enable = true;
-  };
-
-  programs.niri.enable = true; # 在系統級啟用 Niri
+  # 1. 啟用系統級 Niri 視窗管理器
+  programs.niri.enable = true;
 
   # 2. 顯示管理器配置：啟用自动登录以消除双重登录
   services.displayManager.sddm.enable = false;

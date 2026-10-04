@@ -1,7 +1,7 @@
 { ... }:
 {
   imports = [
-    ./hyprland/default.nix
+    ./idle.nix
     ./niri/default.nix
   ];
 

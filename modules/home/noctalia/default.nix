@@ -154,7 +154,7 @@ in
         tint_intensity = 0.2;
       };
 
-      # 闲置策略统一由 hypridle 管理（modules/home/window-managers/hyprland/hypridle.nix），
+      # 闲置策略统一由 hypridle 管理（modules/home/window-managers/idle.nix），
       # 停用 Noctalia 内置的闲置行为，彻底避免 19 分钟 (1140s) 突然睡眠及双重锁屏冲突
       idle = {
         behavior = {
