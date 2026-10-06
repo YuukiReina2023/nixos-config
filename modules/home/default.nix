@@ -34,6 +34,7 @@
     ./flake-pkgs.nix
     ./devshell/default.nix
     ./waydroid/default.nix
+    ./airpods/default.nix
   ];
 
   xdg = {

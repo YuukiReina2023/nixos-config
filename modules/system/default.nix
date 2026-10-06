@@ -15,6 +15,7 @@
     ./users.nix
     ./virtualisation.nix
     ./ai.nix
+    ./airpods.nix
     ../../cachix.nix
 
   ];
