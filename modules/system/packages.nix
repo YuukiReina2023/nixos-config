@@ -1,7 +1,5 @@
 { pkgs, ... }:
 {
-  nixpkgs.config.allowUnfree = true;
-
   # Enable Java and set JAVA_HOME automatically
   programs.java.enable = true;
 
@@ -17,7 +15,7 @@
     python3
     ffmpeg
     pciutils
-    rocmPackages.rocm-smi # AMD GPU 監控工具（Radeon PRO W6800）
+    rocmPackages.rocm-smi
 
     docker-compose
 

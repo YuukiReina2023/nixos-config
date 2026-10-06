@@ -75,7 +75,6 @@
                 nur.overlays.default
                 claude-code.overlays.default
               ];
-              nixpkgs.config.allowUnfree = true;
 
               environment.systemPackages = [
                 pkgs.claude-code

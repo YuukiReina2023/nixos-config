@@ -13,9 +13,9 @@
       package = pkgs.papirus-icon-theme;
     };
     cursorTheme = {
-      name = "Bibata-Modern-Ice";
+      name = "Bibata-Modern-Classic";
       package = pkgs.bibata-cursors;
-      size = 24;
+      size = 32;
     };
   };
 
@@ -23,15 +23,13 @@
     XDG_ICON_THEME = "Papirus-Dark";
     QT_QPA_PLATFORMTHEME = "gtk3";
     QS_ICON_THEME = "Papirus-Dark";
-    XCURSOR_THEME = "Bibata-Modern-Ice";
-    XCURSOR_SIZE = "24";
   };
 
   home.pointerCursor = {
     enable = true;
-    name = "Bibata-Modern-Ice";
+    name = "Bibata-Modern-Classic";
     package = pkgs.bibata-cursors;
-    size = 24;
+    size = 32;
     gtk.enable = true;
     x11.enable = true;
   };
