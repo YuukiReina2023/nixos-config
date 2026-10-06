@@ -47,7 +47,7 @@
 | 提示字元 | [Starship](https://starship.rs) (Tokyo Night Moon 色盤) |
 | GTK 主題 | Colloid-Dark |
 | 圖示 | Papirus-Dark |
-| 游標 | volantes\_cursors |
+| 游標 | bibata_cursors |
 | 字型 | JetBrainsMono Nerd Font、Fira Code Nerd Font、Hack Nerd Font、Noto Sans CJK（預設中文字型）、LXGW WenKai、AR PL UKai、WenQuanYi Micro Hei |
 | 音訊 | PipeWire + WirePlumber |
 | GPU | AMD Radeon PRO W6800 (RDNA2, amdgpu) |

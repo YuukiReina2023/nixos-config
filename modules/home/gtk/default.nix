@@ -13,8 +13,8 @@
       package = pkgs.papirus-icon-theme;
     };
     cursorTheme = {
-      name = "volantes_cursors";
-      package = pkgs.volantes-cursors;
+      name = "Bibata-Modern-Classic";
+      package = pkgs.bibata-cursors;
       size = 32;
     };
   };
@@ -27,8 +27,8 @@
 
   home.pointerCursor = {
     enable = true;
-    name = "volantes_cursors";
-    package = pkgs.volantes-cursors;
+    name = "Bibata-Modern-Classic";
+    package = pkgs.bibata-cursors;
     size = 32;
     gtk.enable = true;
     x11.enable = true;

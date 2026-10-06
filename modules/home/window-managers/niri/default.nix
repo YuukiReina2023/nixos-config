@@ -48,13 +48,13 @@
         hide-after-inactive-ms = 3000;
         hide-when-typing = true;
         size = 32;
-        theme = "volantes_cursors";
+        theme = "Bibata-Modern-Classic";
       };
 
       environment = {
         XDG_CURRENT_DESKTOP = "niri";
         XDG_SESSION_DESKTOP = "niri";
-        xcursor_theme = "volantes_cursors";
+        xcursor_theme = "Bibata-Modern-Classic";
         xcursor_size = "32";
       };
 
