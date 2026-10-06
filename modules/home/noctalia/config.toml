@@ -418,7 +418,7 @@ capsule            = false
 
 start  = ["control-center", "clock", "weather", "active_window"]
 center = ["workspaces"]
-end    = ["media", "media_viz", "cpu", "ram", "network", "bluetooth", "volume", "microphone", "brightness", "tray", "clipboard", "notifications", "battery", "caffeine", "session"]
+end    = ["media", "media_viz", "cpu", "ram", "network", "bluetooth", "airpods", "volume", "microphone", "brightness", "tray", "clipboard", "notifications", "battery", "caffeine", "session"]
 
 # Commands for the bar margin outside widget sections (dead zone):
 # [bar.main.dead_zone.actions]
@@ -691,3 +691,12 @@ icon_color            = "error"
 # middle_command      = ""
 # scroll_up_command   = ""
 # scroll_down_command = ""
+
+[widget.airpods]
+type                  = "custom_button"
+glyph                 = "headphones"
+tooltip               = "AirPods 控制中心 (左鍵切換降噪，右鍵開啟面板)"
+
+[widget.airpods.actions]
+left                  = "exec airpods-cycle-anc"
+right                 = "exec airpods-menu"
