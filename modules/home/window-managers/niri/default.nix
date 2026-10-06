@@ -42,6 +42,17 @@
           matches = [ { namespace = "^noctalia-backdrop.*"; } ];
           place-within-backdrop = true;
         }
+        {
+          # Background blur for Noctalia shell UI components
+          matches = [
+            { namespace = "^noctalia-(bar|launcher|control-center|session|dock|card|popup|notifications|indicator).*"; }
+            { namespace = "^waybar$"; }
+            { namespace = "^(launcher|rofi|notifications?|osd)$"; }
+          ];
+          background-effect = {
+            blur = true;
+          };
+        }
       ];
 
       cursor = {
@@ -65,6 +76,13 @@
       # 通用縮放：套用到所有輸出（DP-1 為目前 4K 螢幕，niri 需匹配連接埠名稱）
       outputs."DP-1".scale = 1.25;
       outputs."*".scale = 1.25;
+
+      blur = {
+        passes = 3;
+        offset = 2.0;
+        noise = 0.02;
+        saturation = 1.2;
+      };
 
       overview = {
         workspace-shadow.enable = false;
@@ -156,31 +174,7 @@
       screenshot-path = "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png";
 
       window-rules = [
-        # Floating windows
-        {
-          matches = [ { app-id = "^pavucontrol$"; } ];
-          open-floating = true;
-          default-column-width.fixed = 800;
-          default-window-height.fixed = 600;
-        }
-        {
-          matches = [ { app-id = "^nm-connection-editor$"; } ];
-          open-floating = true;
-        }
-        {
-          matches = [ { app-id = "^(Thunar|thunar)$"; } ];
-          open-floating = true;
-          default-column-width.fixed = 1400;
-          default-window-height.fixed = 1000;
-        }
-        {
-          matches = [ { app-id = "^org.gnome.Calculator$"; } ];
-          open-floating = true;
-        }
-        {
-          matches = [ { app-id = "^(imv|mpv)$"; } ];
-          open-floating = true;
-        }
+        # 1. 对话框与画中画 (Dialogs & Picture-in-Picture)
         {
           matches = [ { title = "^Picture-in-Picture$"; } ];
           open-floating = true;
@@ -188,10 +182,31 @@
         {
           matches = [ { title = "^(Open|Save) File.*$"; } ];
           open-floating = true;
+          opacity = 0.95;
+          draw-border-with-background = false;
+          geometry-corner-radius = {
+            top-left = 12.0;
+            top-right = 12.0;
+            bottom-left = 12.0;
+            bottom-right = 12.0;
+          };
+          clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
+        }
+        {
+          # 媒体查看器：保持不透明以呈现原画质，启用圆角裁剪
+          matches = [ { app-id = "^(imv|mpv)$"; } ];
+          open-floating = true;
         }
 
+        # 2. 终端模拟器 (Terminal Emulators) - 毛玻璃半透明
         {
-          matches = [ { app-id = "^foot$"; } ];
+          matches = [
+            { app-id = "^foot$"; }
+            { app-id = "^(kitty|Kitty)$"; }
+          ];
           opacity = 0.92;
           draw-border-with-background = false;
           geometry-corner-radius = {
@@ -201,12 +216,18 @@
             bottom-right = 10.0;
           };
           clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
         }
 
+        # 3. 开发工具与代码编辑器 (IDEs & Editors)
         {
           matches = [
             { app-id = "^(code|Code)$"; }
             { app-id = "^(antigravity-ide|Antigravity IDE)$"; }
+            { app-id = "^(postman|Postman)$"; }
+            { app-id = "^(burp-StartBurp|burpsuite|BurpSuitePro)$"; }
           ];
           opacity = 0.94;
           draw-border-with-background = false;
@@ -217,12 +238,35 @@
             bottom-right = 10.0;
           };
           clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
         }
 
-        # Chrome
+        # 4. 笔记与文档阅读 (Notes & Documents)
         {
           matches = [
-            { app-id = "^(google-chrome|google-chrome-stable)$"; }
+            { app-id = "^obsidian$"; }
+            { app-id = "^(org.pwmt.zathura|zathura)$"; }
+          ];
+          opacity = 0.93;
+          draw-border-with-background = false;
+          geometry-corner-radius = {
+            top-left = 12.0;
+            top-right = 12.0;
+            bottom-left = 12.0;
+            bottom-right = 12.0;
+          };
+          clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
+        }
+
+        # 5. 网页浏览器 (Web Browsers)
+        {
+          matches = [
+            { app-id = "^(google-chrome|google-chrome-stable|chromium-browser)$"; }
           ];
           opacity = 0.92;
           draw-border-with-background = false;
@@ -233,73 +277,17 @@
             bottom-right = 10.0;
           };
           clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
         }
 
-        # Floating windows get rounded corners + shadow
+        # 6. 音乐与媒体客户端 (Music Players)
         {
-          matches = [ { app-id = "^pavucontrol$"; } ];
-          draw-border-with-background = false;
-          geometry-corner-radius = {
-            top-left = 12.0;
-            top-right = 12.0;
-            bottom-left = 12.0;
-            bottom-right = 12.0;
-          };
-          clip-to-geometry = true;
-          opacity = 0.95;
-        }
-        {
-          matches = [ { app-id = "^(Thunar|thunar)$"; } ];
-          draw-border-with-background = false;
-          geometry-corner-radius = {
-            top-left = 12.0;
-            top-right = 12.0;
-            bottom-left = 12.0;
-            bottom-right = 12.0;
-          };
-          clip-to-geometry = true;
-          opacity = 0.95;
-        }
-
-        {
-          matches = [ { app-id = "^(Swappy|swappy)$"; } ];
-          draw-border-with-background = false;
-          geometry-corner-radius = {
-            top-left = 12.0;
-            top-right = 12.0;
-            bottom-left = 12.0;
-            bottom-right = 12.0;
-          };
-          clip-to-geometry = true;
-          # opacity = 0.95;
-        }
-
-        {
-          matches = [ { } ];
-          draw-border-with-background = false;
-          geometry-corner-radius = {
-            top-left = 10.0;
-            top-right = 10.0;
-            bottom-left = 10.0;
-            bottom-right = 10.0;
-          };
-          clip-to-geometry = true;
-        }
-
-        {
-          matches = [ { app-id = "^obsidian$"; } ];
-          opacity = 0.93;
-          draw-border-with-background = false;
-          geometry-corner-radius = {
-            top-left = 12.0;
-            top-right = 12.0;
-            bottom-left = 12.0;
-            bottom-right = 12.0;
-          };
-          clip-to-geometry = true;
-        }
-        {
-          matches = [ { app-id = "^spotify$"; } ];
+          matches = [
+            { app-id = "^spotify$"; }
+            { app-id = "^(netease-cloud-music-gtk4?|netease-cloud-music)$"; }
+          ];
           open-floating = true;
           default-column-width.fixed = 1200;
           default-window-height.fixed = 800;
@@ -312,9 +300,19 @@
             bottom-right = 12.0;
           };
           clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
         }
+
+        # 7. 即时通讯与社交应用 (IM & Chat)
         {
-          matches = [ { app-id = "^(org.telegram.desktop|telegramdesktop)$"; } ];
+          matches = [
+            { app-id = "^(org.telegram.desktop|telegramdesktop)$"; }
+            { app-id = "^(discord|Discord|vesktop)$"; }
+            { app-id = "^(QQ|qq)$"; }
+            { app-id = "^(wechat|WeChat)$"; }
+          ];
           opacity = 0.93;
           draw-border-with-background = false;
           geometry-corner-radius = {
@@ -324,10 +322,17 @@
             bottom-right = 12.0;
           };
           clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
         }
-        # Discord
+
+        # 8. 系统工具与控制面板 (System Utilities & Control Panels)
         {
-          matches = [ { app-id = "^(discord|Discord)$"; } ];
+          matches = [ { app-id = "^pavucontrol$"; } ];
+          open-floating = true;
+          default-column-width.fixed = 800;
+          default-window-height.fixed = 600;
           opacity = 0.92;
           draw-border-with-background = false;
           geometry-corner-radius = {
@@ -337,6 +342,152 @@
             bottom-right = 12.0;
           };
           clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
+        }
+        {
+          matches = [ { app-id = "^nm-connection-editor$"; } ];
+          open-floating = true;
+          opacity = 0.95;
+          draw-border-with-background = false;
+          geometry-corner-radius = {
+            top-left = 12.0;
+            top-right = 12.0;
+            bottom-left = 12.0;
+            bottom-right = 12.0;
+          };
+          clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
+        }
+        {
+          matches = [ { app-id = "^org.gnome.Calculator$"; } ];
+          open-floating = true;
+          opacity = 0.92;
+          draw-border-with-background = false;
+          geometry-corner-radius = {
+            top-left = 12.0;
+            top-right = 12.0;
+            bottom-left = 12.0;
+            bottom-right = 12.0;
+          };
+          clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
+        }
+        {
+          matches = [ { app-id = "^(Thunar|thunar)$"; } ];
+          open-floating = true;
+          default-column-width.fixed = 1400;
+          default-window-height.fixed = 1000;
+          opacity = 0.94;
+          draw-border-with-background = false;
+          geometry-corner-radius = {
+            top-left = 12.0;
+            top-right = 12.0;
+            bottom-left = 12.0;
+            bottom-right = 12.0;
+          };
+          clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
+        }
+        {
+          matches = [ { app-id = "^(org.gnome.FileRoller|file-roller)$"; } ];
+          open-floating = true;
+          opacity = 0.95;
+          draw-border-with-background = false;
+          geometry-corner-radius = {
+            top-left = 12.0;
+            top-right = 12.0;
+            bottom-left = 12.0;
+            bottom-right = 12.0;
+          };
+          clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
+        }
+        {
+          matches = [
+            { app-id = "^(virt-manager|org.virt-manager.virt-manager)$"; }
+            { app-id = "^(com.usebottles.bottles|bottles)$"; }
+            { app-id = "^(org.gnome.SystemMonitor|gnome-system-monitor)$"; }
+            { app-id = "^(org.jackhuang.hmcl.Launcher|hmcl)$"; }
+          ];
+          opacity = 0.94;
+          draw-border-with-background = false;
+          geometry-corner-radius = {
+            top-left = 12.0;
+            top-right = 12.0;
+            bottom-left = 12.0;
+            bottom-right = 12.0;
+          };
+          clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
+        }
+        {
+          matches = [ { app-id = "^(Swappy|swappy)$"; } ];
+          draw-border-with-background = false;
+          geometry-corner-radius = {
+            top-left = 12.0;
+            top-right = 12.0;
+            bottom-left = 12.0;
+            bottom-right = 12.0;
+          };
+          clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
+        }
+        {
+          matches = [ { app-id = "^(Rofi|rofi)$"; } ];
+          draw-border-with-background = false;
+          geometry-corner-radius = {
+            top-left = 20.0;
+            top-right = 20.0;
+            bottom-left = 20.0;
+            bottom-right = 20.0;
+          };
+          clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
+        }
+
+        # 9. 浮动窗口：采用真实背景模糊（关闭 xray，重叠于窗口之上时模糊底层窗口）
+        {
+          matches = [ { is-floating = true; } ];
+          background-effect = {
+            xray = false;
+          };
+        }
+
+        # 10. 全局兜底规则：给所有窗口与右键/弹出菜单启用毛玻璃模糊与圆角裁剪
+        {
+          matches = [ { } ];
+          draw-border-with-background = false;
+          geometry-corner-radius = {
+            top-left = 10.0;
+            top-right = 10.0;
+            bottom-left = 10.0;
+            bottom-right = 10.0;
+          };
+          clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
+          popups = {
+            background-effect = {
+              blur = true;
+            };
+          };
         }
       ];
 

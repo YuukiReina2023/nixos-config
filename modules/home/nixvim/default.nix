@@ -27,7 +27,7 @@
       enable = true;
       settings = {
         style = "moon";
-        transparent = false;
+        transparent = true;
         terminal_colors = true;
         styles = {
           comments.italic = true;
