@@ -47,20 +47,23 @@
       cursor = {
         hide-after-inactive-ms = 3000;
         hide-when-typing = true;
-        size = 32;
-        theme = "Bibata-Modern-Classic";
+        size = 24;
+        theme = "Bibata-Modern-Ice";
       };
 
       environment = {
         XDG_CURRENT_DESKTOP = "niri";
         XDG_SESSION_DESKTOP = "niri";
-        xcursor_theme = "Bibata-Modern-Classic";
-        xcursor_size = "32";
+        XCURSOR_THEME = "Bibata-Modern-Ice";
+        XCURSOR_SIZE = "24";
+        xcursor_theme = "Bibata-Modern-Ice";
+        xcursor_size = "24";
       };
 
       gestures.hot-corners.enable = false;
 
-      # 通用縮放：套用到所有輸出（可依實際螢幕調整數值）
+      # 通用縮放：套用到所有輸出（DP-1 為目前 4K 螢幕，niri 需匹配連接埠名稱）
+      outputs."DP-1".scale = 1.25;
       outputs."*".scale = 1.25;
 
       overview = {
