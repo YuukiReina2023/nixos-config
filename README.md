@@ -147,9 +147,11 @@
 | `Mod + B` | Chrome 瀏覽器（Wayland 模式 + IME） |
 | `Mod + Q` | 檔案管理員 (Thunar) |
 | `Mod + Space` | 應用程式啟動器 (noctalia) |
-| `Mod + Shift + Space` | 控制中心 |
+| `Mod + Shift + Space` | 控制中心 (noctalia) |
+| `Mod + Shift + ,` | Noctalia 設定面板 |
 | `Mod + W` | 桌布挑選器 |
 | `Mod + V` | 剪貼簿歷史 (rofi) |
+| `Mod + A` | AirPods 控制中心 (rofi / 降噪·電量·EQ) |
 | `Mod + S` | 區域截圖 |
 | `Mod + Shift + S` | 全螢幕截圖 |
 | `Mod + Escape` | 工作階段選單 |
@@ -181,6 +183,7 @@
 | `Mod + Shift + B` | 切換工具列 |
 | `Mod + Shift + N` | 切換夜燈 |
 | `Mod + P` | 播放/暫停媒體 |
+| `Mod + Shift + P` | 停止播放媒體 |
 | `Mod + ,` / `Mod + .` | 上一首 / 下一首 |
 | `XF86Audio*` | 音量控制（鎖定畫面亦可用） |
 | `XF86Brightness*` | 亮度（鎖定畫面亦可用） |
@@ -194,15 +197,18 @@
 nixos-config/
 ├── flake.nix                     # Flake 輸入與系統定義
 ├── hardware-configuration.nix    # 硬體掃描輸出
+├── pkgs/                         # 自訂套件定義
+│   └── airpods-helper.nix        # Apple AirPods 守護進程與 CLI (Rust AAP 協議)
 └── modules/
     ├── home/                     # Home Manager 模組
     │   ├── default.nix           # 模組匯入彙整
+    │   ├── airpods/              # AirPods 狀態監聽、降噪切換與控制面板 (Rofi)
     │   ├── window-managers/
     │   │   └── niri/             # Niri 配置、快捷鍵、視窗規則（空閒休眠由 Noctalia 原生接管）
     │   ├── noctalia/             # Noctalia 桌面外殼設定
     │   ├── nixvim/               # Neovim (LSP、外掛、色彩主題)
     │   │   └── plugins/          # nixvim 外掛配置
-    │   ├── waybar/               # Waybar（已配置，noctalia 為主要外殼）
+    │   ├── waybar/               # Waybar（含 AirPods 電量/降噪狀態與切換模組）
     │   │   └── scripts/          # Waybar 輔助腳本
     │   ├── rofi/                 # Rofi 啟動器
     │   ├── foot/                 # 終端機模擬器
@@ -219,6 +225,7 @@ nixos-config/
     │   ├── discord/              # Discord (Vencord)
     │   ├── chrome/               # 瀏覽器配置
     │   ├── bottles/              # Bottles (Windows 應用程式管理)
+    │   ├── waydroid/             # Waydroid (Android 相容環境)
     │   ├── obs-studio/           # OBS Studio
     │   ├── swappy/               # 截圖註解
     │   ├── virt-manager/         # virt-manager dconf
@@ -235,6 +242,7 @@ nixos-config/
     │   └── features/             # 功能模組 (截圖)
     ├── system/                   # NixOS 系統模組
     │   ├── default.nix           # 模組匯入彙整
+    │   ├── airpods.nix           # AirPods 系統權限包裝 (cap_net_raw) 與後台服務
     │   ├── amdgpu.nix            # AMD Radeon PRO W6800 (amdgpu)
     │   ├── audio.nix             # PipeWire + WirePlumber
     │   ├── boot.nix              # systemd-boot、核心參數、BBR
@@ -254,83 +262,41 @@ nixos-config/
 
 ## 安裝與復原
 
-<details>
-<summary><b>🖥️ 圖形化安裝指導（點擊展開）</b></summary>
+### 1. 系統安裝 (Calamares)
 
-> 以下為使用 NixOS 官方圖形化安裝程式（Calamares）從零安裝的完整流程。
+1. 下載 [NixOS 官方圖形化 ISO](https://nixos.org/download/) 並寫入 USB 隨身碟開機。
+2. 啟動安裝程式（Calamares）：
+   - **安裝類型**：選擇 **Minimal**（最小化安裝，無預設桌面）。
+   - **磁碟分割**：建議使用 **btrfs**（`/boot` 設 FAT32 1GB，剩餘空間分給 `/`，`swap` 建議 ≥ RAM 容量以支援休眠）。
+   - **使用者名稱**：預設為 `yuukireina2023`（可於配置中調整）。
+3. 安裝完成後重啟進入系統。
 
-### 步驟 1：下載 ISO 映像檔
-
-前往 [NixOS 官方下載頁面](https://nixos.org/download/)，下載 **GNOME** 或 **KDE** 圖形化 ISO（例如 `nixos-gnome-25.05.xxxx.x86_64-linux.iso`，或最新穩定版）。
-
-### 步驟 2：製作開機隨身碟
-
-使用 [Rufus](https://rufus.ie/)（Windows）、`dd`（Linux/macOS）或 [balenaEtcher](https://etcher.balena.io/) 將 ISO 寫入 USB 隨身碟：
+### 2. 連線網路
 
 ```bash
-# Linux/macOS 範例（請確認裝置名稱，勿覆蓋錯誤磁碟！）
-sudo dd if=nixos-gnome-25.05.iso of=/dev/sdX bs=4M status=progress
-```
+# 有線網路隨插即用；WiFi 使用 NetworkManager 連線
+nmcli device wifi connect <SSID> password <密碼>
 
-### 步驟 3：從 USB 開機
-
-1. 重新啟動電腦，進入 BIOS/UEFI 開機選單（通常按 `F12` / `F2` / `Del`）
-2. 選擇 USB 隨身碟開機
-3. 在開機選單選擇 **NixOS 圖形化安裝**（Graphical installer）
-
-### 步驟 4：使用圖形化安裝程式
-
-1. 開機後會進入 GNOME/KDE 桌面，點選 **「Install NixOS」** 圖示啟動 Calamares
-2. **語言**：選擇繁體中文或 English
-3. **安裝類型**：選擇 **「Minimal」**（無桌面最小化安裝）。本配置自帶 niri 合成器與 Noctalia 桌面外殼，不需要額外的桌面環境，最小化安裝可避免套件衝突並加快建構
-4. **分割區**（建議手動分割，使用 **btrfs** 格式以支援快照與休眠）：
-   - `/boot`：EFI 分割區，512MB–1GB，**FAT32**，掛載點 `/boot`
-   - `/`：**btrfs**，使用剩餘空間，掛載點 `/`
-   - `swap`：**建議與 RAM 相同大小或更大**（本機 32GB RAM → 建議 32–64GB），用於**休眠**（suspend-to-disk）。安裝後需記錄 swap 的 UUID，並在 `modules/system/boot.nix` 的 `boot.kernelParams` 加入 `resume=UUID=<swap 的 UUID>` 才能正常休眠
-5. **使用者**：建立使用者帳號（此配置的使用者名稱為 `yuukireina2023`，可於安裝後修改配置）
-6. **安裝**：點選安裝並等待完成
-7. 安裝完成後重新啟動，移除 USB
-
-### 步驟 5：連線網路並檢查（復原前必做）
-
-最小化安裝沒有桌面環境，需用命令列連線 WiFi。**復原配置前必須先連上網路**，否則無法 clone 與建構：
-
-```bash
-# 使用 NetworkManager CLI 連線 WiFi
-nmcli device wifi list                          # 列出可用 WiFi
-nmcli device wifi connect <SSID> password <密碼>  # 連線 WiFi
-
-# 或使用 iwd（若系統使用 iwd 而非 NetworkManager）
-iwctl station wlan0 scan                        # 掃描 WiFi
-iwctl station wlan0 connect <SSID>              # 連線 WiFi（會提示輸入密碼）
-
-# 確認網路連線（能 ping 通即代表網路正常）
+# 檢查網路連線
 ping -c 3 nixos.org
 ```
 
-> **有線網路**：直接插上網路線即可，NetworkManager 會自動取得 IP，無需額外設定。
->
-> **注意**：若 `nmcli` 不存在，表示系統未啟用 NetworkManager，可先執行 `sudo systemctl start NetworkManager` 再重試。
-
-### 步驟 6：安裝後套用此配置
+### 3. 套用配置
 
 ```bash
-# 進入系統後，先安裝 git（最小化安裝預設沒有 git）
+# 安裝 git 並複製配置
 sudo nix-env -iA nixos.git
-
-# 複製此配置
 git clone https://github.com/yuukireina2023/nixos-config ~/nixos-config
 cd ~/nixos-config
 
-# 產生硬體配置並取代現有檔案
+# 產生硬體配置並覆蓋現有檔案
 sudo nixos-generate-config --show-hardware-config > hardware-configuration.nix
 
-# 套用系統配置
+# 建構並套用系統配置
 sudo nixos-rebuild switch --flake .#nixos
-
-# 开机锁屏看不到头像的解决方法
-将头像重命名为 ".face" 放入 "/home/yuukireina2023/"
 ```
+
+> **提示**：若鎖定畫面/登入頁未顯示頭像，可將頭像圖片重命名為 `.face` 並放入家目錄（`~/.face`）。
 
 ## 系統檢查
 
@@ -415,9 +381,7 @@ sudo btrfs inspect-internal map-swapfile -r /swap/swapfile   # 取得 btrfs swap
 #   "resume_offset=<btrfs map-swapfile 的輸出>"
 ```
 
-</details>
-
-### 疑難排解
+## 疑難排解
 
 | 問題 | 解決方法 |
 |---|---|
@@ -433,8 +397,6 @@ sudo btrfs inspect-internal map-swapfile -r /swap/swapfile   # 取得 btrfs swap
 | 休眠後立即喚醒 | 檢查 `journalctl -b | grep -i hibernate`，確認 swap 空間足夠且未分散於多個 swap |
 | btrfs 空間不足但 `df` 顯示有空間 | 執行 `sudo btrfs balance start /` 重新平衡資料與中繼資料區塊 |
 | btrfs 無法建立快照 | 含啟用中 swap 檔案的子卷無法快照，swap 檔案需放在獨立子卷（如 `/swap`） |
-
-</details>
 
 ---
 

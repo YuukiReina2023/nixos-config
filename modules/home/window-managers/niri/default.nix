@@ -398,6 +398,9 @@
           "cliphist list | rofi -dmenu -p ' Clipboard' | cliphist decode | wl-copy"
         ];
 
+        # AirPods 控制菜单 (Mod+A)
+        "Mod+A".action.spawn = [ "airpods-menu" ];
+
         # Screenshots
         "Mod+S".action.spawn = [ "niri-screenshot.sh" ];
         "Mod+Shift+S".action.spawn = [
