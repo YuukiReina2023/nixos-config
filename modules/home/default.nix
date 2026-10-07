@@ -57,9 +57,8 @@
     CARGO_HOME = "${config.xdg.dataHome}/cargo";
     GNUPGHOME = "${config.xdg.dataHome}/gnupg";
 
-    # fcitx5 輸入法：niri 不支援 text-input-v2（Qt < 6.7 需要），
-    # 故 Qt 應用需用 fcitx im module；Qt 6.7+ 優先 wayland 再 fallback 到 fcitx
-    QT_IM_MODULE = "fcitx";
+    # fcitx5 輸入法：Wayland 下原生使用 text-input 協議，
+    # Qt 6.7+ 優先 wayland 再 fallback 到 fcitx，避免強制 QT_IM_MODULE=fcitx 觸發 Wayland 自檢警告
     QT_IM_MODULES = "wayland;fcitx";
 
     # X11 / XWayland 應用走 XIM 協定呼叫 fcitx5；GTK4 / Wayland 原生使用 text-input 協定，
