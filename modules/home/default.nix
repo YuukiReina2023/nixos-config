@@ -35,6 +35,7 @@
     ./devshell/default.nix
     ./waydroid/default.nix
     ./airpods/default.nix
+    ./motrix/default.nix
   ];
 
   xdg = {
