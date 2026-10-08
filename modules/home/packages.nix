@@ -24,6 +24,7 @@
     obsidian
     netease-cloud-music-gtk
     telegram-desktop
+    tor-browser
 
     #postgresql
     postgresql_17
