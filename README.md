@@ -122,7 +122,8 @@
 - **Android Studio 行動開發**：
   - 官方穩定版 Android Studio，系統層級提供 `pkgs.android-tools` 並加入 `adbusers` 權限群組，實體裝置 USB 偵錯免除權限阻礙
   - 結合系統 `kvm` 虛擬化權限，AVD 虛擬機硬體加速流暢就緒
-  - 支援 JetBrains 官方簡體中文語言包外掛，隨時轉換為中文開發介面
+  - 宣告式整合 Google Antigravity 插件生態（`Antigravity CLI Companion` 終端 MCP 協同、`Switch2Antigravity` 一鍵光標同步跳轉與原生 ACP 智能體聯調）
+  - 支援 JetBrains 官方簡體中文語言包（`com.intellij.zh`），一鍵轉換完整中文開發介面
 
 ### CLI 環境
 
@@ -252,7 +253,7 @@ nixos-config/
     │   ├── virt-manager/         # virt-manager dconf
     │   ├── file-roller/          # 檔案壓縮管理員
     │   ├── wallpapers/           # 桌布收藏
-    │   ├── android-studio/       # Android Studio 整合開發環境
+    │   ├── android-studio/       # Android Studio 整合開發環境 (中文語言包與 Google Antigravity 插件配置)
     │   ├── vscode/               # VS Code 宣告式環境 (FHS、外掛生態、繁簡中文、userSettings)
     │   ├── cli/                  # CLI 工具配置 (bat, btop, cava, fastfetch, htop)
     │   ├── devshell/             # 開發環境 (base, Go, Node, Python)
