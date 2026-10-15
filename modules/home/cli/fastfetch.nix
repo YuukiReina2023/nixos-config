@@ -95,9 +95,4 @@
       ];
     };
   };
-
-  # 确保 fastfetch 命令行工具在系统 PATH 可用
-  home.packages = with pkgs; [
-    fastfetch
-  ];
 }

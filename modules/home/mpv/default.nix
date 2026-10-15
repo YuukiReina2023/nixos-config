@@ -55,7 +55,7 @@
 
       "Ctrl++" = "add sub-scale 0.1";
       "Ctrl+-" = "add sub-scale -0.1";
-      "Ctrl+0" = "set sub-scale 0";
+      "Ctrl+0" = "set sub-scale 1.0";
 
       q = "quit";
       Q = "quit-watch-later";

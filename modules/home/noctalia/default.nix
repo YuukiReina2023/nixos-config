@@ -18,10 +18,4 @@
       [ "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg" ]
       (builtins.readFile ./config.toml);
   };
-
-  xdg.configFile."noctalia/wallpapers" = {
-    source = ../wallpapers;
-    recursive = true;
-    force = true;
-  };
 }

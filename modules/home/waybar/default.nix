@@ -47,8 +47,8 @@ in
       margin-right = 0;
 
       modules-left = [
-        "hyprland/workspaces"
-        "hyprland/window"
+        "niri/workspaces"
+        "niri/window"
       ];
       modules-center = [
         "clock"
@@ -85,14 +85,11 @@ in
         on-scroll-down = "brightnessctl set 5%-";
         tooltip = false;
       };
-      "hyprland/workspaces" = {
-        disable-scroll = true;
-        all-outputs = false;
+      "niri/workspaces" = {
         format = "{name}";
-        on-click = "activate";
       };
 
-      "hyprland/window" = {
+      "niri/window" = {
         format = "  {}";
         max-length = 40;
         separate-outputs = true;

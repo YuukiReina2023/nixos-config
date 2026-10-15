@@ -73,9 +73,8 @@
 
       gestures.hot-corners.enable = false;
 
-      # 通用縮放：套用到所有輸出（DP-1 為目前 4K 螢幕，niri 需匹配連接埠名稱）
+      # 顯示器縮放（DP-1 為目前 4K 螢幕）
       outputs."DP-1".scale = 1.25;
-      outputs."*".scale = 1.25;
 
       blur = {
         passes = 3;
@@ -308,7 +307,6 @@
         # 7. 即时通讯与社交应用 (IM & Chat)
         {
           matches = [
-            { app-id = "^(org.telegram.desktop|telegramdesktop)$"; }
             { app-id = "^(discord|Discord|vesktop)$"; }
             { app-id = "^(QQ|qq)$"; }
             { app-id = "^(wechat|WeChat)$"; }
@@ -324,6 +322,24 @@
           clip-to-geometry = true;
           background-effect = {
             blur = true;
+          };
+        }
+
+        # Telegram Desktop：Qt 自带 CSD 阴影缓冲区，开启模糊会导致窗口及弹窗四周多出一圈毛玻璃外边
+        # 单独为 TG 禁用背景模糊与弹窗模糊，修复外圈毛玻璃 Bug
+        {
+          matches = [
+            { app-id = "^(org.telegram.desktop|telegramdesktop)$"; }
+          ];
+          opacity = 1.0;
+          draw-border-with-background = false;
+          background-effect = {
+            blur = false;
+          };
+          popups = {
+            background-effect = {
+              blur = false;
+            };
           };
         }
 
@@ -549,9 +565,6 @@
           "cliphist list | rofi -dmenu -p ' Clipboard' | cliphist decode | wl-copy"
         ];
 
-        # AirPods 控制菜单 (Mod+A)
-        "Mod+A".action.spawn = [ "airpods-menu" ];
-
         # Screenshots
         "Mod+S".action.spawn = [ "niri-screenshot.sh" ];
         "Mod+Shift+S".action.spawn = [
@@ -628,12 +641,6 @@
         # Session
         "Mod+Shift+M".action.quit = { };
 
-        "Mod+Alt+L".action.spawn = [
-          "noctalia"
-          "msg"
-          "session"
-          "lock"
-        ];
         "Mod+Shift+B".action.spawn = [
           "noctalia"
           "msg"

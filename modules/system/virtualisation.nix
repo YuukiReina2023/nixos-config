@@ -14,7 +14,7 @@
     enable = true;
     qemu = {
       package = pkgs.qemu_kvm;
-      runAsRoot = true;
+      runAsRoot = false;
       swtpm.enable = true; # TPM support
       vhostUserPackages = with pkgs; [ virtiofsd ];
     };
@@ -29,14 +29,6 @@
   systemd.tmpfiles.rules = [
     "L+ /var/lib/qemu/firmware - - - - ${pkgs.qemu}/share/qemu/firmware"
   ];
-
-  users.users.yuukireina2023 = {
-    extraGroups = [
-      "libvirtd"
-      "kvm"
-      "qemu-libvirtd"
-    ];
-  };
 
   environment.systemPackages = with pkgs; [
     virt-manager

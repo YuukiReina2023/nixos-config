@@ -2,7 +2,7 @@
 {
   programs.rofi = {
     enable = true;
-    package = pkgs.rofi;
+    package = pkgs.rofi-wayland;
 
     plugins = with pkgs; [
       rofi-emoji # emoji picker  → rofi -show emoji

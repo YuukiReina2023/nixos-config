@@ -151,7 +151,6 @@
 | `Mod + Shift + ,` | Noctalia 設定面板 |
 | `Mod + W` | 桌布挑選器 |
 | `Mod + V` | 剪貼簿歷史 (rofi) |
-| `Mod + A` | AirPods 控制中心 (rofi / 降噪·電量·EQ) |
 | `Mod + S` | 區域截圖 |
 | `Mod + Shift + S` | 全螢幕截圖 |
 | `Mod + Escape` | 工作階段選單 |
@@ -197,18 +196,15 @@
 nixos-config/
 ├── flake.nix                     # Flake 輸入與系統定義
 ├── hardware-configuration.nix    # 硬體掃描輸出
-├── pkgs/                         # 自訂套件定義
-│   └── airpods-helper.nix        # Apple AirPods 守護進程與 CLI (Rust AAP 協議)
 └── modules/
     ├── home/                     # Home Manager 模組
     │   ├── default.nix           # 模組匯入彙整
-    │   ├── airpods/              # AirPods 狀態監聽、降噪切換與控制面板 (Rofi)
     │   ├── window-managers/
     │   │   └── niri/             # Niri 配置、快捷鍵、視窗規則（空閒休眠由 Noctalia 原生接管）
     │   ├── noctalia/             # Noctalia 桌面外殼設定
     │   ├── nixvim/               # Neovim (LSP、外掛、色彩主題)
     │   │   └── plugins/          # nixvim 外掛配置
-    │   ├── waybar/               # Waybar（含 AirPods 電量/降噪狀態與切換模組）
+    │   ├── waybar/               # Waybar 配置
     │   │   └── scripts/          # Waybar 輔助腳本
     │   ├── rofi/                 # Rofi 啟動器
     │   ├── foot/                 # 終端機模擬器
@@ -242,7 +238,6 @@ nixos-config/
     │   └── features/             # 功能模組 (截圖)
     ├── system/                   # NixOS 系統模組
     │   ├── default.nix           # 模組匯入彙整
-    │   ├── airpods.nix           # AirPods 系統權限包裝 (cap_net_raw) 與後台服務
     │   ├── amdgpu.nix            # AMD Radeon PRO W6800 (amdgpu)
     │   ├── audio.nix             # PipeWire + WirePlumber
     │   ├── boot.nix              # systemd-boot、核心參數、BBR

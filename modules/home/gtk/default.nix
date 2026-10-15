@@ -22,7 +22,7 @@
   home.sessionVariables = {
     XDG_ICON_THEME = "Papirus-Dark";
     QT_QPA_PLATFORMTHEME = "gtk3";
-    QS_ICON_THEME = "Papirus-Dark";
+    QT_ICON_THEME = "Papirus-Dark";
   };
 
   home.pointerCursor = {

@@ -26,8 +26,7 @@
     telegram-desktop
     tor-browser
 
-    #postgresql
-    postgresql_17
+    # Prisma
     prisma-engines
 
     # hypr

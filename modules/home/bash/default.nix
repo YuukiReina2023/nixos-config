@@ -10,7 +10,9 @@
     bashrcExtra = ''
       if [[ $- == *i* ]]; then
         fastfetch
-        source /etc/profiles/per-user/yuukireina2023/etc/profile.d/hm-session-vars.sh
+        if [ -f "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh" ]; then
+          source "/etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh"
+        fi
       fi
     '';
 

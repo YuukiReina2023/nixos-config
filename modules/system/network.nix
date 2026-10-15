@@ -26,7 +26,8 @@
       };
       wifi-security = {
         key-mgmt = "wpa-psk";
-        psk = "Neko1989.6.4";
+        # 移除 Nix store 全局可读的明文密码，改由 NetworkManager 本地安全存储（连接时提示或通过 nmcli 写入）
+        psk-flags = 1;
       };
       ipv4 = {
         method = "auto";
