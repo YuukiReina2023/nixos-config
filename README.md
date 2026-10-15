@@ -54,7 +54,7 @@
 | GPU | AMD Radeon PRO W6800 (RDNA2, amdgpu) |
 | 輸入法 | fcitx5 (拼音, Shift_L 切換, Wayland text-input-v3) |
 | 遊戲 | Steam + Proton、HMCL (Minecraft 啟動器)、Bottles、gamescope、gamemode |
-| 虛擬化 | Docker、virt-manager/QEMU/KVM、Waydroid |
+| 虛擬化 | Docker、virt-manager/QEMU/KVM |
 | 資料庫 | PostgreSQL 17 |
 | 打印 | CUPS、`epson-escpr`、`epson-escpr2`、`system-config-printer` |
 | AI | Ollama (ROCm, llama3.1:8b)、LM Studio、Claude Code、Google Antigravity CLI (`agy`) |
@@ -247,7 +247,6 @@ nixos-config/
     │   ├── discord/              # Discord (Vencord)
     │   ├── chrome/               # 瀏覽器配置
     │   ├── bottles/              # Bottles (Windows 應用程式管理)
-    │   ├── waydroid/             # Waydroid (Android 相容環境)
     │   ├── obs-studio/           # OBS Studio
     │   ├── swappy/               # 截圖註解
     │   ├── virt-manager/         # virt-manager dconf

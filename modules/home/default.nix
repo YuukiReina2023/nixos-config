@@ -31,7 +31,6 @@
     ./deploy-files.nix
     ./flake-pkgs.nix
     ./devshell/default.nix
-    ./waydroid/default.nix
     ./mpv/default.nix
     ./motrix/default.nix
     ./android-studio/default.nix

@@ -18,9 +18,6 @@
     };
   };
 
-  virtualisation.waydroid.enable = true;
-  networking.nftables.enable = true;
-
   virtualisation.spiceUSBRedirection.enable = true;
 
   # UEFI firmware symlink fix
