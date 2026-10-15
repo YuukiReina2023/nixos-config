@@ -2,7 +2,7 @@
 
 {
   environment.systemPackages = [
-    pkgs.lmstudio
+    #pkgs.lmstudio
   ];
 
   # Ollama (model runner)
