@@ -34,6 +34,8 @@
     ./waydroid/default.nix
     ./mpv/default.nix
     ./motrix/default.nix
+    ./android-studio/default.nix
+    ./vscode/default.nix
   ];
 
   xdg = {

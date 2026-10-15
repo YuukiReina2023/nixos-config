@@ -36,7 +36,6 @@
     kitty
 
     libreoffice-stable
-    vscode-fhs
     antigravity-cli
 
     # Screenshot tools

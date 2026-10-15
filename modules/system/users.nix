@@ -18,6 +18,7 @@
       "libvirtd"
       "kvm"
       "qemu-libvirtd"
+      "adbusers" # Android USB 调试与设备访问权限
     ];
     # shell = pkgs.bash;
     shell = pkgs.fish;

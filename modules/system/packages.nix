@@ -3,6 +3,9 @@
   # Enable Java and set JAVA_HOME automatically
   programs.java.enable = true;
 
+  # Android 调试桥 (ADB) 与 USB udev 规则支持（真机调试必须）
+  programs.adb.enable = true;
+
   environment.systemPackages = with pkgs; [
     # Core utils
     wget
