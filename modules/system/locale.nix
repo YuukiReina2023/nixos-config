@@ -1,6 +1,6 @@
 { ... }:
 {
-  time.timeZone = "Asia/Shanghai";
+  time.timeZone = "America/New_York";
 
   i18n = {
     defaultLocale = "zh_CN.UTF-8";

@@ -50,8 +50,8 @@
     enable = true;
     package = pkgs.postgresql_17;
     settings = {
-      timezone = "Asia/Shanghai";
-      log_timezone = "Asia/Shanghai";
+      timezone = "America/New_York";
+      log_timezone = "America/New_York";
     };
     authentication = pkgs.lib.mkOverride 10 ''
       # TYPE  DATABASE  USER  ADDRESS     METHOD
