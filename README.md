@@ -41,7 +41,8 @@
 | 顯示管理器 | [noctalia-greeter](https://github.com/noctalia-dev/noctalia-greeter) |
 | 合成器 | [niri](https://github.com/YaLTeR/niri) |
 | 桌面外殼 | [noctalia-shell](https://github.com/noctalia-dev/noctalia) (zh-CN) |
-| 編輯器 | [nixvim](https://github.com/nix-community/nixvim) (Neovim — Tokyo Night Moon) |
+| 編輯器 / IDE | [nixvim](https://github.com/nix-community/nixvim) (Neovim — Tokyo Night Moon)、[VS Code](https://code.visualstudio.com) (FHS + 繁簡中文 + Tokyo Night + 宣告式外掛生態) |
+| 行動開發 | [Android Studio](https://developer.android.com/studio) (Android 官方整合開發環境、ADB 真機偵錯、AVD 模擬器硬體加速) |
 | 終端機 | [foot](https://codeberg.org/dnkl/foot) / kitty |
 | Shell | bash + [fish](https://fishshell.com) |
 | 提示字元 | [Starship](https://starship.rs) (Tokyo Night Moon 色盤) |
@@ -109,6 +110,19 @@
 - **LSP**、補全、Treesitter、Telescope、Git 整合（gitsigns）
 - vim-tmux-navigator 無縫窗格導覽
 - 前導鍵：`<Space>`
+
+### 整合開發環境 (IDE)
+
+- **VS Code 宣告式環境**：
+  - 採用 `vscode-fhs` 解決動態連結函式庫相容性問題，第三方語言伺服器與擴充套件無痛運作
+  - 預置官方簡體中文語言包、**Tokyo Night** 主題與 **Material Icon Theme** 圖示
+  - 宣告式整合全套開發外掛：Nix (`nix-ide` 串接 `nixd`)、Web 全棧 (ESLint、Prettier、Tailwind CSS、Auto Rename Tag)、Python、Go、Prisma、Docker、YAML/TOML，以及 **GitLens** 與 **Error Lens**
+  - 開箱即用優化：平滑捲動、字型連字、保存自動排版等舒適設定
+
+- **Android Studio 行動開發**：
+  - 官方穩定版 Android Studio，系統層級原生啟用 `programs.adb.enable` 並加入 `adbusers` 權限群組，實體裝置 USB 偵錯免除權限阻礙
+  - 結合系統 `kvm` 虛擬化權限，AVD 虛擬機硬體加速流暢就緒
+  - 支援 JetBrains 官方簡體中文語言包外掛，隨時轉換為中文開發介面
 
 ### CLI 環境
 
@@ -239,10 +253,12 @@ nixos-config/
     │   ├── virt-manager/         # virt-manager dconf
     │   ├── file-roller/          # 檔案壓縮管理員
     │   ├── wallpapers/           # 桌布收藏
+    │   ├── android-studio/       # Android Studio 整合開發環境
+    │   ├── vscode/               # VS Code 宣告式環境 (FHS、外掛生態、繁簡中文、userSettings)
     │   ├── cli/                  # CLI 工具配置 (bat, btop, cava, fastfetch, htop)
     │   ├── devshell/             # 開發環境 (base, Go, Node, Python)
     │   │   └── shells/           # 開發環境定義
-    │   ├── packages.nix          # 使用者套件（Blender, HMCL, Obsidian, 網易雲, Telegram, Claude Code, Antigravity CLI, VS Code）
+    │   ├── packages.nix          # 使用者套件（Blender, HMCL, Obsidian, 網易雲, Telegram, Claude Code, Antigravity CLI）
     │   ├── tools.nix             # CLI 工具 (zoxide, atuin, eza)
     │   ├── flake-pkgs.nix        # Flake 衍生套件 (Burp Suite Pro)
     │   ├── deploy-files.nix      # 部署檔案
@@ -260,8 +276,8 @@ nixos-config/
     │   ├── ai.nix                # Ollama (ROCm, 已啟用) + LM Studio
     │   ├── services.nix          # 服務 (PostgreSQL、藍牙、niri、打印/CUPS)
     │   ├── locale.nix            # 語言環境與紐約時區
-    │   ├── users.nix             # 使用者帳號
-    │   └── packages.nix          # 系統套件與服務 (Steam, GameMode, Gamescope, Wireshark, Java)
+    │   ├── users.nix             # 使用者帳號與權限組 (含 adbusers, kvm, docker 等)
+    │   └── packages.nix          # 系統套件與服務 (Steam, GameMode, Gamescope, Wireshark, Java, ADB)
     └── scripts/                  # 截圖輔助腳本 (captureFullscreen, captureSelectArea, niri-screenshot)
 ```
 
@@ -404,6 +420,8 @@ sudo btrfs inspect-internal map-swapfile -r /swap/swapfile   # 取得 btrfs swap
 | 休眠後立即喚醒 | 檢查 `journalctl -b | grep -i hibernate`，確認 swap 空間足夠且未分散於多個 swap |
 | btrfs 空間不足但 `df` 顯示有空間 | 執行 `sudo btrfs balance start /` 重新平衡資料與中繼資料區塊 |
 | btrfs 無法建立快照 | 含啟用中 swap 檔案的子卷無法快照，swap 檔案需放在獨立子卷（如 `/swap`） |
+| Android Studio 介面轉中文 | 啟動後在歡迎畫面「Plugins」（或 `Settings -> Plugins`）的 Marketplace 搜尋「Chinese (Simplified) Language Pack」，安裝後重啟 IDE |
+| Android 真機 USB 偵錯無權限 | 系統已原生配置 `programs.adb.enable` 並納入 `adbusers` 權限群組。若偵錯時顯示 `no permissions`，請重新插拔 USB 或重新登入帳號以更新群組權限 |
 
 ---
 
