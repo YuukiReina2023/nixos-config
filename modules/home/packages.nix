@@ -37,7 +37,7 @@
 
     libreoffice-stable
     vscode-fhs
-    antigravity-ide-fhs
+    antigravity-cli
 
     # Screenshot tools
     grim

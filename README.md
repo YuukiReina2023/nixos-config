@@ -53,18 +53,19 @@
 | GPU | AMD Radeon PRO W6800 (RDNA2, amdgpu) |
 | 輸入法 | fcitx5 (拼音, Shift_L 切換, Wayland text-input-v3) |
 | 遊戲 | Steam + Proton、HMCL (Minecraft 啟動器)、Bottles、gamescope、gamemode |
-| 虛擬化 | Docker、virt-manager/QEMU/KVM |
+| 虛擬化 | Docker、virt-manager/QEMU/KVM、Waydroid |
 | 資料庫 | PostgreSQL 17 |
 | 打印 | CUPS、`epson-escpr`、`epson-escpr2`、`system-config-printer` |
-| AI | Ollama (ROCm, llama3.1:8b)、LM Studio |
+| AI | Ollama (ROCm, llama3.1:8b)、LM Studio、Claude Code、Google Antigravity CLI (`agy`) |
 | 安全工具 | Burp Suite Professional |
 | 音樂 | 網易雲音樂 (netease-cloud-music-gtk) |
 | 媒體 | MPV、OBS Studio |
 | 3D 建模 | Blender (AMD HIP/ROCm GPU 加速) |
 | 筆記 | Obsidian |
-| 通訊 | Discord (Vencord)、Telegram Desktop |
-| 瀏覽器 | Google Chrome |
+| 通訊 | Discord (Vencord)、Telegram Desktop、微信 (WeChat)、QQ |
+| 瀏覽器 | Google Chrome、Tor Browser |
 | 檔案管理 | Yazi、file-roller |
+| 下載工具 | Motrix |
 
 ---
 
@@ -124,6 +125,8 @@
 | [wireshark](https://www.wireshark.org) | 網路封包分析（系統級配置 Linux Capabilities，支援免 root 側錄） |
 | bat | 語法高亮的 cat 替代品 |
 | cava | 音訊視覺化 |
+| [agy](https://antigravity.google) | Google Antigravity CLI（終端智慧代理客戶端） |
+| [claude-code](https://github.com/sadjow/claude-code-nix) | Anthropic Claude Code AI 終端輔助工具 |
 
 ### 遊戲與轉譯層
 
@@ -163,29 +166,33 @@
 | `Mod + F` | 最大化欄位 |
 | `Mod + Shift + F` | 全螢幕 |
 | `Mod + T` | 切換浮動 |
-| `Mod + O` | 切換總覽 |
+| `Mod + O` | 切換總覽 (Overview) |
 | `Mod + R` | 循環欄位寬度 (50 / 75 / 100 %) |
-| `Mod + H/L` | 聚焦左/右欄位 |
-| `Mod + J/K` | 聚焦上/下視窗 |
+| `Mod + Shift + R` | 重設視窗高度 |
+| `Mod + Shift + O` | 切換視窗透明度規則 |
+| `Mod + H/L` 或 `Mod + ←/→` | 聚焦左/右欄位 |
+| `Mod + J/K` 或 `Mod + ↑/↓` | 聚焦上/下視窗 |
+| `Mod + Home` / `Mod + [` | 聚焦首欄 |
+| `Mod + End` / `Mod + ]` | 聚焦末欄 |
 | `Mod + Ctrl + H/L/J/K` | 移動欄位/視窗 |
-| `Mod + Shift + ←/→` | 調整欄位寬度 |
-| `Mod + Shift + ↑/↓` | 調整視窗高度 |
-| `Mod + 1–9` | 切換工作區 |
-| `Mod + Shift + 1–9` | 移動視窗至工作區 |
+| `Mod + Shift + ←/→` | 調整欄位寬度 (-/+ 80px) |
+| `Mod + Shift + ↑/↓` | 調整視窗高度 (-/+ 80px) |
+| `Mod + 1–9, 0` | 切換工作區 (1–10) |
+| `Mod + Shift + 1–9, 0` | 移動視窗至工作區 (1–10) |
 
 ### 系統
 
 | 快捷鍵 | 動作 |
 |---|---|
-| `Mod + Alt + L` / `Mod + Shift + L` | 鎖定畫面 |
+| `Mod + Shift + L` | 鎖定畫面 (Noctalia Lock) |
 | `Mod + Shift + M` | 結束 niri |
-| `Mod + Shift + B` | 切換工具列 |
-| `Mod + Shift + N` | 切換夜燈 |
+| `Mod + Shift + B` | 切換工具列 (Bar Toggle) |
+| `Mod + Shift + N` | 切換夜燈 (Night Light Toggle) |
 | `Mod + P` | 播放/暫停媒體 |
 | `Mod + Shift + P` | 停止播放媒體 |
 | `Mod + ,` / `Mod + .` | 上一首 / 下一首 |
-| `XF86Audio*` | 音量控制（鎖定畫面亦可用） |
-| `XF86Brightness*` | 亮度（鎖定畫面亦可用） |
+| `XF86Audio*` | 音量控制 / 靜音（鎖定畫面亦可用） |
+| `XF86Brightness*` | 亮度調節（鎖定畫面亦可用） |
 | `Shift_L` | 切換輸入法 (fcitx5 拼音) |
 
 ---
@@ -195,18 +202,24 @@
 ```
 nixos-config/
 ├── flake.nix                     # Flake 輸入與系統定義
+├── flake.lock                    # 依賴鎖定檔
 ├── hardware-configuration.nix    # 硬體掃描輸出
+├── cachix.nix                    # Cachix 二進制快取配置
+├── cachix/                       # Cachix 快取定義
 └── modules/
     ├── home/                     # Home Manager 模組
-    │   ├── default.nix           # 模組匯入彙整
-    │   ├── window-managers/
-    │   │   └── niri/             # Niri 配置、快捷鍵、視窗規則（空閒休眠由 Noctalia 原生接管）
-    │   ├── noctalia/             # Noctalia 桌面外殼設定
+    │   ├── default.nix           # 模組匯入彙整與環境變數
+    │   ├── window-managers/      # 視窗管理器
+    │   │   ├── default.nix       # 視窗管理器匯總
+    │   │   └── niri/             # Niri 配置、快捷鍵、視窗規則
+    │   ├── noctalia/             # Noctalia 桌面外殼設定 (config.toml)
     │   ├── nixvim/               # Neovim (LSP、外掛、色彩主題)
+    │   │   ├── keymaps.nix       # 鍵位映射
+    │   │   ├── options.nix       # 編輯器選項
     │   │   └── plugins/          # nixvim 外掛配置
     │   ├── waybar/               # Waybar 配置
     │   │   └── scripts/          # Waybar 輔助腳本
-    │   ├── rofi/                 # Rofi 啟動器
+    │   ├── rofi/                 # Rofi 啟動器與主題樣式
     │   ├── foot/                 # 終端機模擬器
     │   ├── fish/                 # Fish shell 配置
     │   ├── bash/                 # Bash 配置
@@ -216,7 +229,8 @@ nixos-config/
     │   ├── gtk/                  # GTK 主題、圖示、游標
     │   ├── fcitx5/               # 輸入法框架 (拼音)
     │   ├── mpv/                  # MPV 媒體播放器
-    │   ├── qq/                   # SB QQ
+    │   ├── motrix/               # Motrix 下載管理員
+    │   ├── qq/                   # QQ Linux 桌面版
     │   ├── wechat/               # WeChat 客户端
     │   ├── discord/              # Discord (Vencord)
     │   ├── chrome/               # 瀏覽器配置
@@ -230,7 +244,7 @@ nixos-config/
     │   ├── cli/                  # CLI 工具配置 (bat, btop, cava, fastfetch, htop)
     │   ├── devshell/             # 開發環境 (base, Go, Node, Python)
     │   │   └── shells/           # 開發環境定義
-    │   ├── packages.nix          # 使用者套件（Blender, HMCL, Obsidian, 網易雲, Telegram, Claude Code）
+    │   ├── packages.nix          # 使用者套件（Blender, HMCL, Obsidian, 網易雲, Telegram, Claude Code, Antigravity CLI, VS Code）
     │   ├── tools.nix             # CLI 工具 (zoxide, atuin, eza)
     │   ├── flake-pkgs.nix        # Flake 衍生套件 (Burp Suite Pro)
     │   ├── deploy-files.nix      # 部署檔案
@@ -243,14 +257,14 @@ nixos-config/
     │   ├── boot.nix              # systemd-boot、核心參數、BBR
     │   ├── fonts.nix             # 系統字型 (CJK 含 Noto Sans CJK、LXGW WenKai、Nerd Fonts)
     │   ├── network.nix           # NetworkManager (本地安全連線管理)
-    │   ├── nix.nix               # Nix 設定 (Tsinghua 鏡像、trusted-users、GC、效能調校)
+    │   ├── nix.nix               # Nix 設定 (USTC / 清華鏡像、trusted-users、GC、效能調校)
     │   ├── virtualisation.nix    # Docker + 原生 virt-manager / KVM
     │   ├── ai.nix                # Ollama (ROCm, 已啟用) + LM Studio
     │   ├── services.nix          # 服務 (PostgreSQL、藍牙、niri、打印/CUPS)
-    │   ├── locale.nix            # 語言環境與時區
+    │   ├── locale.nix            # 語言環境與紐約時區
     │   ├── users.nix             # 使用者帳號
     │   └── packages.nix          # 系統套件與服務 (Steam, GameMode, Gamescope, Wireshark, Java)
-    └── scripts/                  # 截圖輔助腳本
+    └── scripts/                  # 截圖輔助腳本 (captureFullscreen, captureSelectArea, niri-screenshot)
 ```
 
 ---
