@@ -2,8 +2,7 @@
 
 {
   environment.systemPackages = [
-    # 暂时将 lmstudio 注释掉，避免网络不通导致构建失败，等网络顺畅时再开启
-    # pkgs.lmstudio
+    pkgs.lmstudio
   ];
 
   # Ollama (model runner)
