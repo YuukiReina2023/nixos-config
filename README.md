@@ -120,7 +120,7 @@
   - 開箱即用優化：平滑捲動、字型連字、保存自動排版等舒適設定
 
 - **Android Studio 行動開發**：
-  - 官方穩定版 Android Studio，系統層級原生啟用 `programs.adb.enable` 並加入 `adbusers` 權限群組，實體裝置 USB 偵錯免除權限阻礙
+  - 官方穩定版 Android Studio，系統層級提供 `pkgs.android-tools` 並加入 `adbusers` 權限群組，實體裝置 USB 偵錯免除權限阻礙
   - 結合系統 `kvm` 虛擬化權限，AVD 虛擬機硬體加速流暢就緒
   - 支援 JetBrains 官方簡體中文語言包外掛，隨時轉換為中文開發介面
 
@@ -421,7 +421,7 @@ sudo btrfs inspect-internal map-swapfile -r /swap/swapfile   # 取得 btrfs swap
 | btrfs 空間不足但 `df` 顯示有空間 | 執行 `sudo btrfs balance start /` 重新平衡資料與中繼資料區塊 |
 | btrfs 無法建立快照 | 含啟用中 swap 檔案的子卷無法快照，swap 檔案需放在獨立子卷（如 `/swap`） |
 | Android Studio 介面轉中文 | 啟動後在歡迎畫面「Plugins」（或 `Settings -> Plugins`）的 Marketplace 搜尋「Chinese (Simplified) Language Pack」，安裝後重啟 IDE |
-| Android 真機 USB 偵錯無權限 | 系統已原生配置 `programs.adb.enable` 並納入 `adbusers` 權限群組。若偵錯時顯示 `no permissions`，請重新插拔 USB 或重新登入帳號以更新群組權限 |
+| Android 真機 USB 偵錯無權限 | 系統已安裝 `android-tools`（由 systemd 258+ 自動處理 uaccess 規則）並納入 `adbusers` 權限群組。若偵錯時顯示 `no permissions`，請重新插拔 USB 或重新登入帳號以更新群組權限 |
 
 ---
 
