@@ -173,7 +173,28 @@
       screenshot-path = "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png";
 
       window-rules = [
-        # 1. 对话框与画中画 (Dialogs & Picture-in-Picture)
+        # 1. 全局默认基底规则：为所有窗口与右键/弹出菜单启用毛玻璃模糊与 10px 圆角裁剪
+        {
+          matches = [ { } ];
+          draw-border-with-background = false;
+          geometry-corner-radius = {
+            top-left = 10.0;
+            top-right = 10.0;
+            bottom-left = 10.0;
+            bottom-right = 10.0;
+          };
+          clip-to-geometry = true;
+          background-effect = {
+            blur = true;
+          };
+          popups = {
+            background-effect = {
+              blur = true;
+            };
+          };
+        }
+
+        # 2. 对话框与画中画 (Dialogs & Picture-in-Picture)
         {
           matches = [ { title = "^Picture-in-Picture$"; } ];
           open-floating = true;
@@ -324,23 +345,6 @@
           };
         }
 
-        # Telegram Desktop：Qt 自带 CSD 阴影缓冲区，开启模糊会导致窗口及弹窗四周多出一圈毛玻璃外边
-        # 单独为 TG 禁用背景模糊与弹窗模糊，修复外圈毛玻璃 Bug
-        {
-          matches = [
-            { app-id = "^(org.telegram.desktop|telegramdesktop)$"; }
-          ];
-          opacity = 1.0;
-          draw-border-with-background = false;
-          background-effect = {
-            blur = false;
-          };
-          popups = {
-            background-effect = {
-              blur = false;
-            };
-          };
-        }
 
         # 8. 系统工具与控制面板 (System Utilities & Control Panels)
         {
@@ -484,9 +488,13 @@
           };
         }
 
-        # 10. 全局兜底规则：给所有窗口与右键/弹出菜单启用毛玻璃模糊与圆角裁剪
+        # 11. Telegram Desktop：Qt 自带 CSD 阴影缓冲区，开启模糊会导致窗口及弹窗四周多出一圈毛玻璃外边
+        # 禁用背景模糊与弹窗模糊，并将透明度调整为 0.9
         {
-          matches = [ { } ];
+          matches = [
+            { app-id = "^(org.telegram.desktop|telegramdesktop)$"; }
+          ];
+          opacity = 0.9;
           draw-border-with-background = false;
           geometry-corner-radius = {
             top-left = 10.0;
@@ -496,11 +504,11 @@
           };
           clip-to-geometry = true;
           background-effect = {
-            blur = true;
+            blur = false;
           };
           popups = {
             background-effect = {
-              blur = true;
+              blur = false;
             };
           };
         }

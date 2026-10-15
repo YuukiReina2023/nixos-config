@@ -45,7 +45,7 @@
     };
   };
 
-  # Launcher scripts (call these from Hyprland keybinds)
+  # Launcher scripts (helper scripts for Rofi commands)
   home.packages = with pkgs; [
     (pkgs.writeShellScriptBin "rofi-launcher" ''
       rofi -show drun -show-icons

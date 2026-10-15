@@ -8,8 +8,6 @@
   };
 
   # Virtual Machine (QEMU/KVM)
-  users.groups.libvirtd.members = [ "yuukireina2023" ];
-
   virtualisation.libvirtd = {
     enable = true;
     qemu = {

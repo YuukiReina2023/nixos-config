@@ -56,10 +56,6 @@
 
   boot.supportedFilesystems = [ "ntfs" ];
 
-  boot.extraModprobeConfig = ''
-    options rtw89_pci disable_clkreq=y disable_aspm_l1=y disable_aspm_l1ss=y
-  '';
-
   services.fstrim.enable = true;
   zramSwap.enable = true;
 }

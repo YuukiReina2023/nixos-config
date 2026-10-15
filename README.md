@@ -204,8 +204,6 @@ nixos-config/
 ├── flake.nix                     # Flake 輸入與系統定義
 ├── flake.lock                    # 依賴鎖定檔
 ├── hardware-configuration.nix    # 硬體掃描輸出
-├── cachix.nix                    # Cachix 二進制快取配置
-├── cachix/                       # Cachix 快取定義
 └── modules/
     ├── home/                     # Home Manager 模組
     │   ├── default.nix           # 模組匯入彙整與環境變數

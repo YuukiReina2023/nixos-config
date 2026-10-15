@@ -29,8 +29,6 @@
 
     visidata
 
-    jdk21
-
     # 遊戲轉譯層
     protonup-qt # Proton 版本管理工具
 

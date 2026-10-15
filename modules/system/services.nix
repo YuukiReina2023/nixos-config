@@ -170,11 +170,7 @@
     system-config-printer
     simple-scan # 开源文档扫描工具 (Document Scanner)
   ];
-  # Ensure Cachix substituters and trusted keys are available to the Nix daemon
-  # (use nix.extraOptions to write to /etc/nix/nix.conf so the daemon trusts the caches)
-  # Cachix keys are managed via the dedicated cachix.nix module imported in
-  # modules/system/default.nix. Do not set nix.extraOptions here to avoid
-  # conflicting writes to /etc/nix/nix.conf.
+  # Cachix 与各镜像源二进制缓存（substituters 及 trusted-public-keys）统一由 modules/system/nix.nix 集中管理。
 
   systemd.oomd.enable = true;
 }

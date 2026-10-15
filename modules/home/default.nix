@@ -13,8 +13,6 @@
     ./swappy/default.nix
     ./packages.nix
     ./virt-manager/default.nix
-    # features
-    ./features/screenshot.nix
     ./starship/default.nix
     ./tmux/default.nix
     ./cli/default.nix
