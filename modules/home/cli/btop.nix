@@ -1,9 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, gpu ? "nvidia", ... }:
 {
   programs.btop = {
     enable = true;
     package = pkgs.btop.override {
-      rocmSupport = true; # AMD Radeon PRO W6800
+      rocmSupport = gpu == "amd";
+      cudaSupport = gpu == "nvidia";
     };
     settings = {
       vim_keys = true;

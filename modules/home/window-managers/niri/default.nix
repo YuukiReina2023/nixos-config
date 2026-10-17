@@ -73,8 +73,9 @@
 
       gestures.hot-corners.enable = false;
 
-      # 顯示器縮放（DP-1 為目前 4K 螢幕）
+      # 顯示器縮放（DP-1 為 4K 外接螢幕，eDP-1 為筆記本 2.5K 165Hz 內置螢幕）
       outputs."DP-1".scale = 1.25;
+      outputs."eDP-1".scale = 1.25;
 
       blur = {
         passes = 3;

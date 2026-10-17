@@ -49,6 +49,7 @@
 
   outputs =
     inputs@{
+      self,
       nixpkgs,
       home-manager,
       nixvim,
@@ -57,48 +58,77 @@
       burpsuitepro,
       ...
     }:
-    {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./modules/system/default.nix
-          ./hardware-configuration.nix
-          inputs.niri.nixosModules.niri
-          inputs.noctalia-greeter.nixosModules.default
+    let
+      mkSystem =
+        {
+          hostName,
+          systemModule,
+          extraHomeArgs ? { },
+        }:
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs hostName; };
+          modules = [
+            systemModule
+            inputs.niri.nixosModules.niri
+            inputs.noctalia-greeter.nixosModules.default
 
-          # 系统层级配置与 Overlay 注入
-          (
-            { pkgs, ... }:
+            # 系统层级配置与 Overlay 注入
+            (
+              { pkgs, ... }:
+              {
+                nixpkgs.overlays = [
+                  nur.overlays.default
+                  claude-code.overlays.default
+                ];
+              }
+            )
+
+            # Home Manager 模块配置
+            home-manager.nixosModules.home-manager
             {
-              nixpkgs.overlays = [
-                nur.overlays.default
-                claude-code.overlays.default
-              ];
-            }
-          )
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
 
-          # Home Manager 模块配置
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
+                extraSpecialArgs = {
+                  inherit nixvim inputs hostName;
+                } // extraHomeArgs;
 
-              extraSpecialArgs = {
-                inherit nixvim inputs;
+                users.yuukireina2023 = import ./modules/home/default.nix;
+                backupFileExtension = "backup";
+
+                sharedModules = [
+                  nixvim.homeModules.nixvim
+                  inputs.noctalia.homeModules.default
+                ];
               };
+            }
+          ];
+        };
+    in
+    {
+      nixosConfigurations = rec {
+        # 笔记本主机：Razer Blade 15 (Early 2021) - Intel UHD + NVIDIA RTX 3070 Mobile
+        blade = mkSystem {
+          hostName = "blade";
+          systemModule = ./hosts/blade/default.nix;
+          extraHomeArgs = {
+            gpu = "nvidia";
+          };
+        };
 
-              users.yuukireina2023 = import ./modules/home/default.nix;
-              backupFileExtension = "backup";
+        # 工作站主机：Dell Precision 7820 Tower - AMD Radeon PRO W6800
+        precision = mkSystem {
+          hostName = "precision";
+          systemModule = ./hosts/precision/default.nix;
+          extraHomeArgs = {
+            gpu = "amd";
+          };
+        };
 
-              sharedModules = [
-                nixvim.homeModules.nixvim
-                inputs.noctalia.homeModules.default
-              ];
-            };
-          }
-        ];
+        # 默认回退别名：指向当前笔记本 blade 配置，确保 `nixos-rebuild switch --flake .` 在当前主机名或未指定时直接生效
+        nixos = blade;
       };
     };
 }

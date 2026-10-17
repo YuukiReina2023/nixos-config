@@ -18,7 +18,6 @@
     python3
     ffmpeg
     pciutils
-    rocmPackages.rocm-smi
 
     docker-compose
 
