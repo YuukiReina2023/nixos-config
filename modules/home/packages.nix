@@ -1,4 +1,4 @@
-{ pkgs, gpu ? "nvidia", ... }:
+{ pkgs, ... }:
 {
   home.packages = with pkgs; [
     awww
@@ -19,7 +19,7 @@
     zathura
 
     # Apps consolidated from single-file modules
-    (if gpu == "amd" then (blender.override { rocmSupport = true; }) else blender)
+    (blender.override { rocmSupport = true; })
     hmcl
     obsidian
     netease-cloud-music-gtk

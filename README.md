@@ -51,17 +51,17 @@
 | 游標 | bibata_cursors |
 | 字型 | JetBrainsMono Nerd Font、Fira Code Nerd Font、Hack Nerd Font、Noto Sans CJK（預設中文字型）、LXGW WenKai、AR PL UKai、WenQuanYi Micro Hei |
 | 音訊 | PipeWire + WirePlumber |
-| GPU | 筆記本 (Blade 15)：Intel UHD + NVIDIA GeForce RTX 3070 Mobile (PRIME Offload)<br>工作站 (Precision 7820)：AMD Radeon PRO W6800 (RDNA2, amdgpu) |
+| GPU | AMD Radeon PRO W6800 (RDNA2, amdgpu) |
 | 輸入法 | fcitx5 (拼音, Shift_L 切換, Wayland text-input-v3) |
 | 遊戲 | Steam + Proton、HMCL (Minecraft 啟動器)、Bottles、gamescope、gamemode |
 | 虛擬化 | Docker、virt-manager/QEMU/KVM |
 | 資料庫 | PostgreSQL 17 |
 | 打印 | CUPS、`epson-escpr`、`epson-escpr2`、`system-config-printer` |
-| AI | Ollama (NVIDIA CUDA / AMD ROCm, llama3.1:8b)、LM Studio、Claude Code、Google Antigravity CLI (`agy`) |
+| AI | Ollama (ROCm, llama3.1:8b)、LM Studio、Claude Code、Google Antigravity CLI (`agy`) |
 | 安全工具 | Burp Suite Professional |
 | 音樂 | 網易雲音樂 (netease-cloud-music-gtk) |
 | 媒體 | MPV、OBS Studio |
-| 3D 建模 | Blender (OptiX / CUDA / AMD ROCm GPU 加速) |
+| 3D 建模 | Blender (AMD HIP/ROCm GPU 加速) |
 | 筆記 | Obsidian |
 | 通訊 | Discord (Vencord)、Telegram Desktop、微信 (WeChat)、QQ |
 | 瀏覽器 | Google Chrome、Tor Browser |
@@ -216,29 +216,21 @@
 
 ```
 nixos-config/
-├── flake.nix                     # Flake 輸入與多主機定義 (blade / precision / nixos)
+├── flake.nix                     # Flake 輸入與系統定義
 ├── flake.lock                    # 依賴鎖定檔
-├── hosts/                        # 多主機硬體與專屬適配
-│   ├── blade/                    # 筆記本：Razer Blade 15 Base (Early 2021)
-│   │   ├── default.nix           # 筆記本專屬配置 (thermald, logind, 睡眠優化, CUDA AI)
-│   │   ├── hardware-configuration.nix # 筆記本硬體與檔案系統配置
-│   │   └── nvidia.nix            # NVIDIA RTX 3070 Mobile + Intel UHD (PRIME Offload)
-│   └── precision/                # 工作站：Dell Precision 7820 Tower
-│       ├── default.nix           # 工作站專屬配置 (ROCm AI, 防秒醒, 性能模式)
-│       ├── hardware-configuration.nix # 工作站硬體與 Broadcom 網卡配置
-│       └── amdgpu.nix            # AMD Radeon PRO W6800 (amdgpu + ROCm)
+├── hardware-configuration.nix    # 硬體掃描輸出
 └── modules/
     ├── home/                     # Home Manager 模組
     │   ├── default.nix           # 模組匯入彙整與環境變數
-    │   ├── window-managers/      # 視窗管理器 (Niri 支援 eDP-1 2.5K 165Hz 與 DP-1 4K 縮放)
+    │   ├── window-managers/      # 視窗管理器
     │   │   ├── default.nix       # 視窗管理器匯總
     │   │   └── niri/             # Niri 配置、快捷鍵、視窗規則
-    │   ├── noctalia/             # Noctalia 桌面外殼設定 (config.toml, 自動背光與電池)
+    │   ├── noctalia/             # Noctalia 桌面外殼設定 (config.toml)
     │   ├── nixvim/               # Neovim (LSP、外掛、色彩主題)
     │   │   ├── keymaps.nix       # 鍵位映射
     │   │   ├── options.nix       # 編輯器選項
     │   │   └── plugins/          # nixvim 外掛配置
-    │   ├── waybar/               # Waybar 配置 (動態背光自適應)
+    │   ├── waybar/               # Waybar 配置
     │   │   └── scripts/          # Waybar 輔助腳本
     │   ├── rofi/                 # Rofi 啟動器與主題樣式
     │   ├── foot/                 # 終端機模擬器
@@ -263,27 +255,29 @@ nixos-config/
     │   ├── wallpapers/           # 桌布收藏
     │   ├── android-studio/       # Android Studio 整合開發環境 (中文語言包與 Google Antigravity 插件配置)
     │   ├── vscode/               # VS Code 宣告式環境 (FHS、外掛生態、繁簡中文、userSettings)
-    │   ├── cli/                  # CLI 工具配置 (bat, btop [動態 CUDA/ROCm], cava, fastfetch, htop)
+    │   ├── cli/                  # CLI 工具配置 (bat, btop, cava, fastfetch, htop)
     │   ├── devshell/             # 開發環境 (base, Go, Node, Python)
     │   │   └── shells/           # 開發環境定義
-    │   ├── packages.nix          # 使用者套件（Blender [動態加速], HMCL, Obsidian, 網易雲, Telegram, Claude Code, Antigravity CLI）
+    │   ├── packages.nix          # 使用者套件（Blender, HMCL, Obsidian, 網易雲, Telegram, Claude Code, Antigravity CLI）
     │   ├── tools.nix             # CLI 工具 (zoxide, atuin, eza)
     │   ├── flake-pkgs.nix        # Flake 衍生套件 (Burp Suite Pro)
     │   ├── deploy-files.nix      # 部署檔案
     │   ├── xdg-portal.nix        # XDG Portal 設定
     │   └── features/             # 功能模組 (截圖)
-    ├── system/                   # 通用 NixOS 系統模組
-    │   ├── default.nix           # 通用模組匯入彙整
+    ├── system/                   # NixOS 系統模組
+    │   ├── default.nix           # 模組匯入彙整
+    │   ├── amdgpu.nix            # AMD Radeon PRO W6800 (amdgpu)
     │   ├── audio.nix             # PipeWire + WirePlumber
-    │   ├── boot.nix              # systemd-boot、核心參數、BBR、Windows EFI 同步
+    │   ├── boot.nix              # systemd-boot、核心參數、BBR
     │   ├── fonts.nix             # 系統字型 (CJK 含 Noto Sans CJK、LXGW WenKai、Nerd Fonts)
     │   ├── network.nix           # NetworkManager (本地安全連線管理)
     │   ├── nix.nix               # Nix 設定 (USTC / 清華鏡像、trusted-users、GC、效能調校)
     │   ├── virtualisation.nix    # Docker + 原生 virt-manager / KVM
-    │   ├── services.nix          # 通用服務 (PostgreSQL、藍牙、niri、打印/CUPS、SANE)
+    │   ├── ai.nix                # Ollama (ROCm, 已啟用) + LM Studio
+    │   ├── services.nix          # 服務 (PostgreSQL、藍牙、niri、打印/CUPS)
     │   ├── locale.nix            # 語言環境與紐約時區
     │   ├── users.nix             # 使用者帳號與權限組 (含 adbusers, kvm, docker 等)
-    │   └── packages.nix          # 系統通用套件 (Steam, GameMode, Gamescope, Wireshark, Java, ADB)
+    │   └── packages.nix          # 系統套件與服務 (Steam, GameMode, Gamescope, Wireshark, Java, ADB)
     └── scripts/                  # 截圖輔助腳本 (captureFullscreen, captureSelectArea, niri-screenshot)
 ```
 
@@ -318,13 +312,11 @@ sudo nix-env -iA nixos.git
 git clone https://github.com/yuukireina2023/nixos-config ~/nixos-config
 cd ~/nixos-config
 
-# 筆記本 (Razer Blade 15 Base 2021)：
-sudo nixos-rebuild switch --flake .#blade
-# 或在當前筆記本直接套用預設別名：
-sudo nixos-rebuild switch --flake .
+# 產生硬體配置並覆蓋現有檔案
+sudo nixos-generate-config --show-hardware-config > hardware-configuration.nix
 
-# 工作站 (Dell Precision 7820 Tower)：
-sudo nixos-rebuild switch --flake .#precision
+# 建構並套用系統配置
+sudo nixos-rebuild switch --flake .#nixos
 ```
 
 > **提示**：若鎖定畫面/登入頁未顯示頭像，可將頭像圖片重命名為 `.face` 並放入家目錄（`~/.face`）。
@@ -340,9 +332,7 @@ journalctl -b -p 3                       # 查看本次開機的錯誤日誌（�
 
 # 合成器與顯示
 niri msg version                         # 確認 niri 版本
-nvtop                                    # GPU 資源綜合監控 (Intel 核顯 + NVIDIA 独显 / AMD)
-nvidia-smi                               # NVIDIA 獨顯狀態 (筆記本)
-rocm-smi                                 # AMD GPU 狀態 (工作站)
+rocm-smi                                 # AMD GPU 狀態（溫度、時脈、VRAM）
 
 # 字型與中文顯示
 fc-list | grep -i "lxgw wenkai"          # 確認 LXGW WenKai 字型已安裝

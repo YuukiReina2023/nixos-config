@@ -68,6 +68,7 @@ in
       ];
 
       backlight = {
+        device = "amdgpu_bl0";
         format = "{icon} {percent}%";
         format-icons = [
           ""

@@ -1,6 +1,6 @@
-{ lib, ... }:
+{ ... }:
 {
-  networking.hostName = lib.mkDefault "nixos";
+  networking.hostName = "nixos";
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.powersave = false;
 

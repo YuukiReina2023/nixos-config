@@ -9,10 +9,12 @@
     ./locale.nix
     ./network.nix
     ./nix.nix
+    ./amdgpu.nix
     ./packages.nix
     ./services.nix
     ./users.nix
     ./virtualisation.nix
+    ./ai.nix
 
   ];
 
