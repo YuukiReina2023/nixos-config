@@ -47,6 +47,7 @@
     libnotify
 
     openssl
+    bitwig-studio
   ];
 
   programs.claude-code.enable = true;
