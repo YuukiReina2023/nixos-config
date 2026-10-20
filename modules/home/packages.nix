@@ -48,7 +48,7 @@
 
     openssl
     bitwig-studio
-    clash-verge-rev
+
   ];
 
   programs.claude-code.enable = true;
