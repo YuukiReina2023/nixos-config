@@ -14,15 +14,15 @@
 
   # 强制 WPA2-PSK 连接（绕过 brcmfmac 固件无法处理 WPA2/WPA3 混合模式的 SAE 协商问题）
   networking.networkmanager.ensureProfiles.profiles = {
-    "NekoNetWork" = {
+    "NekoNet" = {
       connection = {
-        id = "NekoNetWork";
+        id = "NekoNet";
         type = "wifi";
         autoconnect = "true";
         uuid = "5ab4832f-4966-41c5-a60a-bbdd5028a174";
       };
       wifi = {
-        ssid = "NekoNetWork";
+        ssid = "NekoNet";
       };
       wifi-security = {
         key-mgmt = "wpa-psk";
