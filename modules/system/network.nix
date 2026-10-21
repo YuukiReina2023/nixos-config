@@ -48,5 +48,6 @@
     package = pkgs.clash-verge-rev;
     tunMode = true;
     serviceMode = true;
+    group = "yuukireina2023";
   };
 }
